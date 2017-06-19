@@ -1,28 +1,29 @@
 <template>
-    <table cellspacing="0" cellpadding="0" border="0" :style="styleObject">
-        <colgroup>
-            <col v-for="(column, index) in columns" :width="setCellWidth(column, index, false)">
-        </colgroup>
-        <tbody :class="[prefixCls + '-tbody']">
+    <Scrollbar :style="scrollStyle" ref="scrollbars" @verticalScr="verticalScr" @horizontalScr="horizontalScr">
+        <table cellspacing="0" cellpadding="0" border="0" :style="styleObject">
+            <colgroup>
+                <col v-for="(column, index) in columns" :width="setCellWidth(column, index, false)">
+            </colgroup>
+            <tbody :class="[prefixCls + '-tbody']">
             <template v-for="(row, index) in data">
                 <tr
-                    :class="rowClasses(row._index)"
-                    @mouseenter.stop="handleMouseIn(row._index)"
-                    @mouseleave.stop="handleMouseOut(row._index)"
-                    @click.stop="clickCurrentRow(row._index)"
-                    @dblclick.stop="dblclickCurrentRow(row._index)">
+                        :class="rowClasses(row._index)"
+                        @mouseenter.stop="handleMouseIn(row._index)"
+                        @mouseleave.stop="handleMouseOut(row._index)"
+                        @click.stop="clickCurrentRow(row._index)"
+                        @dblclick.stop="dblclickCurrentRow(row._index)">
                     <td v-for="column in columns" :class="alignCls(column, row)">
                         <Cell
-                            :fixed="fixed"
-                            :prefix-cls="prefixCls"
-                            :row="row"
-                            :key="row"
-                            :column="column"
-                            :natural-index="index"
-                            :index="row._index"
-                            :checked="rowChecked(row._index)"
-                            :disabled="rowDisabled(row._index)"
-                            :expanded="rowExpanded(row._index)"
+                                :fixed="fixed"
+                                :prefix-cls="prefixCls"
+                                :row="row"
+                                :key="row"
+                                :column="column"
+                                :natural-index="index"
+                                :index="row._index"
+                                :checked="rowChecked(row._index)"
+                                :disabled="rowDisabled(row._index)"
+                                :expanded="rowExpanded(row._index)"
                         ></Cell>
                     </td>
                 </tr>
@@ -32,8 +33,9 @@
                     </td>
                 </tr>
             </template>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </Scrollbar>
 </template>
 <script>
     // todo :key="row"
@@ -43,8 +45,8 @@
 
     export default {
         name: 'TableBody',
-        mixins: [ Mixin ],
-        components: { Cell, Expand },
+        mixins: [Mixin],
+        components: {Cell, Expand},
         props: {
             prefixCls: String,
             styleObject: Object,
@@ -52,6 +54,7 @@
             data: Array,    // rebuildData
             objData: Object,
             columnsWidth: Object,
+            scrollStyle: Object,
             fixed: {
                 type: [Boolean, String],
                 default: false
@@ -105,7 +108,16 @@
             },
             dblclickCurrentRow (_index) {
                 this.$parent.dblclickCurrentRow(_index);
+            },
+            verticalScr(H){
+                this.$emit('verticalScr', H);
+            },
+            horizontalScr(W){
+                this.$emit('horizontalScr', W);
             }
         }
     };
 </script>
+<style>
+    @import './../scrollbar/component/vue2-scrollbar.scss';
+</style>

@@ -1,6 +1,6 @@
 // es6 polyfill
 import 'core-js/fn/array/find-index';
-
+import Scrollbar from './components/Scrollbar';
 import Affix from './components/affix';
 import Alert from './components/alert';
 import BackTop from './components/back-top';
@@ -47,6 +47,7 @@ import { Select, Option, OptionGroup } from './components/select';
 import locale from './locale';
 
 const iview = {
+    Scrollbar,
     Affix,
     Alert,
     BackTop,
