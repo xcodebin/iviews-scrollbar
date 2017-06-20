@@ -24,9 +24,23 @@
         </li>
     </ul>
     <ul :class="wrapClasses" :style="styles" v-else>
+
+        <div v-if="showSizer || showElevator" :class="optsClasses">
+            <div v-if="showSizer" :class="sizerClasses">
+                <i-select v-model="currentPageSize" :size="size" :placement="placement" @on-change="changeSize">
+                    <i-option v-for="item in pageSizeOpts" :key="item" :value="item" style="text-align:center;">{{ item }} {{ t('i.page.page') }}</i-option>
+                </i-select>
+            </div>
+        </div>
+
         <span :class="[prefixCls + '-total']" v-if="showTotal">
-            <slot>{{ t('i.page.total') }} {{ total }} <template v-if="total <= 1">{{ t('i.page.item') }}</template><template v-else>{{ t('i.page.items') }}</template></slot>
+            <slot>{{ t('i.page.total') }} {{ total }}
+                <template v-if="total <= 0">{{ t('i.page.item') }}&nbsp&nbsp&nbsp当前0/0条</template>
+                <template v-else-if="total == 1">{{ t('i.page.item') }}&nbsp&nbsp&nbsp当前1/1条</template>
+                <template v-else>{{ t('i.page.items') }}&nbsp&nbsp&nbsp当前{{ this.currentPageBegin }}/{{this.currentPageEnd}}条</template>
+            </slot>
         </span>
+
         <li
                 :title="t('i.page.prev')"
                 :class="prevClasses"
@@ -34,23 +48,15 @@
             <a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a>
         </li>
         <li title="1" :class="firstPageClasses" @click="changePage(1)"><a>1</a></li>
-        <!--<li :title="t('i.page.prev5')" v-if="currentPage - 3 > 1" :class="[prefixCls + '-item-jump-prev']" @click="fastPrev"><a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a></li>-->
-        <!--<li :title="currentPage - 2" v-if="currentPage - 2 > 1" :class="[prefixCls + '-item']" @click="changePage(currentPage - 2)"><a>{{ currentPage - 2 }}</a></li>-->
-
         <li :title="currentPage - 3" v-if="allPages > 5 && currentPage > allPages-1" :class="[prefixCls + '-item']" @click="changePage(currentPage - 3)"><a>{{ currentPage - 3 }}</a></li>
         <li :title="currentPage - 2" v-if="allPages > 5 && currentPage > allPages-2" :class="[prefixCls + '-item']" @click="changePage(currentPage - 2)"><a>{{ currentPage - 2 }}</a></li>
         <li :title="2" v-if="(allPages < 6 ) && (currentPage == 4 || currentPage == 5)" :class="[prefixCls + '-item']" @click="changePage(2)"><a>2</a></li>
         <li :title="3" v-if="(allPages < 6 ) && (currentPage == 5)" :class="[prefixCls + '-item']" @click="changePage(3)"><a>3</a></li>
-
         <li :title="currentPage - 1" v-if="currentPage - 1 > 1" :class="[prefixCls + '-item']" @click="changePage(currentPage - 1)"><a>{{ currentPage - 1 }}</a></li>
         <li :title="currentPage" v-if="currentPage != 1 && currentPage != allPages" :class="[prefixCls + '-item',prefixCls + '-item-active']"><a>{{ currentPage }}</a></li>
         <li :title="currentPage + 1" v-if="currentPage + 1 < allPages" :class="[prefixCls + '-item']" @click="changePage(currentPage + 1)"><a>{{ currentPage + 1 }}</a></li>
-
         <li :title="3" v-if="allPages > 3 && currentPage == 1" :class="[prefixCls + '-item']" @click="changePage(3)"><a>3</a></li>
         <li :title="4" v-if="allPages > 4 && (currentPage == 2 ||currentPage == 1)" :class="[prefixCls + '-item']" @click="changePage(4)"><a>4</a></li>
-
-        <!--<li :title="currentPage + 2" v-if="currentPage + 2 < allPages" :class="[prefixCls + '-item']" @click="changePage(currentPage + 2)"><a>{{ currentPage + 2 }}</a></li>-->
-        <!--<li :title="t('i.page.next5')" v-if="currentPage + 3 < allPages" :class="[prefixCls + '-item-jump-next']" @click="fastNext"><a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a></li>-->
         <li :title="allPages" v-if="allPages > 1" :class="lastPageClasses" @click="changePage(allPages)"><a>{{ allPages }}</a></li>
         <li
                 :title="t('i.page.next')"
@@ -58,32 +64,26 @@
                 @click="next">
             <a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a>
         </li>
-        <Options
-                :show-sizer="showSizer"
-                :page-size="currentPageSize"
-                :page-size-opts="pageSizeOpts"
-                :placement="placement"
-                :show-elevator="showElevator"
-                :_current.once="currentPage"
-                :current="currentPage"
-                :all-pages="allPages"
-                :is-small="isSmall"
-                @on-size="onSize"
-                @on-page="onPage">
-        </Options>
+        <div v-if="showElevator" :class="ElevatorClasses">
+            {{ t('i.page.goto') }}
+            <input type="text" :value.once="currentPage" @keyup.enter="changePages">
+            {{ t('i.page.p') }}
+        </div>
     </ul>
 </template>
 <script>
     import { oneOf } from '../../utils/assist';
-    import Options from './options.vue';
+    import iSelect from '../../components/select/select.vue';
+    import iOption from '../../components/select/option.vue';
     import Locale from '../../mixins/locale';
-
     const prefixCls = 'ivu-page';
+    function isValueNumber (value) {
+        return (/^[1-9][0-9]*$/).test(value + '');
+    }
 
     export default {
         name: 'Page',
         mixins: [ Locale ],
-        components: { Options },
         props: {
             current: {
                 type: Number,
@@ -135,7 +135,7 @@
             },
             styles: {
                 type: Object
-            }
+            },
         },
         data () {
             return {
@@ -153,12 +153,40 @@
             }
         },
         computed: {
+//            size () {
+//                return this.isSmall ? 'small' : 'default';
+//            },
+            optsClasses () {
+                return [
+                    `${prefixCls}-options`
+                ];
+            },
+            sizerClasses () {
+                return [
+                    `${prefixCls}-options-sizer`
+                ];
+            },
+            ElevatorClasses () {
+                return [
+                    `${prefixCls}-options-elevator`
+                ];
+            },
             isSmall () {
                 return !!this.size;
             },
             allPages () {
                 const allPage = Math.ceil(this.total / this.currentPageSize);
                 return (allPage === 0) ? 1 : allPage;
+            },
+            currentPageBegin () {
+                return this.currentPageSize*(this.currentPage-1)+1;
+            },
+            currentPageEnd () {
+                let value=this.currentPageSize*(this.currentPage);
+                if(value>this.total){
+                    value=this.total;
+                }
+                return value;
             },
             simpleWrapClasses () {
                 return [
@@ -215,6 +243,34 @@
             }
         },
         methods: {
+            changeSize () {
+                this.$emit('on-size', this.currentPageSize);
+            },
+            changePages (event) {
+                let val = event.target.value.trim();
+                let page = 0;
+
+                if (isValueNumber(val)) {
+                    val = Number(val);
+                    if (val != this.current) {
+                        const allPages = this.allPages;
+
+                        if (val > allPages) {
+                            page = allPages;
+                        } else {
+                            page = val;
+                        }
+                    }
+                } else {
+                    page = 1;
+                }
+
+                if (page) {
+                    this.currentPage = page;
+//                    this.$emit('on-page', page);
+                    event.target.value = page;
+                }
+            },
             changePage (page) {
                 if (this.currentPage != page) {
                     this.currentPage = page;

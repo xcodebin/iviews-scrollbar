@@ -1,6 +1,6 @@
 <template>
     <div style="margin: 100px;">
-        <Page :total="60" size="small" placement="top"></Page>
+        <Page :total="300" showTotal showSizer show-elevator size="small" placement="top"></Page>
     </div>
 </template>
 <script>
