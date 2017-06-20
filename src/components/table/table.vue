@@ -91,7 +91,7 @@
 <script>
     import tableHead from './table-head.vue';
     import tableBody from './table-body.vue';
-    import { oneOf, getStyle, deepCopy, getScrollBarSize } from '../../utils/assist';
+    import { oneOf, getStyle, deepCopy } from '../../utils/assist';
     import Csv from '../../utils/csv';
     import ExportCsv from './export-csv';
     import Locale from '../../mixins/locale';
