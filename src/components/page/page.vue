@@ -37,8 +37,10 @@
         <!--<li :title="t('i.page.prev5')" v-if="currentPage - 3 > 1" :class="[prefixCls + '-item-jump-prev']" @click="fastPrev"><a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a></li>-->
         <!--<li :title="currentPage - 2" v-if="currentPage - 2 > 1" :class="[prefixCls + '-item']" @click="changePage(currentPage - 2)"><a>{{ currentPage - 2 }}</a></li>-->
 
-        <li :title="currentPage - 3" v-if="allPages > 5&&currentPage>allPages-1" :class="[prefixCls + '-item']" @click="changePage(currentPage - 3)"><a>{{ currentPage - 3 }}</a></li>
-        <li :title="currentPage - 2" v-if="allPages > 5&&currentPage>allPages-2" :class="[prefixCls + '-item']" @click="changePage(currentPage - 2)"><a>{{ currentPage - 2 }}</a></li>
+        <li :title="currentPage - 3" v-if="allPages > 5 && currentPage > allPages-1" :class="[prefixCls + '-item']" @click="changePage(currentPage - 3)"><a>{{ currentPage - 3 }}</a></li>
+        <li :title="currentPage - 2" v-if="allPages > 5 && currentPage > allPages-2" :class="[prefixCls + '-item']" @click="changePage(currentPage - 2)"><a>{{ currentPage - 2 }}</a></li>
+        <li :title="2" v-if="(allPages < 6 ) && (currentPage == 4 || currentPage == 5)" :class="[prefixCls + '-item']" @click="changePage(2)"><a>2</a></li>
+        <li :title="3" v-if="(allPages < 6 ) && (currentPage == 5)" :class="[prefixCls + '-item']" @click="changePage(3)"><a>3</a></li>
 
         <li :title="currentPage - 1" v-if="currentPage - 1 > 1" :class="[prefixCls + '-item']" @click="changePage(currentPage - 1)"><a>{{ currentPage - 1 }}</a></li>
         <li :title="currentPage" v-if="currentPage != 1 && currentPage != allPages" :class="[prefixCls + '-item',prefixCls + '-item-active']"><a>{{ currentPage }}</a></li>
