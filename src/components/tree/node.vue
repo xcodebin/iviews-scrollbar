@@ -102,6 +102,7 @@
                 this.dispatch('Tree', 'toggle-expand', this.data);
             },
             handleSelect () {
+                this.handleCheck();
                 if (this.data.disabled) return;
                 if (this.data.selected) {
                     this.data.selected = false;

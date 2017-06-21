@@ -1,5 +1,5 @@
 <template>
-    <Tree :data="baseData" show-checkbox @on-check-change="handleChange" @on-toggle-expand="showExpand"></Tree>
+    <Tree :data="baseData" multiple @on-check-change="handleChange" @on-toggle-expand="showExpand"></Tree>
 </template>
 <script>
     export default {
