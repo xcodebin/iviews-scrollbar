@@ -41,10 +41,10 @@
 
         <span :class="[prefixCls + '-total']" v-if="showTotal">
             <template v-if="pageTooltip">
-                <Tooltip content="总页数" placement="top">
+                <Tooltip content="总行数" placement="top">
                     {{ t('i.page.total') }} {{ total }}
                 </Tooltip>
-                 <Tooltip content="当前页起始/结束行" placement="top">
+                 <Tooltip content="当前页起始 / 结束行" placement="top">
                     <template v-if="total <= 0">{{ t('i.page.item') }}&nbsp&nbsp&nbsp当前0/0条</template>
                     <template v-else-if="total == 1">{{ t('i.page.item') }}&nbsp&nbsp&nbsp当前1/1条</template>
                     <template v-else>{{ t('i.page.items') }}&nbsp&nbsp&nbsp当前{{ this.currentPageBegin }}/{{this.currentPageEnd}}条</template>
