@@ -1,18 +1,8 @@
 {
-  "name": "iview",
-  "version": "2.0.0-rc.17",
+  "name": "iviews",
+  "version": "1.0.0",
   "title": "iView",
   "description": "A high quality  UI components Library with Vue.js",
-  "homepage": "http://www.iviewui.com",
-  "keywords": [
-    "iview",
-    "vue",
-    "vue.js",
-    "component",
-    "components",
-    "ui",
-    "framework"
-  ],
   "main": "dist/iview.js",
   "files": [
     "dist",
@@ -31,13 +21,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/iview/iview"
+    "url": "git+https://github.com/xcodebin/iview0614-scrollbar.git"
   },
-  "author": "Aresn",
+  "keywords": [
+    "xubin865453422"
+  ],
+  "author": "xcodebin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/iview/iview/issues"
+    "url": "https://github.com/xcodebin/iview0614-scrollbar/issues"
   },
+  "homepage": "https://github.com/xcodebin/iview0614-scrollbar#readme",
   "dependencies": {
     "async-validator": "^1.7.1",
     "core-js": "^2.4.1",
