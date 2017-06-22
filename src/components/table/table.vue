@@ -1,18 +1,20 @@
 <template>
     <div :class="wrapClasses" :style="styles">
         <div :class="classes">
-            <div :class="[prefixCls + '-title']" v-if="showSlotHeader" ref="title"><slot name="header"></slot></div>
+            <div :class="[prefixCls + '-title']" v-if="showSlotHeader" ref="title">
+                <slot name="header"></slot>
+            </div>
             <div :class="[prefixCls + '-header']" v-if="showHeader" ref="header" @mousewheel="handleMouseWheel">
                 <table-head
-                    :prefix-cls="prefixCls"
-                    :styleObject="tableStyle"
-                    :columns="cloneColumns"
-                    :obj-data="objData"
-                    :columns-width="columnsWidth"
-                    :data="rebuildData"></table-head>
+                        :prefix-cls="prefixCls"
+                        :styleObject="tableStyle"
+                        :columns="cloneColumns"
+                        :obj-data="objData"
+                        :columns-width="columnsWidth"
+                        :data="rebuildData"></table-head>
             </div>
             <div :class="[prefixCls + '-body']" :style="bodyStyle" ref="body"
-                v-show="!((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
+                 v-show="!((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
                 <table-body
                         ref="tbody"
                         :prefix-cls="prefixCls"
@@ -27,71 +29,73 @@
                         :obj-data="objData"></table-body>
             </div>
             <div
-                :class="[prefixCls + '-tip']"
-                v-show="((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
+                    :class="[prefixCls + '-tip']"
+                    v-show="((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
                 <table cellspacing="0" cellpadding="0" border="0">
                     <tbody>
-                        <tr>
-                            <td :style="{ 'height': bodyStyle.height }">
-                                <span v-html="localeNoDataText" v-if="!data || data.length === 0"></span>
-                                <span v-html="localeNoFilteredDataText" v-else></span>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td :style="{ 'height': bodyStyle.height }">
+                            <span v-html="localeNoDataText" v-if="!data || data.length === 0"></span>
+                            <span v-html="localeNoFilteredDataText" v-else></span>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
             <div :class="[prefixCls + '-fixed']" :style="fixedTableStyle" v-if="isLeftFixed">
                 <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
                     <table-head
-                        fixed="left"
-                        :prefix-cls="prefixCls"
-                        :styleObject="fixedTableStyle"
-                        :columns="leftFixedColumns"
-                        :obj-data="objData"
-                        :columns-width.sync="columnsWidth"
-                        :data="rebuildData"></table-head>
+                            fixed="left"
+                            :prefix-cls="prefixCls"
+                            :styleObject="fixedTableStyle"
+                            :columns="leftFixedColumns"
+                            :obj-data="objData"
+                            :columns-width.sync="columnsWidth"
+                            :data="rebuildData"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody">
                     <table-body
-                        fixed="left"
-                        :prefix-cls="prefixCls"
-                        :styleObject="fixedTableStyle"
-                        :columns="leftFixedColumns"
-                        :data="rebuildData"
-                        :columns-width="columnsWidth"
-                        :obj-data="objData"></table-body>
+                            fixed="left"
+                            :prefix-cls="prefixCls"
+                            :styleObject="fixedTableStyle"
+                            :columns="leftFixedColumns"
+                            :data="rebuildData"
+                            :columns-width="columnsWidth"
+                            :obj-data="objData"></table-body>
                 </div>
             </div>
             <div :class="[prefixCls + '-fixed-right']" :style="fixedRightTableStyle" v-if="isRightFixed">
                 <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
                     <table-head
-                        fixed="right"
-                        :prefix-cls="prefixCls"
-                        :styleObject="fixedRightTableStyle"
-                        :columns="rightFixedColumns"
-                        :obj-data="objData"
-                        :columns-width="columnsWidth"
-                        :data="rebuildData"></table-head>
+                            fixed="right"
+                            :prefix-cls="prefixCls"
+                            :styleObject="fixedRightTableStyle"
+                            :columns="rightFixedColumns"
+                            :obj-data="objData"
+                            :columns-width="columnsWidth"
+                            :data="rebuildData"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody">
                     <table-body
-                        fixed="right"
-                        :prefix-cls="prefixCls"
-                        :styleObject="fixedRightTableStyle"
-                        :columns="rightFixedColumns"
-                        :data="rebuildData"
-                        :columns-width="columnsWidth"
-                        :obj-data="objData"></table-body>
+                            fixed="right"
+                            :prefix-cls="prefixCls"
+                            :styleObject="fixedRightTableStyle"
+                            :columns="rightFixedColumns"
+                            :data="rebuildData"
+                            :columns-width="columnsWidth"
+                            :obj-data="objData"></table-body>
                 </div>
             </div>
-            <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" ref="footer"><slot name="footer"></slot></div>
+            <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" ref="footer">
+                <slot name="footer"></slot>
+            </div>
         </div>
     </div>
 </template>
 <script>
     import tableHead from './table-head.vue';
     import tableBody from './table-body.vue';
-    import { oneOf, getStyle, deepCopy } from '../../utils/assist';
+    import {oneOf, getStyle, deepCopy} from '../../utils/assist';
     import Csv from '../../utils/csv';
     import ExportCsv from './export-csv';
     import Locale from '../../mixins/locale';
@@ -100,8 +104,8 @@
 
     export default {
         name: 'Table',
-        mixins: [ Locale ],
-        components: { tableHead, tableBody },
+        mixins: [Locale],
+        components: {tableHead, tableBody},
         props: {
             data: {
                 type: Array,
@@ -276,7 +280,7 @@
                 if (this.bodyHeight !== 0) {
                     let height = this.bodyHeight + this.scrollBarWidth - 1;
 
-                    if (this.width && this.width < this.tableWidth){
+                    if (this.width && this.width < this.tableWidth) {
                         height = this.bodyHeight;
                     }
 //                    style.height = this.scrollBarWidth > 0 ? `${this.bodyHeight}px` : `${this.bodyHeight - 1}px`;
@@ -329,6 +333,7 @@
                     }
                     this.columnsWidth = {};
                     this.$nextTick(() => {
+                        this.$refs.tbody.$refs.scrollbars.calculateSize(); //初始化
                         let columnsWidth = {};
                         let autoWidthIndex = -1;
                         if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);//todo 这行可能有问题
@@ -381,11 +386,11 @@
                 this.$emit('on-current-change', JSON.parse(JSON.stringify(this.cloneData[_index])), oldData);
             },
             clickCurrentRow (_index) {
-                this.highlightCurrentRow (_index);
+                this.highlightCurrentRow(_index);
                 this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])));
             },
             dblclickCurrentRow (_index) {
-                this.highlightCurrentRow (_index);
+                this.highlightCurrentRow(_index);
                 this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.cloneData[_index])));
             },
             getSelection () {
@@ -432,12 +437,12 @@
                 //     }else{
                 //         this.objData[data._index]._isChecked = status;
                 //     }
-                    
+
                 // });
-                for(const data of this.rebuildData){
-                    if(this.objData[data._index]._isDisabled){
+                for (const data of this.rebuildData) {
+                    if (this.objData[data._index]._isDisabled) {
                         continue;
-                    }else{
+                    } else {
                         this.objData[data._index]._isChecked = status;
                     }
                 }
@@ -589,7 +594,7 @@
                         break;
                     }
                 }
-                if (sortType !== 'normal' && !isCustom) data =  this.sortData(data, sortType, sortIndex);
+                if (sortType !== 'normal' && !isCustom) data = this.sortData(data, sortType, sortIndex);
                 return data;
             },
             makeDataWithFilter () {
@@ -699,9 +704,13 @@
             this.rebuildData = this.makeDataWithSortAndFilter();
         },
         mounted () {
+            console.log('44')
             this.handleResize();
             this.fixedHeader();
-            this.$nextTick(() => this.ready = true);
+
+            this.$nextTick(() => {
+                this.ready = true;
+            });
             window.addEventListener('resize', this.handleResize, false);
             this.$on('on-visible-change', (val) => {
                 if (val) {

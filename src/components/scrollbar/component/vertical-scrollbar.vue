@@ -28,8 +28,8 @@
         props: {
             draggingFromParent: Boolean,
             scrolling: Number,
-            wrapper: Object,
-            area: Object,
+            wrapper: Number,
+            area: Number,
             onChangePosition: Function,
             onDragging: Function,
             onStopDrag: Function,
@@ -45,11 +45,11 @@
 
 
         watch: {
-            'wrapper.height' () {
+            wrapper () {
                 this.calculateSize(this);
             },
 
-            'area.height' () {
+            area () {
                 this.calculateSize(this);
             }
         },
@@ -81,7 +81,7 @@
                     e = e.changedTouches ? e.changedTouches[0] : e;
 
                     let yMovement = e.clientY - this.start;
-                    let yMovementPercentage = yMovement / this.wrapper.height * 100;
+                    let yMovementPercentage = yMovement / this.wrapper * 100;
 
                     // Update the last e.clientY
                     this.start = e.clientY;
@@ -116,7 +116,7 @@
                     // Calculate the vertical Movement
                     let yMovement = e.clientY - position.top;
                     let centerize = (this.height / 2);
-                    let yMovementPercentage = yMovement / this.wrapper.height * 100 - centerize;
+                    let yMovementPercentage = yMovement / this.wrapper * 100 - centerize;
 
                     // Update the last e.clientY
                     this.start = e.clientY;
@@ -132,7 +132,7 @@
 
             calculateSize(source){
                 // Scrollbar Height
-                this.height = source.wrapper.height / source.area.height * 100;
+                this.height = source.wrapper / source.area * 100;
             },
 
             getSize(){

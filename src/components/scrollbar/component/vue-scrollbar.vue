@@ -21,8 +21,8 @@
 
             <vertical-scrollbar
                     v-if="ready"
-                    :area="{ height: scrollAreaHeight }"
-                    :wrapper="{ height: scrollWrapperHeight }"
+                    :area="scrollAreaHeight"
+                    :wrapper="scrollWrapperHeight"
                     :scrolling="vMovement"
                     :dragging-from-parent="dragging"
                     :on-change-position="handleChangePosition"
@@ -32,8 +32,8 @@
 
             <horizontal-scrollbar
                     v-if="ready"
-                    :area="{ width: scrollAreaWidth }"
-                    :wrapper="{ width: scrollWrapperWidth }"
+                    :area="scrollAreaWidth"
+                    :wrapper="scrollWrapperWidth"
                     :scrolling="hMovement"
                     :dragging-from-parent="dragging"
                     :on-change-position="handleChangePosition"
@@ -84,7 +84,6 @@
                 start: {y: 0, x: 0}
             };
         },
-
         methods: {
 
             scroll(e){
@@ -263,13 +262,11 @@
                     // Make sure The wrapper is Ready, then render the scrollbar
                     this.ready = true;
 
-                    return cb ? cb() : false;
+                    return cb ? cb(elementSize) : false;
                 }
 
-                else return cb ? cb() : false;
-            }
-
-
+                else return cb ? cb(elementSize) : false;
+            },
         },
 
         mounted () {
