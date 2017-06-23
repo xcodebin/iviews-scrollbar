@@ -414,7 +414,7 @@
 
                 const selection = this.getSelection();
                 if (status) {
-                    this.$emit('on-select', selection, JSON.parse(JSON.stringify(this.data[_index])));
+                    this.$emit('on-select', selection, JSON.parse(JSON.stringify(this.data[_index])), this.objData);
                 }
                 this.$emit('on-selection-change', selection);
             },

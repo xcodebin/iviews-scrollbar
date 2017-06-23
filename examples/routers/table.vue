@@ -1,8 +1,8 @@
 <template>
     <!--<Scrollbar class="scrollbar">-->
-        <!--<div class="scroll-me">-->
-            <Table width="550" height="200" border :columns="columns2" :data="data4"></Table>
-        <!--</div>-->
+    <!--<div class="scroll-me">-->
+    <Table width="550" height="200" border :columns="columns2" :data="data4" @on-select="select"></Table>
+    <!--</div>-->
     <!--</Scrollbar>-->
 
 </template>
@@ -137,18 +137,26 @@
                     }
                 ]
             };
+        },
+        methods: {
+            select(a, b, c){
+                console.log(a)
+                console.log(b)
+                console.log(c)
+            }
         }
     };
 </script>
 <style>
 
-    .scrollbar{
-        width:200px;
-        height:300px;
+    .scrollbar {
+        width: 200px;
+        height: 300px;
     }
-    .scroll-me{
-        width:500px;
-        height:600px;
+
+    .scroll-me {
+        width: 500px;
+        height: 600px;
         background-color: #00c261;
-         }
+    }
 </style>
