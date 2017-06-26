@@ -1,7 +1,7 @@
 <template>
     <!--<Scrollbar class="scrollbar">-->
     <!--<div class="scroll-me">-->
-    <Table width="550" height="200" border :columns="columns2" :data="data4" @on-select="select"></Table>
+    <Table width="550" height="200" border :columns="columns2" :data="data4" @on-select="select" ref="table"></Table>
     <!--</div>-->
     <!--</Scrollbar>-->
 
@@ -140,9 +140,11 @@
         },
         methods: {
             select(a, b, c){
-                console.log(a)
-                console.log(b)
-                console.log(c)
+                console.log(this.$refs.table.getSelect());
+                console.log(this.$refs.table.getRow(1));
+//                console.log(a)
+//                console.log(b)
+//                console.log(c)
             }
         }
     };
