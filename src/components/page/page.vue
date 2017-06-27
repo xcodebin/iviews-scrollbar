@@ -1,39 +1,149 @@
 <template>
-    <ul :class="simpleWrapClasses" :style="styles" v-if="simple">
-        <li
-                :title="t('i.page.prev')"
-                :class="prevClasses"
-                @click="prev">
-            <a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a>
-        </li>
-        <div :class="simplePagerClasses" :title="currentPage + '/' + allPages">
-            <input
-                    type="text"
-                    :value="currentPage"
-                    @keydown="keyDown"
-                    @keyup="keyUp"
-                    @change="keyUp">
-            <span>/</span>
-            {{ allPages }}
-        </div>
-        <li
-                :title="t('i.page.next')"
-                :class="nextClasses"
-                @click="next">
-            <a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a>
-        </li>
+    <ul :class="wrapClasses" :style="styles" v-if="simple">
+        <Row>
+            <i-col :span="8">
+                <Row type="flex" align="middle" justify="start">
+                    <div v-if="showSizer" :class="optsClasses">
+                        <div v-if="showSizer" :class="sizerClasses">
+                            <Tooltip v-if="pageTooltip" content="分页栏" placement="right">
+                                <i-select v-model="currentPageSize" :size="size" :placement="placement"
+                                          @on-change="changeSize">
+                                    <i-option v-for="item in pageSizeOpts" :key="item" :value="item"
+                                              style="text-align:center;">{{ item }} {{ t('i.page.page') }}
+                                    </i-option>
+                                </i-select>
+                            </Tooltip>
+                            <template v-else>
+                                <i-select v-model="currentPageSize" :size="size" :placement="placement"
+                                          @on-change="changeSize">
+                                    <i-option v-for="item in pageSizeOpts" :key="item" :value="item"
+                                              style="text-align:center;">{{ item }} {{ t('i.page.page') }}
+                                    </i-option>
+                                </i-select>
+                            </template>
+                        </div>
+                    </div>
+                    <slot name="page-btn"></slot>
+                </Row>
+            </i-col>
+            <i-col :span="8">
+                <Row type="flex" align="middle" justify="center">
+                    <div v-if="pageTooltip">
+                        <Tooltip content="页数选择" placement="top">
+                            <li
+                                    :title="t('i.page.prev')"
+                                    :class="prevClasses"
+                                    @click="prev">
+                                <a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a>
+                            </li>
+                            <li title="1" :class="firstPageClasses" @click="changePage(1)"><a>1</a></li>
+                            <li :title="currentPage - 3" v-if="allPages > 5 && currentPage > allPages-1"
+                                :class="[prefixCls + '-item']" @click="changePage(currentPage - 3)">
+                                <a>{{ currentPage - 3 }}</a></li>
+                            <li :title="currentPage - 2" v-if="allPages > 5 && currentPage > allPages-2"
+                                :class="[prefixCls + '-item']" @click="changePage(currentPage - 2)">
+                                <a>{{ currentPage - 2 }}</a></li>
+                            <li :title="2" v-if="(allPages < 6 ) && (currentPage == 4 || currentPage == 5)"
+                                :class="[prefixCls + '-item']" @click="changePage(2)"><a>2</a></li>
+                            <li :title="3" v-if="(allPages < 6 ) && (currentPage == 5)" :class="[prefixCls + '-item']"
+                                @click="changePage(3)"><a>3</a></li>
+                            <li :title="currentPage - 1" v-if="currentPage - 1 > 1" :class="[prefixCls + '-item']"
+                                @click="changePage(currentPage - 1)"><a>{{ currentPage - 1 }}</a></li>
+                            <li :title="currentPage" v-if="currentPage != 1 && currentPage != allPages"
+                                :class="[prefixCls + '-item',prefixCls + '-item-active']"><a>{{ currentPage }}</a></li>
+                            <li :title="currentPage + 1" v-if="currentPage + 1 < allPages"
+                                :class="[prefixCls + '-item']" @click="changePage(currentPage + 1)">
+                                <a>{{ currentPage + 1 }}</a></li>
+                            <li :title="3" v-if="allPages > 3 && currentPage == 1" :class="[prefixCls + '-item']"
+                                @click="changePage(3)"><a>3</a></li>
+                            <li :title="4" v-if="allPages > 4 && (currentPage == 2 ||currentPage == 1)"
+                                :class="[prefixCls + '-item']" @click="changePage(4)"><a>4</a></li>
+                            <li :title="allPages" v-if="allPages > 1" :class="lastPageClasses"
+                                @click="changePage(allPages)"><a>{{ allPages }}</a></li>
+                            <li
+                                    :title="t('i.page.next')"
+                                    :class="nextClasses"
+                                    @click="next">
+                                <a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a>
+                            </li>
+                        </Tooltip>
+                    </div>
+                    <div v-else>
+                        <li
+                                :title="t('i.page.prev')"
+                                :class="prevClasses"
+                                @click="prev">
+                            <a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a>
+                        </li>
+                        <li title="1" :class="firstPageClasses" @click="changePage(1)"><a>1</a></li>
+                        <li :title="currentPage - 3" v-if="allPages > 5 && currentPage > allPages-1"
+                            :class="[prefixCls + '-item']" @click="changePage(currentPage - 3)"><a>{{ currentPage - 3
+                            }}</a></li>
+                        <li :title="currentPage - 2" v-if="allPages > 5 && currentPage > allPages-2"
+                            :class="[prefixCls + '-item']" @click="changePage(currentPage - 2)"><a>{{ currentPage - 2
+                            }}</a></li>
+                        <li :title="2" v-if="(allPages < 6 ) && (currentPage == 4 || currentPage == 5)"
+                            :class="[prefixCls + '-item']" @click="changePage(2)"><a>2</a></li>
+                        <li :title="3" v-if="(allPages < 6 ) && (currentPage == 5)" :class="[prefixCls + '-item']"
+                            @click="changePage(3)"><a>3</a></li>
+                        <li :title="currentPage - 1" v-if="currentPage - 1 > 1" :class="[prefixCls + '-item']"
+                            @click="changePage(currentPage - 1)"><a>{{ currentPage - 1 }}</a></li>
+                        <li :title="currentPage" v-if="currentPage != 1 && currentPage != allPages"
+                            :class="[prefixCls + '-item',prefixCls + '-item-active']"><a>{{ currentPage }}</a></li>
+                        <li :title="currentPage + 1" v-if="currentPage + 1 < allPages" :class="[prefixCls + '-item']"
+                            @click="changePage(currentPage + 1)"><a>{{ currentPage + 1 }}</a></li>
+                        <li :title="3" v-if="allPages > 3 && currentPage == 1" :class="[prefixCls + '-item']"
+                            @click="changePage(3)"><a>3</a></li>
+                        <li :title="4" v-if="allPages > 4 && (currentPage == 2 ||currentPage == 1)"
+                            :class="[prefixCls + '-item']" @click="changePage(4)"><a>4</a></li>
+                        <li :title="allPages" v-if="allPages > 1" :class="lastPageClasses"
+                            @click="changePage(allPages)"><a>{{ allPages }}</a></li>
+                        <li
+                                :title="t('i.page.next')"
+                                :class="nextClasses"
+                                @click="next">
+                            <a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a>
+                        </li>
+                    </div>
+                </Row>
+            </i-col>
+            <i-col :span="8">
+                <Row type="flex" align="middle" justify="end">
+                    <div v-if="pageTooltip">
+                        <Tooltip content="跳转页" placement="top">
+                            <div v-if="showElevator" :class="ElevatorClasses">
+                                {{ t('i.page.goto') }}
+                                <input type="text" :value.once="currentPage" @keyup.enter="changePages">
+                                {{ t('i.page.p') }}
+                            </div>
+                        </Tooltip>
+                    </div>
+                    <div v-else>
+                        <div v-if="showElevator" :class="ElevatorClasses">
+                            {{ t('i.page.goto') }}
+                            <input type="text" :value.once="currentPage" @keyup.enter="changePages">
+                            {{ t('i.page.p') }}
+                        </div>
+                    </div>
+                </Row>
+            </i-col>
+        </Row>
     </ul>
     <ul :class="wrapClasses" :style="styles" v-else>
         <div v-if="showSizer" :class="optsClasses">
             <div v-if="showSizer" :class="sizerClasses">
                 <Tooltip v-if="pageTooltip" content="分页栏" placement="right">
                     <i-select v-model="currentPageSize" :size="size" :placement="placement" @on-change="changeSize">
-                        <i-option v-for="item in pageSizeOpts" :key="item" :value="item" style="text-align:center;">{{ item }} {{ t('i.page.page') }}</i-option>
+                        <i-option v-for="item in pageSizeOpts" :key="item" :value="item" style="text-align:center;">
+                            {{ item }} {{ t('i.page.page') }}
+                        </i-option>
                     </i-select>
                 </Tooltip>
                 <template v-else>
                     <i-select v-model="currentPageSize" :size="size" :placement="placement" @on-change="changeSize">
-                        <i-option v-for="item in pageSizeOpts" :key="item" :value="item" style="text-align:center;">{{ item }} {{ t('i.page.page') }}</i-option>
+                        <i-option v-for="item in pageSizeOpts" :key="item" :value="item" style="text-align:center;">
+                            {{ item }} {{ t('i.page.page') }}
+                        </i-option>
                     </i-select>
                 </template>
             </div>
@@ -47,14 +157,16 @@
                  <Tooltip content="当前页起始 / 结束行" placement="top">
                     <template v-if="total <= 0">{{ t('i.page.item') }}&nbsp&nbsp&nbsp当前0/0条</template>
                     <template v-else-if="total == 1">{{ t('i.page.item') }}&nbsp&nbsp&nbsp当前1/1条</template>
-                    <template v-else>{{ t('i.page.items') }}&nbsp&nbsp&nbsp当前{{ this.currentPageBegin }}/{{this.currentPageEnd}}条</template>
+                    <template v-else>{{ t('i.page.items') }}&nbsp&nbsp&nbsp当前{{ this.currentPageBegin
+                        }}/{{this.currentPageEnd}}条</template>
                  </Tooltip>
             </template>
             <template v-else>
                  {{ t('i.page.total') }} {{ total }}
                 <template v-if="total <= 0">{{ t('i.page.item') }}&nbsp&nbsp&nbsp当前0/0条</template>
                 <template v-else-if="total == 1">{{ t('i.page.item') }}&nbsp&nbsp&nbsp当前1/1条</template>
-                <template v-else>{{ t('i.page.items') }}&nbsp&nbsp&nbsp当前{{ this.currentPageBegin }}/{{this.currentPageEnd}}条</template>
+                <template v-else>{{ t('i.page.items') }}&nbsp&nbsp&nbsp当前{{ this.currentPageBegin
+                    }}/{{this.currentPageEnd}}条</template>
             </template>
         </span>
         <slot name="page-btn"></slot>
@@ -83,16 +195,28 @@
                     <a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a>
                 </li>
                 <li title="1" :class="firstPageClasses" @click="changePage(1)"><a>1</a></li>
-                <li :title="currentPage - 3" v-if="allPages > 5 && currentPage > allPages-1" :class="[prefixCls + '-item']" @click="changePage(currentPage - 3)"><a>{{ currentPage - 3 }}</a></li>
-                <li :title="currentPage - 2" v-if="allPages > 5 && currentPage > allPages-2" :class="[prefixCls + '-item']" @click="changePage(currentPage - 2)"><a>{{ currentPage - 2 }}</a></li>
-                <li :title="2" v-if="(allPages < 6 ) && (currentPage == 4 || currentPage == 5)" :class="[prefixCls + '-item']" @click="changePage(2)"><a>2</a></li>
-                <li :title="3" v-if="(allPages < 6 ) && (currentPage == 5)" :class="[prefixCls + '-item']" @click="changePage(3)"><a>3</a></li>
-                <li :title="currentPage - 1" v-if="currentPage - 1 > 1" :class="[prefixCls + '-item']" @click="changePage(currentPage - 1)"><a>{{ currentPage - 1 }}</a></li>
-                <li :title="currentPage" v-if="currentPage != 1 && currentPage != allPages" :class="[prefixCls + '-item',prefixCls + '-item-active']"><a>{{ currentPage }}</a></li>
-                <li :title="currentPage + 1" v-if="currentPage + 1 < allPages" :class="[prefixCls + '-item']" @click="changePage(currentPage + 1)"><a>{{ currentPage + 1 }}</a></li>
-                <li :title="3" v-if="allPages > 3 && currentPage == 1" :class="[prefixCls + '-item']" @click="changePage(3)"><a>3</a></li>
-                <li :title="4" v-if="allPages > 4 && (currentPage == 2 ||currentPage == 1)" :class="[prefixCls + '-item']" @click="changePage(4)"><a>4</a></li>
-                <li :title="allPages" v-if="allPages > 1" :class="lastPageClasses" @click="changePage(allPages)"><a>{{ allPages }}</a></li>
+                <li :title="currentPage - 3" v-if="allPages > 5 && currentPage > allPages-1"
+                    :class="[prefixCls + '-item']" @click="changePage(currentPage - 3)"><a>{{ currentPage - 3 }}</a>
+                </li>
+                <li :title="currentPage - 2" v-if="allPages > 5 && currentPage > allPages-2"
+                    :class="[prefixCls + '-item']" @click="changePage(currentPage - 2)"><a>{{ currentPage - 2 }}</a>
+                </li>
+                <li :title="2" v-if="(allPages < 6 ) && (currentPage == 4 || currentPage == 5)"
+                    :class="[prefixCls + '-item']" @click="changePage(2)"><a>2</a></li>
+                <li :title="3" v-if="(allPages < 6 ) && (currentPage == 5)" :class="[prefixCls + '-item']"
+                    @click="changePage(3)"><a>3</a></li>
+                <li :title="currentPage - 1" v-if="currentPage - 1 > 1" :class="[prefixCls + '-item']"
+                    @click="changePage(currentPage - 1)"><a>{{ currentPage - 1 }}</a></li>
+                <li :title="currentPage" v-if="currentPage != 1 && currentPage != allPages"
+                    :class="[prefixCls + '-item',prefixCls + '-item-active']"><a>{{ currentPage }}</a></li>
+                <li :title="currentPage + 1" v-if="currentPage + 1 < allPages" :class="[prefixCls + '-item']"
+                    @click="changePage(currentPage + 1)"><a>{{ currentPage + 1 }}</a></li>
+                <li :title="3" v-if="allPages > 3 && currentPage == 1" :class="[prefixCls + '-item']"
+                    @click="changePage(3)"><a>3</a></li>
+                <li :title="4" v-if="allPages > 4 && (currentPage == 2 ||currentPage == 1)"
+                    :class="[prefixCls + '-item']" @click="changePage(4)"><a>4</a></li>
+                <li :title="allPages" v-if="allPages > 1" :class="lastPageClasses" @click="changePage(allPages)">
+                    <a>{{ allPages }}</a></li>
                 <li
                         :title="t('i.page.next')"
                         :class="nextClasses"
@@ -102,47 +226,57 @@
             </Tooltip>
         </div>
         <div style="float: right" v-else>
-           <li
-                   :title="t('i.page.prev')"
-                   :class="prevClasses"
-                   @click="prev">
-               <a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a>
-           </li>
-           <li title="1" :class="firstPageClasses" @click="changePage(1)"><a>1</a></li>
-           <li :title="currentPage - 3" v-if="allPages > 5 && currentPage > allPages-1" :class="[prefixCls + '-item']" @click="changePage(currentPage - 3)"><a>{{ currentPage - 3 }}</a></li>
-           <li :title="currentPage - 2" v-if="allPages > 5 && currentPage > allPages-2" :class="[prefixCls + '-item']" @click="changePage(currentPage - 2)"><a>{{ currentPage - 2 }}</a></li>
-           <li :title="2" v-if="(allPages < 6 ) && (currentPage == 4 || currentPage == 5)" :class="[prefixCls + '-item']" @click="changePage(2)"><a>2</a></li>
-           <li :title="3" v-if="(allPages < 6 ) && (currentPage == 5)" :class="[prefixCls + '-item']" @click="changePage(3)"><a>3</a></li>
-           <li :title="currentPage - 1" v-if="currentPage - 1 > 1" :class="[prefixCls + '-item']" @click="changePage(currentPage - 1)"><a>{{ currentPage - 1 }}</a></li>
-           <li :title="currentPage" v-if="currentPage != 1 && currentPage != allPages" :class="[prefixCls + '-item',prefixCls + '-item-active']"><a>{{ currentPage }}</a></li>
-           <li :title="currentPage + 1" v-if="currentPage + 1 < allPages" :class="[prefixCls + '-item']" @click="changePage(currentPage + 1)"><a>{{ currentPage + 1 }}</a></li>
-           <li :title="3" v-if="allPages > 3 && currentPage == 1" :class="[prefixCls + '-item']" @click="changePage(3)"><a>3</a></li>
-           <li :title="4" v-if="allPages > 4 && (currentPage == 2 ||currentPage == 1)" :class="[prefixCls + '-item']" @click="changePage(4)"><a>4</a></li>
-           <li :title="allPages" v-if="allPages > 1" :class="lastPageClasses" @click="changePage(allPages)"><a>{{ allPages }}</a></li>
-           <li
-                   :title="t('i.page.next')"
-                   :class="nextClasses"
-                   @click="next">
-               <a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a>
-           </li>
-       </div>
+            <li
+                    :title="t('i.page.prev')"
+                    :class="prevClasses"
+                    @click="prev">
+                <a><i class="ivu-icon ivu-icon-ios-arrow-left"></i></a>
+            </li>
+            <li title="1" :class="firstPageClasses" @click="changePage(1)"><a>1</a></li>
+            <li :title="currentPage - 3" v-if="allPages > 5 && currentPage > allPages-1" :class="[prefixCls + '-item']"
+                @click="changePage(currentPage - 3)"><a>{{ currentPage - 3 }}</a></li>
+            <li :title="currentPage - 2" v-if="allPages > 5 && currentPage > allPages-2" :class="[prefixCls + '-item']"
+                @click="changePage(currentPage - 2)"><a>{{ currentPage - 2 }}</a></li>
+            <li :title="2" v-if="(allPages < 6 ) && (currentPage == 4 || currentPage == 5)"
+                :class="[prefixCls + '-item']" @click="changePage(2)"><a>2</a></li>
+            <li :title="3" v-if="(allPages < 6 ) && (currentPage == 5)" :class="[prefixCls + '-item']"
+                @click="changePage(3)"><a>3</a></li>
+            <li :title="currentPage - 1" v-if="currentPage - 1 > 1" :class="[prefixCls + '-item']"
+                @click="changePage(currentPage - 1)"><a>{{ currentPage - 1 }}</a></li>
+            <li :title="currentPage" v-if="currentPage != 1 && currentPage != allPages"
+                :class="[prefixCls + '-item',prefixCls + '-item-active']"><a>{{ currentPage }}</a></li>
+            <li :title="currentPage + 1" v-if="currentPage + 1 < allPages" :class="[prefixCls + '-item']"
+                @click="changePage(currentPage + 1)"><a>{{ currentPage + 1 }}</a></li>
+            <li :title="3" v-if="allPages > 3 && currentPage == 1" :class="[prefixCls + '-item']"
+                @click="changePage(3)"><a>3</a></li>
+            <li :title="4" v-if="allPages > 4 && (currentPage == 2 ||currentPage == 1)" :class="[prefixCls + '-item']"
+                @click="changePage(4)"><a>4</a></li>
+            <li :title="allPages" v-if="allPages > 1" :class="lastPageClasses" @click="changePage(allPages)">
+                <a>{{ allPages }}</a></li>
+            <li
+                    :title="t('i.page.next')"
+                    :class="nextClasses"
+                    @click="next">
+                <a><i class="ivu-icon ivu-icon-ios-arrow-right"></i></a>
+            </li>
+        </div>
     </ul>
 </template>
 <script>
-    import { oneOf } from '../../utils/assist';
+    import {oneOf} from '../../utils/assist';
     import iSelect from '../../components/select/select.vue';
     import iOption from '../../components/select/option.vue';
     import tooltip from '../../components/tooltip/tooltip.vue';
     import Locale from '../../mixins/locale';
     const prefixCls = 'ivu-page';
-    function isValueNumber (value) {
+    function isValueNumber(value) {
         return (/^[1-9][0-9]*$/).test(value + '');
     }
 
     export default {
         name: 'Page',
-        mixins: [ Locale ],
-        components: { iSelect, iOption, tooltip},
+        mixins: [Locale],
+        components: {iSelect, iOption, tooltip},
         props: {
             current: {
                 type: Number,
@@ -242,12 +376,12 @@
                 return (allPage === 0) ? 1 : allPage;
             },
             currentPageBegin () {
-                return this.currentPageSize*(this.currentPage-1)+1;
+                return this.currentPageSize * (this.currentPage - 1) + 1;
             },
             currentPageEnd () {
-                let value=this.currentPageSize*(this.currentPage);
-                if(value>this.total){
-                    value=this.total;
+                let value = this.currentPageSize * (this.currentPage);
+                if (value > this.total) {
+                    value = this.total;
                 }
                 return value;
             },
