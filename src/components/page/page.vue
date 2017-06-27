@@ -440,9 +440,6 @@
             }
         },
         methods: {
-            changeSize () {
-                this.$emit('on-size', this.currentPageSize);
-            },
             changePages (event) {
                 let val = event.target.value.trim();
                 let page = 0;
@@ -504,9 +501,8 @@
                     this.changePage(page);
                 }
             },
-            onSize (pageSize) {
-                this.currentPageSize = pageSize;
-                this.$emit('on-page-size-change', pageSize);
+            changeSize () {
+                this.$emit('on-page-size-change', this.currentPageSize);
                 this.changePage(1);
             },
             onPage (page) {

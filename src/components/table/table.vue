@@ -401,7 +401,7 @@
                 return JSON.parse(JSON.stringify(this.data.filter((data, index) => selectionIndexes.indexOf(index) > -1)));
             },
             getdata(){
-                return this.data;
+                return this.objData;
             },
             toggleSelect (_index) {
                 let data = {};
