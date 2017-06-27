@@ -401,7 +401,13 @@
                 return JSON.parse(JSON.stringify(this.data.filter((data, index) => selectionIndexes.indexOf(index) > -1)));
             },
             getdata(){
-                return this.objData;
+                let json = [];
+                for (let k in this.objData) {
+                    if (this.objData.hasOwnProperty(k)) {
+                        json.push(this.objData[k]);
+                    }
+                }
+                return JSON.parse(JSON.stringify(json));
             },
             toggleSelect (_index) {
                 let data = {};

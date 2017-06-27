@@ -140,8 +140,7 @@
         },
         methods: {
             select(a, b, c){
-                console.log(this.$refs.table.getSelect());
-                console.log(this.$refs.table.getRow(1));
+                console.log(this.$refs.table.getdata());
 //                console.log(a)
 //                console.log(b)
 //                console.log(c)
