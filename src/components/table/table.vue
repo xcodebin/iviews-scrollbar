@@ -400,6 +400,7 @@
                 }
                 return JSON.parse(JSON.stringify(this.data.filter((data, index) => selectionIndexes.indexOf(index) > -1)));
             },
+            //--对外接口
             getdata(){
                 let json = [];
                 for (let k in this.objData) {
@@ -409,6 +410,10 @@
                 }
                 return JSON.parse(JSON.stringify(json));
             },
+            setdata(json){
+                this.objData = json;
+            },
+            //对外接口--
             toggleSelect (_index) {
                 let data = {};
 
