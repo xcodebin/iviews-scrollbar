@@ -1,7 +1,12 @@
 <template>
     <!--<Scrollbar class="scrollbar">-->
     <!--<div class="scroll-me">-->
-    <Table width="550" height="200" border :columns="columns2" :data="data4" @on-select="select" ref="table"></Table>
+    <Table width="550" height="200" border :columns="columns2" :data="data4"
+           @on-select="select"
+           @on-row-click="a"
+           @on-select-row-click="b"
+           @on-unselect-row-click="c"
+           ref="table"></Table>
     <!--</div>-->
     <!--</Scrollbar>-->
 
@@ -139,11 +144,23 @@
             };
         },
         methods: {
-            select(a, b, c){
-                console.log(this.$refs.table.getdata());
-//                console.log(a)
-//                console.log(b)
-//                console.log(c)
+            select(a, b, c,d){
+//                console.log(this.$refs.table.getdata());
+                console.log(a)
+                console.log(b)
+                console.log(c)
+                console.log(d)
+            },
+            a(val){
+//                console.log(val)
+            },
+            b(val){
+                console.log(1)
+                console.log(val)
+            },
+            c(val){
+                console.log(2)
+                console.log(val)
             }
         }
     };
