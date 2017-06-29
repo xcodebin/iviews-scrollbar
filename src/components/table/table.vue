@@ -727,7 +727,6 @@
             this.rebuildData = this.makeDataWithSortAndFilter();
         },
         mounted () {
-            console.log('44')
             this.handleResize();
             this.fixedHeader();
 

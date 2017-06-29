@@ -164,7 +164,8 @@
             }
         },
         mounted(){
-            console.log(this.$refs.table.getdata())
+//            console.log(this.$refs.table.getdata())
+            console.log(this.$refs.table.getButtom())
         }
     };
 </script>
