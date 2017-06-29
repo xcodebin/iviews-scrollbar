@@ -165,7 +165,8 @@
         },
         mounted(){
 //            console.log(this.$refs.table.getdata())
-            console.log(this.$refs.table.getButtom())
+//            console.log(this.$refs.table.getButtom())
+            this.$refs.table.$refs.tbody.$refs.scrollbars.reset()
         }
     };
 </script>

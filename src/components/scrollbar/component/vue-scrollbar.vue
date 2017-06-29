@@ -267,6 +267,12 @@
 
                 else return cb ? cb(elementSize) : false;
             },
+            reset(){
+                this.top=0;
+                this.left=0;
+                this.vMovement=0;
+                this.hMovement=0;
+            }
         },
 
         mounted () {

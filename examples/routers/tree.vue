@@ -1,5 +1,7 @@
 <template>
+    <Scrollbar :style="treeStyle" ref="scrollbar">
     <Tree :data="baseData" multiple @on-check-change="handleChange" @on-toggle-expand="showExpand"></Tree>
+    </Scrollbar>
 </template>
 <script>
     export default {
@@ -35,6 +37,14 @@
                     }
                 ]
             }
+        },
+        props:{
+            treeStyle: {
+                type: Object,
+                default() {
+                    return {height: '50px'};
+                }
+            },
         },
         methods: {
             handleSelectChange (data) {
