@@ -258,7 +258,14 @@
                     // Scroll Wrapper Height and Width
                     this.scrollWrapperHeight = elementSize.scrollWrapperHeight;
                     this.scrollWrapperWidth = elementSize.scrollWrapperWidth;
-
+                    if (this.scrollAreaHeight < this.scrollWrapperHeight) {
+                        this.top = 0;
+                        this.vMovement = 0;
+                    }
+                    if (this.scrollAreaWidth < this.scrollWrapperWidth) {
+                        this.left = 0;
+                        this.hMovement = 0;
+                    }
                     // Make sure The wrapper is Ready, then render the scrollbar
                     this.ready = true;
 
@@ -268,10 +275,10 @@
                 else return cb ? cb(elementSize) : false;
             },
             reset(){
-                this.top=0;
-                this.left=0;
-                this.vMovement=0;
-                this.hMovement=0;
+                this.top = 0;
+                this.left = 0;
+                this.vMovement = 0;
+                this.hMovement = 0;
             }
         },
 
@@ -281,7 +288,9 @@
             // Attach The Event for Responsive View~
             window.addEventListener('resize', this.calculateSize);
         },
-
+        updated(){
+            this.calculateSize();
+        },
         beforeDestroy (){
             // Remove Event
             window.removeEventListener('resize', this.calculateSize);
