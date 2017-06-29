@@ -144,7 +144,7 @@
             };
         },
         methods: {
-            select(a, b, c,d){
+            select(a, b, c, d){
 //                console.log(this.$refs.table.getdata());
                 console.log(a)
                 console.log(b)
@@ -162,6 +162,9 @@
                 console.log(2)
                 console.log(val)
             }
+        },
+        mounted(){
+            console.log(this.$refs.table.getdata())
         }
     };
 </script>

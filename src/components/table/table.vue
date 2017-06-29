@@ -402,15 +402,22 @@
             },
             //--对外接口
             getdata(){
-                let json = [];
-                for (let k in this.objData) {
-                    if (this.objData.hasOwnProperty(k)) {
-                        json.push(this.objData[k]);
-                    }
-                }
-                return JSON.parse(JSON.stringify(json));
+//                let json = [];
+//                for (let k in this.objData) {
+//                    if (this.objData.hasOwnProperty(k)) {
+//                        json.push(this.objData[k]);
+//                    }
+//                }
+//                return json;
+                return this.objData;
+
             },
             setdata(json){
+//                let data = {};
+//                for (let i; i < json.length; i++) {
+//                    data.i = json[i];
+//                }
+//                this.objData = data;
                 this.objData = json;
             },
             //对外接口--
