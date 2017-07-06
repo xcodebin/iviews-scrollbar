@@ -18,7 +18,8 @@
                     <div :class="[prefixCls + '-arrow']"></div>
                     <div :class="[prefixCls + '-inner']" v-if="confirm">
                         <div :class="[prefixCls + '-body']">
-                            <i class="ivu-icon ivu-icon-help-circled"></i>
+                            <!--todo-->
+                            <i class="ivu-icon ivu-icon-help-circled" v-if="tips"></i>
                             <div :class="[prefixCls + '-body-message']"><slot name="title">{{ title }}</slot></div>
                         </div>
                         <div :class="[prefixCls + '-footer']">
@@ -52,6 +53,10 @@
         directives: { clickoutside },
         components: { iButton },
         props: {
+            tips: {
+                type: Boolean,
+                default: false
+            },
             trigger: {
                 validator (value) {
                     return oneOf(value, ['click', 'focus', 'hover']);
@@ -194,7 +199,7 @@
         mounted () {
             if (!this.confirm) {
 //                this.showTitle = this.$refs.title.innerHTML != `<div class="${prefixCls}-title-inner"></div>`;
-                this.showTitle = (this.$slots.title !== undefined) || this.title;
+                this.showTitle = (this.$slots.title !== undefined) || this.title || (this.title !== undefined) ;
             }
             // if trigger and children is input or textarea,listen focus & blur event
             if (this.trigger === 'focus') {
