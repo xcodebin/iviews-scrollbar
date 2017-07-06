@@ -39,7 +39,6 @@
 </template>
 <script>
     // todo :key="row"
-    import Scrollbar from './../scrollbar';
     import Cell from './cell.vue';
     import Expand from './expand.js';
     import Mixin from './mixin';
@@ -47,7 +46,7 @@
     export default {
         name: 'TableBody',
         mixins: [Mixin],
-        components: {Scrollbar, Cell, Expand},
+        components: {Cell, Expand},
         props: {
             prefixCls: String,
             styleObject: Object,
