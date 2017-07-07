@@ -19,8 +19,13 @@
                     <div :class="[prefixCls + '-inner']" v-if="confirm">
                         <div :class="[prefixCls + '-body']">
                             <!--todo-->
-                            <i class="ivu-icon ivu-icon-help-circled" v-if="tips"></i>
-                            <div :class="[prefixCls + '-body-message']"><slot name="title">{{ title }}</slot></div>
+                            <template  v-if="!notip">
+                                <i class="ivu-icon ivu-icon-help-circled"></i>
+                                <div :class="[prefixCls + '-body-message']"><slot name="title">{{ title }}</slot></div>
+                            </template>
+                            <template v-else>
+                                <slot name="title">{{ title }}</slot>
+                            </template>
                         </div>
                         <div :class="[prefixCls + '-footer']">
                             <i-button type="text" size="small" @click.native="cancel">{{ localeCancelText }}</i-button>
@@ -53,7 +58,7 @@
         directives: { clickoutside },
         components: { iButton },
         props: {
-            tips: {
+            notip: {//是否不要提示
                 type: Boolean,
                 default: false
             },
