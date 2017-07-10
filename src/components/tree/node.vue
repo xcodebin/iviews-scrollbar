@@ -11,14 +11,16 @@
                         :indeterminate="indeterminate"
                         :disabled="data.disabled || data.disableCheckbox"
                         @click.native.prevent="handleCheck"></Checkbox>
-                <span :class="titleClasses" v-html="data.title" @click="handleSelect"></span>
+                <Tooltip :content="data.title" placement="right-start">
+                    <span :class="titleClasses" v-html="data.title" @click="handleSelect"></span>
+                </Tooltip>
                 <Tree-node
-                        v-for="item in data.children"
-                        :key="item"
-                        :data="item"
-                        :visible="data.expand"
-                        :multiple="multiple"
-                        :show-checkbox="showCheckbox">
+                     v-for="item in data.children"
+                    :key="item"
+                    :data="item"
+                    :visible="data.expand"
+                    :multiple="multiple"
+                    :show-checkbox="showCheckbox">
                 </Tree-node>
             </li>
         </ul>
@@ -116,14 +118,22 @@
             handleCheck () {
                 if (this.disabled) return;
                 const checked = !this.data.checked;
+                console.log('6666', this.data.checked)
                 if (!checked || this.indeterminate) {
                     findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = false);
                 } else {
                     findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = true);
-                }
+                };
                 this.data.checked = checked;
                 this.dispatch('Tree', 'checked');
                 this.dispatch('Tree', 'on-checked');
+                if (this.data.checked == false) {
+                    //选中数据
+                    this.dispatch('Tree', 'on-cancel-node', this.data);
+                } else {
+                    //取消选择
+                    this.dispatch('Tree', 'on-select-node', this.data);
+                };
             },
             setIndeterminate () {
                 this.indeterminate = this.data.checked ? false : findComponentsDownward(this, 'TreeNode').some(node => node.data.checked);
@@ -141,3 +151,4 @@
         }
     };
 </script>
+ v

@@ -1,6 +1,10 @@
 <template>
     <Scrollbar :style="treeStyle" ref="scrollbar">
-    <Tree :data="baseData" multiple @on-check-change="handleChange" @on-toggle-expand="showExpand"></Tree>
+    <Tree :data="baseData" multiple @on-check-change="handleChange" @on-toggle-expand="showExpand"
+        @on-select-node="onSelectNode"
+        @on-cancel-node="onCancelNode"
+        @on-select-change="onSelectChange"
+    ></Tree>
     </Scrollbar>
 </template>
 <script>
@@ -17,6 +21,8 @@
                             {
                                 title: 'child1',
                                 id: '1-1',
+                                checked: true,
+                                // selected: true,
                                 expand: true,
                                 children: [
                                     {
@@ -48,7 +54,7 @@
         },
         methods: {
             handleSelectChange (data) {
-                console.log(data);
+                console.log('啊啊啊', data);
             },
             updateTree (data) {
                 data[0].children[0].checked = true;
@@ -60,6 +66,18 @@
             },
             showExpand (payload) {
                 console.log(payload)
+            },
+            onSelectNode(data) {
+                console.log('onSelectNode', data)
+            },
+            onCancelNode(data) {
+                console.log('onCancelNode', data)
+            },
+            onSelectChange(data) {
+                console.log(4444444, data)
+            },
+            onSelectChange(data) {
+                console.log('onSelectChange', data)
             }
         },
         mounted () {

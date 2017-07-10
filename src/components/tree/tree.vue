@@ -6,7 +6,10 @@
             :data="item"
             visible
             :multiple="multiple"
-            :show-checkbox="showCheckbox">
+            :show-checkbox="showCheckbox"
+            @on-select-node="onSelectNode"
+            @on-cancel-node="onCancelNode"
+            >
         </Tree-node>
         <div :class="[prefixCls + '-empty']" v-if="!data.length">{{ localeEmptyText }}</div>
     </div>
@@ -98,6 +101,12 @@
                 }
                 this.data.map(node => reverseChecked(node)).map(node => forwardChecked(node));
                 this.broadcast('TreeNode', 'indeterminate');
+            },
+            onSelectNode(data) {
+                this.$emit('on-select-node', data);
+            },
+            onCancelNode(data) {
+                this.$emit('on-cancel-node', data);
             }
         },
         mounted () {
