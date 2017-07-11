@@ -22,7 +22,8 @@ Modal.newInstance = properties => {
             showCancel: false,
             loading: false,
             buttonLoading: false,
-            scrollable: false
+            scrollable: false,
+            spinTimeout: 8000
         }),
         render (h) {
             let footerVNodes = [];
@@ -80,7 +81,8 @@ Modal.newInstance = properties => {
             return h(Modal, {
                 props: Object.assign({}, _props, {
                     width: this.width,
-                    scrollable: this.scrollable
+                    scrollable: this.scrollable,
+                    spinTimeout: this.spinTimeout
                 }),
                 domProps: {
                     value: this.visible
@@ -205,13 +207,16 @@ Modal.newInstance = properties => {
                     modal.$parent.iconName = 'help-circled';
                     break;
             }
-
             if ('width' in props) {
                 modal.$parent.width = props.width;
             }
 
             if ('title' in props) {
                 modal.$parent.title = props.title;
+            }
+
+            if ('spinTimeout' in props) {
+                modal.$parent.spinTimeout = props.spinTimeout;
             }
 
             if ('content' in props) {

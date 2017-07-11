@@ -22,7 +22,7 @@
                 @on-show="onShow"
                 :spinShow = 'spinShow'
                 @on-cancel="cancel">
-            <p>对话框内容</p>
+            <p slot="footer">对话框内容</p>
             <p>对话框内容</p>
             <p>对话框内容</p>
         </Modal>
@@ -59,7 +59,6 @@
                 this.$Modal.confirm({
                     title: '确认对话框标题',
                     spinTimeout:3000,
-                    content: '<p>一些对话框内容</p><p>一些对话框内容</p>',
                     render: (h) => {
                         return h('Input', {
                             props: {
@@ -71,7 +70,7 @@
                                     this.val = val;
                                 }
                             }
-                        }, '一个按钮')
+                        }, '一个按钮');
                     },
                     onOk: () => {
                         this.$Message.info('点击了确定');
