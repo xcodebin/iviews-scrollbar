@@ -10,4 +10,3 @@ npm publish 用于发布到npm 方便别人更新代码,需要增加package.json
 
 #NPM地址
 [ https://www.npmjs.com/package/iviews]( https://www.npmjs.com/package/iviews)
-
