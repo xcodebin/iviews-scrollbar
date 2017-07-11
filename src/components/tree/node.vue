@@ -11,7 +11,7 @@
                         :indeterminate="indeterminate"
                         :disabled="data.disabled || data.disableCheckbox"
                         @click.native.prevent="handleCheck"></Checkbox>
-                <Tooltip :content="data.title" placement="right-start">
+                <Tooltip :content="data.tooltip" placement="right-start">
                     <span :class="titleClasses" v-html="data.title" @click="handleSelect"></span>
                 </Tooltip>
                 <Tree-node
@@ -127,13 +127,23 @@
                 this.data.checked = checked;
                 this.dispatch('Tree', 'checked');
                 this.dispatch('Tree', 'on-checked');
-                if (this.data.checked == false) {
-                    //选中数据
-                    this.dispatch('Tree', 'on-cancel-node', this.data);
+                if (this.showCheckbox == false ) { //单选的时候
+                    if (this.data.selected == false) {
+                        //选中数据
+                        this.dispatch('Tree', 'on-cancel-node', this.data);
+                    } else {
+                        //取消选择
+                        this.dispatch('Tree', 'on-select-node', this.data);
+                    };
                 } else {
-                    //取消选择
-                    this.dispatch('Tree', 'on-select-node', this.data);
-                };
+                    if (this.data.checked == false) {
+                        //选中数据
+                        this.dispatch('Tree', 'on-cancel-node', this.data);
+                    } else {
+                        //取消选择
+                        this.dispatch('Tree', 'on-select-node', this.data);
+                    };
+                }
             },
             setIndeterminate () {
                 this.indeterminate = this.data.checked ? false : findComponentsDownward(this, 'TreeNode').some(node => node.data.checked);

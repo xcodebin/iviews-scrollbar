@@ -74,9 +74,6 @@
                 console.log('onCancelNode', data)
             },
             onSelectChange(data) {
-                console.log(4444444, data)
-            },
-            onSelectChange(data) {
                 console.log('onSelectChange', data)
             }
         },
