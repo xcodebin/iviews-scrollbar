@@ -6,6 +6,7 @@
             </div>
             <div :class="[prefixCls + '-header']" v-if="showHeader" ref="header" @mousewheel="handleMouseWheel">
                 <table-head
+                        :singleCheck="singleCheck"
                         :prefix-cls="prefixCls"
                         :styleObject="tableStyle"
                         :columns="cloneColumns"
@@ -46,6 +47,7 @@
                 <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
                     <table-head
                             fixed="left"
+                            :singleCheck="singleCheck"
                             :prefix-cls="prefixCls"
                             :styleObject="fixedTableStyle"
                             :columns="leftFixedColumns"
@@ -68,6 +70,7 @@
                 <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
                     <table-head
                             fixed="right"
+                            :singleCheck="singleCheck"
                             :prefix-cls="prefixCls"
                             :styleObject="fixedRightTableStyle"
                             :columns="rightFixedColumns"
@@ -163,6 +166,10 @@
             },
             disabledHover: {
                 type: Boolean
+            },
+            singleCheck: {//添加属性。有checkbox的单选
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -425,8 +432,16 @@
                 let data = {};
 
                 for (let i in this.objData) {
-                    if (parseInt(i) === _index) {
-                        data = this.objData[i];
+                    if(this.singleCheck){
+                        if (parseInt(i) === _index) {
+                            data = this.objData[i];
+                        }else{
+                            this.objData[i]._isChecked=false;
+                        }
+                    }else{
+                        if (parseInt(i) === _index) {
+                            data = this.objData[i];
+                        }
                     }
                 }
                 const status = !data._isChecked;
