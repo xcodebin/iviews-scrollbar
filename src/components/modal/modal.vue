@@ -17,7 +17,7 @@
                         <div :class="[prefixCls + '-header']" v-if="showHead">
                             <slot name="header">
                                 <div :class="[prefixCls + '-header-inner',titleAlign]">
-                                    <Icon :type="titleIcon" :color="titleIconColor"></Icon>
+                                    <Icon :type="titleIcon" :color="titleIconColor" v-if="titleIcon"></Icon>
                                     {{ title }}
                                 </div>
                             </slot>
@@ -201,6 +201,7 @@
             };
         },
         computed: {
+
             modalHeight(){
                 if (!this.height) {
                     return;
@@ -260,8 +261,20 @@
             }
         },
         methods: {
-            onShow (){
+            onClose () {
+                this.$emit('on-close');
+            },
+            closeBegin (){
+                this.$emit('close-begin');
+            },
+            onShow () {
                 this.$emit('on-show');
+            },
+            onLoad (){
+                this.$emit('on-load');
+            },
+            onShowBegin (){
+                this.$emit('on-show-begin');
             },
             prev (){    //
                 this.$emit('on-prev');
@@ -273,10 +286,11 @@
 //                if (this.spinShow) {
 //                    this.isSpin = true;
 //                }
-                console.log('close');
+                this.closeBegin();
                 this.visible = false;
                 this.$emit('input', false);
                 this.$emit('on-cancel');
+                this.onClose();
             },
             mask () {
                 if (this.maskClosable) {
@@ -338,7 +352,9 @@
         },
         mounted () {
 
-            this.spinHeight = document.querySelector('#' + this.id).clientHeight + 'px';
+            this.$nextTick(()=>{
+                this.spinHeight = document.querySelector('#' + this.id).clientHeight + 'px';
+            });
 
             if (this.visible) {
                 this.wrapShow = true;
@@ -368,7 +384,6 @@
 //            this.spinShow = true;
         },
         watch: {
-
             spinShow (val){
                 let a = null;
                 if (val) {
@@ -376,7 +391,9 @@
                         this.isSpin = true;
                         a = setTimeout(() => {
                             this.isSpin = false;
+                            this.onLoad();
                         }, this.spinTimeout);
+
                     } else {
                         this.isSpin = false;
                     }
@@ -389,19 +406,15 @@
                 this.visible = val;
             },
             visible (val) {
-
-
-
                 let a = null;
-
                 if(this.isSpin){
                     a = setTimeout(() => {
                         this.isSpin = false;
+                        this.onLoad();
                     }, this.spinTimeout);
                 }else {
                     clearTimeout(a);
                 }
-
                 if (val === false) {
                     this.buttonLoading = false;
                     this.timer = setTimeout(() => {
@@ -409,13 +422,13 @@
                         this.removeScrollEffect();
                     }, 300);
                 } else {
-                    this.onShow();
-                    console.log(this.spinShow)
+                    this.onShowBegin();
                     if (this.timer) clearTimeout(this.timer);
                     this.wrapShow = true;
                     if (!this.scrollable) {
                         this.addScrollEffect();
                     }
+                    this.onShow();
                 }
                 this.broadcast('Table', 'on-visible-change', val);
             },

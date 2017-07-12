@@ -23,7 +23,9 @@ Modal.newInstance = properties => {
             loading: false,
             buttonLoading: false,
             scrollable: false,
-            spinTimeout: 8000
+            spinTimeout: 8000,
+            spinShow:false,
+
         }),
         render (h) {
             let footerVNodes = [];
@@ -82,7 +84,8 @@ Modal.newInstance = properties => {
                 props: Object.assign({}, _props, {
                     width: this.width,
                     scrollable: this.scrollable,
-                    spinTimeout: this.spinTimeout
+                    spinTimeout: this.spinTimeout,
+                    spinShow:this.spinShow
                 }),
                 domProps: {
                     value: this.visible
@@ -217,6 +220,10 @@ Modal.newInstance = properties => {
 
             if ('spinTimeout' in props) {
                 modal.$parent.spinTimeout = props.spinTimeout;
+            }
+
+            if ('spinShow' in props) {
+                modal.$parent.spinShow = props.spinShow;
             }
 
             if ('content' in props) {
