@@ -19,10 +19,11 @@
                 okText="这是确定按钮"
                 cancelText="这是取消按钮"
                 nextTrue
-                @on-show-begin="onShowBegin"
-                @on-show="onShow"
-                @close-begin="closeBegin"
-                @on-close="onClose"
+                @on-after-load = 'load'
+                @on-before-show="onShowBegin"
+                @on-after-show="onShow"
+                @on-before-close="closeBegin"
+                @on-after-close="onClose"
                 :spinShow = 'spinShow'
                 @on-cancel="cancel">
             <p slot="footer">对话框内容</p>

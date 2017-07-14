@@ -261,21 +261,6 @@
             }
         },
         methods: {
-            onClose () {
-                this.$emit('on-close');
-            },
-            closeBegin (){
-                this.$emit('close-begin');
-            },
-            onShow () {
-                this.$emit('on-show');
-            },
-            onLoad (){
-                this.$emit('on-load');
-            },
-            onShowBegin (){
-                this.$emit('on-show-begin');
-            },
             prev (){    //
                 this.$emit('on-prev');
             },
@@ -286,11 +271,11 @@
 //                if (this.spinShow) {
 //                    this.isSpin = true;
 //                }
-                this.closeBegin();
+                this.$emit('on-before-close');
                 this.visible = false;
                 this.$emit('input', false);
                 this.$emit('on-cancel');
-                this.onClose();
+                this.$emit('on-after-close');
             },
             mask () {
                 if (this.maskClosable) {
@@ -391,7 +376,7 @@
                         this.isSpin = true;
                         a = setTimeout(() => {
                             this.isSpin = false;
-                            this.onLoad();
+                            this.$emit('on-after-load');
                         }, this.spinTimeout);
 
                     } else {
@@ -410,7 +395,7 @@
                 if(this.isSpin){
                     a = setTimeout(() => {
                         this.isSpin = false;
-                        this.onLoad();
+                        this.$emit('on-after-load');
                     }, this.spinTimeout);
                 }else {
                     clearTimeout(a);
@@ -422,13 +407,13 @@
                         this.removeScrollEffect();
                     }, 300);
                 } else {
-                    this.onShowBegin();
+                    this.$emit('on-before-show');
                     if (this.timer) clearTimeout(this.timer);
                     this.wrapShow = true;
                     if (!this.scrollable) {
                         this.addScrollEffect();
                     }
-                    this.onShow();
+                    this.$emit('on-after-show');
                 }
                 this.broadcast('Table', 'on-visible-change', val);
             },
