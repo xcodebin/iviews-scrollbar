@@ -6,7 +6,7 @@
         <div :class="wrapClasses" @click="handleWrapClick">
             <transition :name="transitionNames[0]">
                 <div :class="classes" :style="mainStyles" v-show="visible">
-                    <div :class="[prefixCls + '-content']" :style="{height:modalHeight}" :id="id">
+                    <div :class="[prefixCls + '-content']"  :id="id">
                         <Spin size="large" class="spin-mask" fix v-if="isSpin" :style="{height:spinHeight}"></Spin>
 
                         <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
@@ -22,32 +22,32 @@
                                 </div>
                             </slot>
                         </div>
-                        <div :class="[prefixCls + '-body']">
+                        <div :class="[prefixCls + '-body']" :style="{height:modalHeight}">
                             <slot></slot>
                         </div>
                         <div :class="[prefixCls + '-footer',BtnsPosition]" v-if="!footerHide">
                             <slot name="footer" :class='' v-if="!showFooterBtns">
-                                <i-button type="primary" v-if="prevTrue" size="large" style="float: left" @click='prev'>
+                                <i-button type="primary" v-if="prevShow" size="large" style="float: left" @click='prev'>
                                     {{prevBtnText}}
                                 </i-button>
-                                <i-button type="primary" v-if="nextTrue" size="large" style="float: left" @click='next'>
+                                <i-button type="primary" v-if="nextShow" size="large" style="float: left" @click='next'>
                                     {{nextBtnText}}
                                 </i-button>
-                                <i-button type="text" size="large" v-if="isCancel" @click.native="cancel">{{ localeCancelText }}
+                                <i-button type="text" size="large" v-if="cancelShow" @click.native="cancel">{{ localeCancelText }}
                                 </i-button>
-                                <i-button type="primary" size="large" v-if="isOk" :loading="buttonLoading" @click.native="ok">
+                                <i-button type="primary" size="large" v-if="okShow" :loading="buttonLoading" @click.native="ok">
                                     {{ localeOkText }}
                                 </i-button>
                             </slot>
                             <slot name="footerBtns" :class="" v-if="showFooterBtns">
                                 <Button-group style="float: left">
-                                    <Button type="primary" v-if="prevTrue" size="large" @click='prev'>{{prevBtnText}}</Button>
-                                    <Button type="primary" v-if="nextTrue" size="large" @click='next'>{{nextBtnText}}</Button>
+                                    <Button type="primary" v-if="prevShow" size="large" @click='prev'>{{prevBtnText}}</Button>
+                                    <Button type="primary" v-if="nextShow" size="large" @click='next'>{{nextBtnText}}</Button>
                                 </Button-group>
 
                                 <Button-group>
-                                    <Button type="primary" size="large"  v-if="isCancel"  @click.native="cancel">{{ localeCancelText }}</Button>
-                                    <Button type="primary" size="large"  v-if="isOk" :loading="buttonLoading" @click.native="ok"> {{ localeOkText }} </Button>
+                                    <Button type="primary" size="large"  v-if="cancelShow"  @click.native="cancel">{{ localeCancelText }}</Button>
+                                    <Button type="primary" size="large"  v-if="okShow" :loading="buttonLoading" @click.native="ok"> {{ localeOkText }} </Button>
                                 </Button-group>
                             </slot>
                         </div>
@@ -73,11 +73,11 @@
         components: {Icon, iButton},
         directives: {TransferDom},
         props: {
-            isCancel:{
+            cancelShow:{
                 type:Boolean,
                 default:true,
             },
-            isOk:{
+            okShow:{
                 type:Boolean,
                 default:true,
             },
@@ -125,11 +125,11 @@
                 type: Boolean,
                 default: false
             },
-            prevTrue: {                               //
+            prevShow: {                               //
                 type: Boolean,
                 default: false
             },
-            nextTrue: {                            //
+            nextShow: {                            //
                 type: Boolean,
                 default: false
             },
