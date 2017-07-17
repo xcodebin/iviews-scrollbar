@@ -87,7 +87,6 @@
                         return data;
                     }
                 }
-                
                 function forwardChecked(data) {
                     if (data.children) {
                         data.children.forEach(node => {
