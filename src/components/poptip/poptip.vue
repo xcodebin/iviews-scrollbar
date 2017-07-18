@@ -18,14 +18,8 @@
                     <div :class="[prefixCls + '-arrow']"></div>
                     <div :class="[prefixCls + '-inner']" v-if="confirm">
                         <div :class="[prefixCls + '-body']">
-                            <!--todo-->
-                            <template  v-if="!notip">
-                                <i class="ivu-icon ivu-icon-help-circled"></i>
-                                <div :class="[prefixCls + '-body-message']"><slot name="title">{{ title }}</slot></div>
-                            </template>
-                            <template v-else>
-                                <slot name="title">{{ title }}</slot>
-                            </template>
+                            <i class="ivu-icon ivu-icon-help-circled"></i>
+                            <div :class="[prefixCls + '-body-message']"><slot name="title">{{ title }}</slot></div>
                         </div>
                         <div :class="[prefixCls + '-footer']">
                             <i-button type="text" size="small" @click.native="cancel">{{ localeCancelText }}</i-button>
@@ -58,10 +52,6 @@
         directives: { clickoutside },
         components: { iButton },
         props: {
-            notip: {//是否不要提示
-                type: Boolean,
-                default: false
-            },
             trigger: {
                 validator (value) {
                     return oneOf(value, ['click', 'focus', 'hover']);
@@ -204,7 +194,7 @@
         mounted () {
             if (!this.confirm) {
 //                this.showTitle = this.$refs.title.innerHTML != `<div class="${prefixCls}-title-inner"></div>`;
-                this.showTitle = (this.$slots.title !== undefined) || this.title || (this.title !== undefined) ;
+                this.showTitle = (this.$slots.title !== undefined) || this.title;
             }
             // if trigger and children is input or textarea,listen focus & blur event
             if (this.trigger === 'focus') {
