@@ -11,11 +11,12 @@
                         :indeterminate="indeterminate"
                         :disabled="data.disabled || data.disableCheckbox"
                         @click.native.prevent="handleCheck"></Checkbox>
+                <img class="tree-img" :src="data.src" v-if="data.src"/>
                 <Tooltip :content="data.tooltip" placement="right-start">
                     <span :class="titleClasses" v-html="data.title" @click="handleSelect"></span>
                 </Tooltip>
                 <Tree-node
-                     v-for="item in data.children"
+                    v-for="item in data.children"
                     :key="item"
                     :data="item"
                     :visible="data.expand"
@@ -161,4 +162,10 @@
         }
     };
 </script>
- v
+<style>
+    .tree-img {
+        width: 18px;
+        height: 18px;
+        vertical-align: middle
+    }
+</style>
