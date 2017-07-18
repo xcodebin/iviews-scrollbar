@@ -4,6 +4,7 @@
     <Table width="550" height="200" border :columns="columns2" :data="data4"
            @on-select="select"
            @on-row-click="a"
+           singleCheck
            @on-select-row-click="b"
            @on-unselect="c"
            ref="table"></Table>
