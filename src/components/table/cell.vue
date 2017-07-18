@@ -44,7 +44,7 @@
             return {
                 renderType: '',
                 uid: -1,
-                context: this.$parent.$parent.currentContext
+                context: this.$parent.$parent.$parent.currentContext
             };
         },
         computed: {
@@ -73,6 +73,9 @@
             },
             toggleExpand () {
                 this.$parent.$parent.$parent.toggleExpand(this.index);
+            },
+            handleClick () {
+                // 放置 Checkbox 冒泡
             }
         },
         created () {
