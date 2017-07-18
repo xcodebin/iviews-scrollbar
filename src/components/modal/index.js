@@ -20,7 +20,6 @@ function confirm (options) {
     options.onRemove = function () {
         modalInstance = null;
     };
-
     instance.show(options);
 }
 

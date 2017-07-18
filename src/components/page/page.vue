@@ -5,7 +5,7 @@
                 <Row type="flex" align="middle" justify="start">
                     <div v-if="showSizer" :class="optsClasses">
                         <div v-if="showSizer" :class="sizerClasses">
-                            <Tooltip v-if="pageTooltip" content="分页栏" placement="right">
+                            <Tooltip v-if="pageTooltip" :content="t('i.page.tip1')" placement="right">
                                 <i-select v-model="currentPageSize" :size="size" :placement="placement"
                                           @on-change="changeSize">
                                     <i-option v-for="item in pageSizeOpts" :key="item" :value="item"
@@ -29,7 +29,7 @@
             <i-col :span="8">
                 <Row type="flex" align="middle" justify="center">
                     <div v-if="pageTooltip">
-                        <Tooltip content="页数选择" placement="top">
+                        <Tooltip :content="t('i.page.tip2')" placement="top">
                             <li
                                     :title="t('i.page.prev')"
                                     :class="prevClasses"
@@ -110,7 +110,7 @@
             <i-col :span="8">
                 <Row type="flex" align="middle" justify="end">
                     <div v-if="pageTooltip">
-                        <Tooltip content="跳转页" placement="top">
+                        <Tooltip :content="t('i.page.tip3')" placement="top">
                             <div v-if="showElevator" :class="ElevatorClasses">
                                 {{ t('i.page.goto') }}
                                 <input type="text" :value.once="currentPage" @keyup.enter="changePages">
@@ -132,7 +132,7 @@
     <ul :class="wrapClasses" :style="styles" v-else>
         <div v-if="showSizer" :class="optsClasses">
             <div v-if="showSizer" :class="sizerClasses">
-                <Tooltip v-if="pageTooltip" content="分页栏" placement="right">
+                <Tooltip v-if="pageTooltip" :content="t('i.page.tip4')" placement="right">
                     <i-select v-model="currentPageSize" :size="size" :placement="placement" @on-change="changeSize">
                         <i-option v-for="item in pageSizeOpts" :key="item" :value="item" style="text-align:center;">
                             {{ item }} {{ t('i.page.page') }}
@@ -151,27 +151,25 @@
 
         <span :class="[prefixCls + '-total']" v-if="showTotal">
             <template v-if="pageTooltip">
-                <Tooltip content="总行数" placement="top">
+                <Tooltip :content="t('i.page.tip5')" placement="top">
                     {{ t('i.page.total') }} {{ total }}
                 </Tooltip>
-                 <Tooltip content="当前页起始 / 结束行" placement="top">
-                    <template v-if="total <= 0">{{ t('i.page.item') }}&nbsp&nbsp&nbsp当前0/0条</template>
-                    <template v-else-if="total == 1">{{ t('i.page.item') }}&nbsp&nbsp&nbsp当前1/1条</template>
-                    <template v-else>{{ t('i.page.items') }}&nbsp&nbsp&nbsp当前{{ this.currentPageBegin
-                        }}/{{this.currentPageEnd}}条</template>
+                 <Tooltip :content="t('i.page.tip6')" placement="top">
+                    <template v-if="total <= 0">{{ t('i.page.item') }}&nbsp&nbsp&nbsp{{ t('i.page.cur') }}0/0{{ t('i.page.item') }}</template>
+                    <template v-else-if="total == 1">{{ t('i.page.item') }}&nbsp&nbsp&nbsp{{ t('i.page.cur') }}1/1{{ t('i.page.item') }}</template>
+                    <template v-else>{{ t('i.page.items') }}&nbsp&nbsp&nbsp{{ t('i.page.cur') }}{{ this.currentPageBegin}}/{{this.currentPageEnd}}{{ t('i.page.item') }}</template>
                  </Tooltip>
             </template>
             <template v-else>
                  {{ t('i.page.total') }} {{ total }}
-                <template v-if="total <= 0">{{ t('i.page.item') }}&nbsp&nbsp&nbsp当前0/0条</template>
-                <template v-else-if="total == 1">{{ t('i.page.item') }}&nbsp&nbsp&nbsp当前1/1条</template>
-                <template v-else>{{ t('i.page.items') }}&nbsp&nbsp&nbsp当前{{ this.currentPageBegin
-                    }}/{{this.currentPageEnd}}条</template>
+                <template v-if="total <= 0">{{ t('i.page.item') }}&nbsp&nbsp&nbsp{{ t('i.page.cur') }}0/0{{ t('i.page.item') }}</template>
+                <template v-else-if="total == 1">{{ t('i.page.item') }}&nbsp&nbsp&nbsp{{ t('i.page.cur') }}1/1{{ t('i.page.item') }}</template>
+                <template v-else>{{ t('i.page.items') }}&nbsp&nbsp&nbsp{{ t('i.page.cur') }}{{ this.currentPageBegin}}/{{this.currentPageEnd}}{{ t('i.page.item') }}</template>
             </template>
         </span>
         <slot name="page-btn"></slot>
         <div style="float: right" v-if="pageTooltip">
-            <Tooltip content="跳转页" placement="top">
+            <Tooltip :content="t('i.page.tip7')"  placement="top">
                 <div v-if="showElevator" :class="ElevatorClasses">
                     {{ t('i.page.goto') }}
                     <input type="text" :value.once="currentPage" @keyup.enter="changePages">
@@ -187,7 +185,7 @@
             </div>
         </div>
         <div style="float: right" v-if="pageTooltip">
-            <Tooltip content="页数选择" placement="top">
+            <Tooltip :content="t('i.page.tip8')" placement="top">
                 <li
                         :title="t('i.page.prev')"
                         :class="prevClasses"

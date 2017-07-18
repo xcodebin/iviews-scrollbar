@@ -8,7 +8,7 @@
                 <th v-for="(column, index) in columns" :class="alignCls(column)">
                     <div :class="cellClasses(column)">
                         <template v-if="column.type === 'expand'"></template>
-                        <template v-else-if="column.type === 'selection'"><Checkbox :value="isSelectAll" @on-change="selectAll"></Checkbox></template>
+                        <template v-else-if="column.type === 'selection'"><Checkbox v-if="!singleCheck" :value="isSelectAll" @on-change="selectAll"></Checkbox></template>
                         <template v-else>
                             <span v-html="renderHeader(column, index)"></span>
                             <span :class="[prefixCls + '-sort']" v-if="column.sortable">
@@ -26,7 +26,7 @@
                                 <div slot="content" :class="[prefixCls + '-filter-list']" v-if="column._filterMultiple">
                                     <div :class="[prefixCls + '-filter-list-item']">
                                         <checkbox-group v-model="column._filterChecked">
-                                            <checkbox v-for="item in column.filters" :key="item" :label="item.value">{{ item.label }}</checkbox>
+                                            <checkbox v-for="item in column.filters" :key="column._columnKey" :label="item.value">{{ item.label }}</checkbox>
                                         </checkbox-group>
                                     </div>
                                     <div :class="[prefixCls + '-filter-footer']">
@@ -75,6 +75,9 @@
             fixed: {
                 type: [Boolean, String],
                 default: false
+            },
+            singleCheck: {
+                type: Boolean
             }
         },
         computed: {

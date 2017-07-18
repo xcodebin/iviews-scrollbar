@@ -66,6 +66,8 @@ export default {
             notFoundText: '列表爲空'
         },
         modal: {
+	        prevBtnText:'上一步',
+	        nextBtnText:'下一步',
             okText: '確定',
             cancelText: '取消'
         },
@@ -83,7 +85,16 @@ export default {
             next5: '向後 5 頁',
             page: '條/頁',
             goto: '跳至',
-            p: '頁'
+            p: '頁',
+	        cur: '當前',
+	        tip1: '分頁欄',
+	        tip2: '頁數選擇',
+	        tip3: '跳轉頁',
+	        tip4: '分頁欄',
+	        tip5: '總行數',
+	        tip6: '當前頁起始/結束行',
+	        tip7: '跳轉頁',
+	        tip8: '頁數選擇',
         },
         rate: {
             star: '星',

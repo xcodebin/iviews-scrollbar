@@ -1,11 +1,10 @@
 <template>
     <div :class="wrapClasses" :style="styles">
         <div :class="classes">
-            <div :class="[prefixCls + '-title']" v-if="showSlotHeader" ref="title">
-                <slot name="header"></slot>
-            </div>
+            <div :class="[prefixCls + '-title']" v-if="showSlotHeader" ref="title"><slot name="header"></slot></div>
             <div :class="[prefixCls + '-header']" v-if="showHeader" ref="header" @mousewheel="handleMouseWheel">
                 <table-head
+                        :singleCheck="singleCheck"
                         :prefix-cls="prefixCls"
                         :styleObject="tableStyle"
                         :columns="cloneColumns"
@@ -29,16 +28,16 @@
                         :obj-data="objData"></table-body>
             </div>
             <div
-                    :class="[prefixCls + '-tip']"
-                    v-show="((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
+                :class="[prefixCls + '-tip']"
+                v-show="((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
                 <table cellspacing="0" cellpadding="0" border="0">
                     <tbody>
-                    <tr>
-                        <td :style="{ 'height': bodyStyle.height }">
-                            <span v-html="localeNoDataText" v-if="!data || data.length === 0"></span>
-                            <span v-html="localeNoFilteredDataText" v-else></span>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td :style="{ 'height': bodyStyle.height }">
+                                <span v-html="localeNoDataText" v-if="!data || data.length === 0"></span>
+                                <span v-html="localeNoFilteredDataText" v-else></span>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -46,6 +45,7 @@
                 <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
                     <table-head
                             fixed="left"
+                            :singleCheck="singleCheck"
                             :prefix-cls="prefixCls"
                             :styleObject="fixedTableStyle"
                             :columns="leftFixedColumns"
@@ -55,19 +55,20 @@
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody">
                     <table-body
-                            fixed="left"
-                            :prefix-cls="prefixCls"
-                            :styleObject="fixedTableStyle"
-                            :columns="leftFixedColumns"
-                            :data="rebuildData"
-                            :columns-width="columnsWidth"
-                            :obj-data="objData"></table-body>
+                        fixed="left"
+                        :prefix-cls="prefixCls"
+                        :styleObject="fixedTableStyle"
+                        :columns="leftFixedColumns"
+                        :data="rebuildData"
+                        :columns-width="columnsWidth"
+                        :obj-data="objData"></table-body>
                 </div>
             </div>
             <div :class="[prefixCls + '-fixed-right']" :style="fixedRightTableStyle" v-if="isRightFixed">
                 <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
                     <table-head
                             fixed="right"
+                            :singleCheck="singleCheck"
                             :prefix-cls="prefixCls"
                             :styleObject="fixedRightTableStyle"
                             :columns="rightFixedColumns"
@@ -77,35 +78,37 @@
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody">
                     <table-body
-                            fixed="right"
-                            :prefix-cls="prefixCls"
-                            :styleObject="fixedRightTableStyle"
-                            :columns="rightFixedColumns"
-                            :data="rebuildData"
-                            :columns-width="columnsWidth"
-                            :obj-data="objData"></table-body>
+                        fixed="right"
+                        :prefix-cls="prefixCls"
+                        :styleObject="fixedRightTableStyle"
+                        :columns="rightFixedColumns"
+                        :data="rebuildData"
+                        :columns-width="columnsWidth"
+                        :obj-data="objData"></table-body>
                 </div>
             </div>
-            <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" ref="footer">
-                <slot name="footer"></slot>
-            </div>
+            <div :class="[prefixCls + '-footer']" v-if="showSlotFooter" ref="footer"><slot name="footer"></slot></div>
         </div>
     </div>
 </template>
 <script>
     import tableHead from './table-head.vue';
     import tableBody from './table-body.vue';
-    import {oneOf, getStyle, deepCopy} from '../../utils/assist';
+    import { oneOf, getStyle, deepCopy} from '../../utils/assist';
+    import { on, off } from '../../utils/dom';
     import Csv from '../../utils/csv';
     import ExportCsv from './export-csv';
     import Locale from '../../mixins/locale';
 
     const prefixCls = 'ivu-table';
 
+    let rowKey = 1;
+    let columnKey = 1;
+
     export default {
         name: 'Table',
-        mixins: [Locale],
-        components: {tableHead, tableBody},
+        mixins: [ Locale ],
+        components: { tableHead, tableBody },
         props: {
             data: {
                 type: Array,
@@ -163,6 +166,10 @@
             },
             disabledHover: {
                 type: Boolean
+            },
+            singleCheck: {//添加属性。有checkbox的单选
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -280,7 +287,7 @@
                 if (this.bodyHeight !== 0) {
                     let height = this.bodyHeight + this.scrollBarWidth - 1;
 
-                    if (this.width && this.width < this.tableWidth) {
+                    if (this.width && this.width < this.tableWidth){
                         height = this.bodyHeight;
                     }
 //                    style.height = this.scrollBarWidth > 0 ? `${this.bodyHeight}px` : `${this.bodyHeight - 1}px`;
@@ -386,11 +393,11 @@
                 this.$emit('on-current-change', JSON.parse(JSON.stringify(this.cloneData[_index])), oldData);
             },
             clickCurrentRow (_index) {
-                this.highlightCurrentRow(_index);
+                this.highlightCurrentRow (_index);
                 this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])));
             },
             dblclickCurrentRow (_index) {
-                this.highlightCurrentRow(_index);
+                this.highlightCurrentRow (_index);
                 this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.cloneData[_index])));
             },
             getSelection () {
@@ -425,8 +432,16 @@
                 let data = {};
 
                 for (let i in this.objData) {
-                    if (parseInt(i) === _index) {
-                        data = this.objData[i];
+                    if(this.singleCheck){
+                        if (parseInt(i) === _index) {
+                            data = this.objData[i];
+                        }else{
+                            this.objData[i]._isChecked=false;
+                        }
+                    }else{
+                        if (parseInt(i) === _index) {
+                            data = this.objData[i];
+                        }
                     }
                 }
                 const status = !data._isChecked;
@@ -462,10 +477,10 @@
                 //     }
 
                 // });
-                for (const data of this.rebuildData) {
-                    if (this.objData[data._index]._isDisabled) {
+                for(const data of this.rebuildData){
+                    if(this.objData[data._index]._isDisabled){
                         continue;
-                    } else {
+                    }else{
                         this.objData[data._index]._isChecked = status;
                     }
                 }
@@ -600,7 +615,10 @@
             },
             makeData () {
                 let data = deepCopy(this.data);
-                data.forEach((row, index) => row._index = index);
+                data.forEach((row, index) => {
+                    row._index = index;
+                    row._rowKey = rowKey++;
+                });
                 return data;
             },
             makeDataWithSort () {
@@ -617,7 +635,7 @@
                         break;
                     }
                 }
-                if (sortType !== 'normal' && !isCustom) data = this.sortData(data, sortType, sortIndex);
+                if (sortType !== 'normal' && !isCustom) data =  this.sortData(data, sortType, sortIndex);
                 return data;
             },
             makeDataWithFilter () {
@@ -667,6 +685,7 @@
 
                 columns.forEach((column, index) => {
                     column._index = index;
+                    column._columnKey = columnKey++;
                     column._width = column.width ? column.width : '';    // update in handleResize()
                     column._sortType = 'normal';
                     column._filterVisible = false;
@@ -729,11 +748,9 @@
         mounted () {
             this.handleResize();
             this.fixedHeader();
-
-            this.$nextTick(() => {
-                this.ready = true;
-            });
-            window.addEventListener('resize', this.handleResize, false);
+            this.$nextTick(() => this.ready = true);
+//            window.addEventListener('resize', this.handleResize, false);
+            on(window, 'resize', this.handleResize);
             this.$on('on-visible-change', (val) => {
                 if (val) {
                     this.handleResize();
@@ -742,7 +759,8 @@
             });
         },
         beforeDestroy () {
-            window.removeEventListener('resize', this.handleResize, false);
+//            window.removeEventListener('resize', this.handleResize, false);
+            off(window, 'resize', this.handleResize);
         },
         watch: {
             data: {

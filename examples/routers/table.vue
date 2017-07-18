@@ -5,7 +5,7 @@
            @on-select="select"
            @on-row-click="a"
            @on-select-row-click="b"
-           @on-unselect-row-click="c"
+           @on-unselect="c"
            ref="table"></Table>
     <!--</div>-->
     <!--</Scrollbar>-->
@@ -158,10 +158,13 @@
                 console.log(1)
                 console.log(val)
             },
-            c(val){
-                console.log(2)
-                console.log(val)
-            }
+	        c(a, b, c, d){
+//                console.log(this.$refs.table.getdata());
+		        console.log(a)
+		        console.log(b)
+		        console.log(c)
+		        console.log(d)
+	        },
         },
         mounted(){
 //            console.log(this.$refs.table.getdata())

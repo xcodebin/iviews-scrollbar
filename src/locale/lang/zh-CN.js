@@ -66,6 +66,8 @@ export default {
             notFoundText: '列表为空'
         },
         modal: {
+            prevBtnText:'上一步',
+            nextBtnText:'下一步',
             okText: '确定',
             cancelText: '取消'
         },
@@ -83,7 +85,16 @@ export default {
             next5: '向后 5 页',
             page: '条/页',
             goto: '跳至',
-            p: '页'
+            p: '页',
+	        cur: '当前',
+	        tip1: '分页栏',
+	        tip2: '页数选择',
+	        tip3: '跳转页',
+	        tip4: '分页栏',
+	        tip5: '总行数',
+	        tip6: '当前页起始 / 结束行',
+	        tip7: '跳转页',
+	        tip8: '页数选择',
         },
         rate: {
             star: '星',
