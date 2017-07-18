@@ -66,6 +66,8 @@ export default {
             notFoundText: 'Nicht gefunden'
         },
         modal: {
+            prevBtnText:'Den letzten Schritt\n',
+            nextBtnText:'Der nächste Schritt',
             okText: 'OK',
             cancelText: 'Abbrechen'
         },
@@ -83,7 +85,16 @@ export default {
             next5: 'nächste fünf Seiten',
             page: '/seite',
             goto: 'Gehe zu',
-            p: ''
+            p: 'Seiten',
+	        cur: 'Derzeit',
+	        tip1: '- Spalte',
+	        tip2: '- Seiten wählen',
+	        tip3: 'Seite springen',
+	        tip4: '- Spalte',
+	        tip5: 'Die ANZAHL DER zeilen',
+	        tip6: 'Die aktuelle Seite start / ende der zeile',
+	        tip7: 'Seite springen',
+	        tip8: '- Seiten wählen',
         },
         rate: {
             star: 'Stern',

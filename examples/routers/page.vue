@@ -1,6 +1,6 @@
 <template>
     <div style="margin: 100px;">
-        <Page :total="300" showTotal showSizer show-elevator size="small" placement="top"
+        <Page :total="300" showTotal showSizer show-elevator size="small" placement="top" pageTooltip
               @on-page-size-change="onPageSizeChange"
               @on-change="onchange"
         ></Page>

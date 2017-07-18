@@ -66,6 +66,8 @@ export default {
             notFoundText: 'Pas de résultat'
         },
         modal: {
+            prevBtnText:'Une étape',
+            nextBtnText:'Une étape suivante',
             okText: 'OK',
             cancelText: 'Annuler'
         },
@@ -83,7 +85,16 @@ export default {
             next5: '5 Pages en Arrière',
             page: '/page',
             goto: 'Aller à',
-            p: ''
+            p: 'Page',
+	        cur: 'Courant',
+	        tip1: 'De la barre',
+	        tip2: 'Le nombre de pages sélectionnées',
+	        tip3: 'Saut de page',
+	        tip4: 'De la barre',
+	        tip5: 'Numéro du Siège',
+	        tip6: 'La page actuelle de début / fin de ligne',
+	        tip7: 'Saut de page',
+	        tip8: 'Le nombre de pages sélectionnées',
         },
         rate: {
             star: 'Étoile',

@@ -70,6 +70,8 @@ export default {
             cancelText: 'Cancel'
         },
         poptip: {
+            prevBtnText:'Last Step',
+            nextBtnText:'Next Step',
             okText: 'OK',
             cancelText: 'Cancel'
         },
@@ -83,7 +85,16 @@ export default {
             next5: 'Next 5 Pages',
             page: '/page',
             goto: 'Goto',
-            p: ''
+            p: 'page',
+	        cur: 'current',
+	        tip1: 'Paging bar',
+	        tip2: 'Paging bar',
+	        tip3: 'Jump page',
+	        tip4: 'Paging bar',
+	        tip5: 'Total number of rows',
+	        tip6: 'Current page start / end line',
+	        tip7: 'Jump page',
+	        tip8: 'Page selection',
         },
         rate: {
             star: 'Star',

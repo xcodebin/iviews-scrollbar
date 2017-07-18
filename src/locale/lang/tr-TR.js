@@ -66,6 +66,8 @@ export default {
             notFoundText: 'Bulunamadı'
         },
         modal: {
+	        prevBtnText:'önceki',
+	        nextBtnText:'Bir sonraki adım',
             okText: 'Tamam',
             cancelText: 'İptal'
         },
@@ -83,7 +85,16 @@ export default {
             next5: 'Sonraki 5 Sayfa',
             page: '/sayfa',
             goto: 'Git',
-            p: ''
+            p: 'sayfa',
+	        cur: 'şimdiki',
+	        tip1: 'Çağrı sütunu',
+	        tip2: 'Sayfaları seç',
+	        tip3: 'Atlama sayfası',
+	        tip4: 'Çağrı sütunu',
+	        tip5: 'satır sayısı',
+	        tip6: 'Mevcut sayfa başlangıç / bitiş satırı',
+	        tip7: 'Atlama sayfası',
+	        tip8: 'Sayfaları seç',
         },
         rate: {
             star: 'Yıldız',

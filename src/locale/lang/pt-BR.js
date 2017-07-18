@@ -66,6 +66,8 @@ export default {
             notFoundText: 'Não encontrado'
         },
         modal: {
+	        prevBtnText:'一歩上',
+	        nextBtnText:'下1歩',
             okText: 'Confirmar',
             cancelText: 'Cancelar'
         },
@@ -74,8 +76,8 @@ export default {
             cancelText: 'Cancelar'
         },
         page: {
-            prev: 'Página Anterior',
-            next: 'Próxima Página',
+            prev: 'Um Passo',
+            next: 'O próximo Passo',
             total: 'Total',
             item: 'item',
             items: 'itens',
@@ -83,7 +85,16 @@ export default {
             next5: 'Avançar 5 Páginas',
             page: '/page',
             goto: 'Ir para',
-            p: ''
+            p: 'P.',
+	        cur: 'Atualmente',
+	        tip1: 'A Barra de páginas',
+	        tip2: 'Escolha o número de páginas',
+	        tip3: 'Salto de página',
+	        tip4: 'A Barra de páginas',
+	        tip5: 'O número de Linhas',
+	        tip6: 'A página atual de início / FIM de Linha',
+	        tip7: 'Salto de página',
+	        tip8: 'Escolha o número de páginas',
         },
         rate: {
             star: 'Estrela',
