@@ -430,12 +430,14 @@
             //对外接口--
             toggleSelect (_index) {
                 let data = {};
-
                 for (let i in this.objData) {
                     if(this.singleCheck){
                         if (parseInt(i) === _index) {
                             data = this.objData[i];
                         }else{
+                        	if(this.objData[i]._isChecked){
+		                        this.$emit('on-unselect', i, JSON.parse(JSON.stringify(this.data[i])), this.objData);
+                            }
                             this.objData[i]._isChecked=false;
                         }
                     }else{
