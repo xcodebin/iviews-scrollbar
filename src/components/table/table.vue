@@ -99,11 +99,15 @@
     import tableHead from './table-head.vue';
     import tableBody from './table-body.vue';
     import {oneOf, getStyle, deepCopy} from '../../utils/assist';
+    import { on, off } from '../../utils/dom';
     import Csv from '../../utils/csv';
     import ExportCsv from './export-csv';
     import Locale from '../../mixins/locale';
 
     const prefixCls = 'ivu-table';
+
+    let rowKey = 1;
+    let columnKey = 1;
 
     export default {
         name: 'Table',
@@ -615,7 +619,10 @@
             },
             makeData () {
                 let data = deepCopy(this.data);
-                data.forEach((row, index) => row._index = index);
+                data.forEach((row, index) => {
+                    row._index = index;
+                    row._rowKey = rowKey++;
+                });
                 return data;
             },
             makeDataWithSort () {
@@ -682,6 +689,7 @@
 
                 columns.forEach((column, index) => {
                     column._index = index;
+                    column._columnKey = columnKey++;
                     column._width = column.width ? column.width : '';    // update in handleResize()
                     column._sortType = 'normal';
                     column._filterVisible = false;
@@ -744,11 +752,9 @@
         mounted () {
             this.handleResize();
             this.fixedHeader();
-
-            this.$nextTick(() => {
-                this.ready = true;
-            });
-            window.addEventListener('resize', this.handleResize, false);
+            this.$nextTick(() => this.ready = true);
+//            window.addEventListener('resize', this.handleResize, false);
+            on(window, 'resize', this.handleResize);
             this.$on('on-visible-change', (val) => {
                 if (val) {
                     this.handleResize();
@@ -757,7 +763,8 @@
             });
         },
         beforeDestroy () {
-            window.removeEventListener('resize', this.handleResize, false);
+//            window.removeEventListener('resize', this.handleResize, false);
+            off(window, 'resize', this.handleResize);
         },
         watch: {
             data: {
