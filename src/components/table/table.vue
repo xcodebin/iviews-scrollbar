@@ -436,7 +436,7 @@
                             data = this.objData[i];
                         }else{
                         	if(this.objData[i]._isChecked){
-		                        this.$emit('on-unselect', i, JSON.parse(JSON.stringify(this.data[i])), this.objData);
+		                        this.$emit('on-unselect', i, JSON.parse(JSON.stringify(this.data[i])),[], this.objData);
                             }
                             this.objData[i]._isChecked=false;
                         }
