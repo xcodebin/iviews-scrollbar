@@ -13,10 +13,10 @@ let i18nHandler = function() {
     if (typeof vuei18n === 'function') {
         if (!merged) {
             merged = true;
-            Vue.locale(
-                Vue.config.lang,
-                deepmerge(lang, Vue.locale(Vue.config.lang) || {}, { clone: true })
-            );
+            // Vue.locale(
+            //     Vue.config.lang,
+            //     deepmerge(lang, Vue.locale(Vue.config.lang) || {}, { clone: true })
+            // );
         }
         return vuei18n.apply(this, arguments);
     }
