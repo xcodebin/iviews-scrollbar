@@ -13,7 +13,7 @@
         "indent": ["error", 4, { "SwitchCase": 1 }],
         "quotes": ["error", "single"],
         "semi": ["error", "always"],
-        "no-console": ["error"],
-        "no-mixed-spaces-and-tabs": 0
+        "no-console": ["error"]
+//        "no-mixed-spaces-and-tabs": 0
     }
 }
