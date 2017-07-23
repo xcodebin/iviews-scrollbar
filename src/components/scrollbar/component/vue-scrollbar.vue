@@ -288,9 +288,9 @@
             // Attach The Event for Responsive View~
             window.addEventListener('resize', this.calculateSize);
         },
-        updated(){
-            this.calculateSize();
-        },
+//        updated(){
+//            this.calculateSize();
+//        },
         beforeDestroy (){
             // Remove Event
             window.removeEventListener('resize', this.calculateSize);
