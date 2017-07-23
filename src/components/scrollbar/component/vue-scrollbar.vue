@@ -87,8 +87,11 @@
         methods: {
 
             scroll(e){
-                e.preventDefault();
-                e.stopPropagation();//注销这里可以冒泡
+                if(this.top < parseInt(this.vMovement) ){
+                    e.preventDefault();
+                    e.stopPropagation();//注销这里可以冒泡
+                }
+
                 // Make sure the content height is not changed
                 this.calculateSize(() => {
                     // Set the wheel step
@@ -287,6 +290,7 @@
 
             // Attach The Event for Responsive View~
             window.addEventListener('resize', this.calculateSize);
+//            window.addEventListener('wheel', this.scroll);
         },
 //        updated(){
 //            this.calculateSize();
@@ -294,6 +298,7 @@
         beforeDestroy (){
             // Remove Event
             window.removeEventListener('resize', this.calculateSize);
+//            window.removeEventListener('wheel', this.scroll);
         }
 
     };
