@@ -17,6 +17,7 @@
                         title: 'parent',
                         id: '1-0',
                         expand: true,
+                        tooltip: 'aaaa',
                         src: 'http://www.baidu.com/img/bd_logo1.png',
                         children: [
                             {
