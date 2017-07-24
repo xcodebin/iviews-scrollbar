@@ -1,7 +1,9 @@
 <template>
     <div
-            @click="calculateSize"
-            @mouseenter="calculateSize"
+            @click="handleClick"
+            v-clickoutside="handleOut"
+            @mousemove="calculateSize"
+            @mouseout="handleOut"
             :class="'vue-scrollbar__wrapper' + ( this.classes ? ' ' + this.classes : '' )"
             ref="scrollWrapper"
             :style="this.styles">
@@ -53,6 +55,7 @@
 
     import VerticalScrollbar from './vertical-scrollbar.vue';
     import HorizontalScrollbar from './horizontal-scrollbar.vue';
+    import clickoutside from '../../../directives/clickoutside';
 
     export default {
 
@@ -69,10 +72,11 @@
             VerticalScrollbar,
             HorizontalScrollbar
         },
-
+        directives: { clickoutside },
         data () {
             return {
                 ready: false,
+                state:false,
                 top: 0,
                 left: 0,
                 scrollAreaHeight: null,
@@ -87,13 +91,23 @@
             };
         },
         methods: {
+            handleClick(){
+                this.state=true;
+            },
+            handleOut(){
+                this.state=false;
+            },
             scroll(e){
+//	            this.state=true;
 //                let elementSize = this.getSize();
 //                let lowerEnd = elementSize.scrollAreaHeight - elementSize.scrollWrapperHeight;
-//                if(this.top < parseInt(lowerEnd)){
-                e.preventDefault();
-                e.stopPropagation();//注销这里可以冒泡
+//                if(this.top >= parseInt(lowerEnd) || this.top <= 0) {
+//                    this.state=false;
 //                }
+                if(this.state){
+                    e.preventDefault();
+                    e.stopPropagation();//注销这里可以冒泡
+                }
 
                 // Make sure the content height is not changed
                 this.calculateSize(() => {
@@ -275,6 +289,7 @@
                     if (this.scrollAreaHeight < this.scrollWrapperHeight) {
                         this.top = 0;
                         this.vMovement = 0;
+                        this.state = false;
                     }
                     if (this.scrollAreaWidth < this.scrollWrapperWidth) {
                         this.left = 0;
