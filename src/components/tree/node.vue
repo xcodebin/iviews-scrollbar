@@ -12,9 +12,14 @@
                         :disabled="data.disabled || data.disableCheckbox"
                         @click.native.prevent="handleCheck"></Checkbox>
                 <img class="tree-img" :src="data.src" v-if="data.src"/>
-                <Tooltip :content="data.tooltip" placement="right-start">
+                <template v-if="data.tooltip">
+                    <Tooltip :content="data.tooltip" placement="right-start">
+                        <span :class="titleClasses" v-html="data.title" @click="handleSelect"></span>
+                    </Tooltip>
+                </template>
+                <template v-else>
                     <span :class="titleClasses" v-html="data.title" @click="handleSelect"></span>
-                </Tooltip>
+                </template>
                 <Tree-node
                     v-for="item in data.children"
                     :key="item"
@@ -105,7 +110,6 @@
                 this.dispatch('Tree', 'toggle-expand', this.data);
             },
             handleSelect () {
-                this.handleCheck();
                 if (this.data.disabled) return;
                 if (this.data.selected) {
                     this.data.selected = false;
@@ -115,11 +119,11 @@
                     this.dispatch('Tree', 'selected', this.data);
                 }
                 this.dispatch('Tree', 'on-selected');
+                this.handleCheck();
             },
             handleCheck () {
                 if (this.disabled) return;
                 const checked = !this.data.checked;
-                console.log('6666', this.data.checked)
                 if (!checked || this.indeterminate) {
                     findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = false);
                 } else {
