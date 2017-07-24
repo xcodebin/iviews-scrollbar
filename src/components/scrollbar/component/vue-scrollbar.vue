@@ -99,11 +99,11 @@
             },
             scroll(e){
 //	            this.state=true;
-//                let elementSize = this.getSize();
-//                let lowerEnd = elementSize.scrollAreaHeight - elementSize.scrollWrapperHeight;
-//                if(this.top >= parseInt(lowerEnd) || this.top <= 0) {
-//                    this.state=false;
-//                }
+                let elementSize = this.getSize();
+                let lowerEnd = elementSize.scrollAreaHeight - elementSize.scrollWrapperHeight;
+                if(lowerEnd <= 0) {
+                    this.state=false;
+                }
                 if(this.state){
                     e.preventDefault();
                     e.stopPropagation();//注销这里可以冒泡
@@ -289,7 +289,6 @@
                     if (this.scrollAreaHeight < this.scrollWrapperHeight) {
                         this.top = 0;
                         this.vMovement = 0;
-                        this.state = false;
                     }
                     if (this.scrollAreaWidth < this.scrollWrapperWidth) {
                         this.left = 0;
