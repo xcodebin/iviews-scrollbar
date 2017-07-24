@@ -104,10 +104,10 @@
                 if(lowerEnd <= 0) {
                     this.state=false;
                 }
-                if(this.state){
-                    e.preventDefault();
-                    e.stopPropagation();//注销这里可以冒泡
-                }
+//                if(this.state){
+                e.preventDefault();
+                e.stopPropagation();//注销这里可以冒泡
+//                }
 
                 // Make sure the content height is not changed
                 this.calculateSize(() => {
