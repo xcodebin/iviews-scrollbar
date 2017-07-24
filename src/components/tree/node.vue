@@ -22,7 +22,7 @@
                 </template>
                 <Tree-node
                     v-for="item in data.children"
-                    :key="item"
+                    :key="item.nodeKey"
                     :data="item"
                     :visible="data.expand"
                     :multiple="multiple"
