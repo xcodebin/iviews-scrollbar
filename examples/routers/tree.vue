@@ -80,6 +80,7 @@
         },
         mounted () {
             this.updateTree(this.baseData);
+            this.$refs.scrollbar.scrollToEnd();
         }
     }
 </script>

@@ -1,6 +1,6 @@
 <template>
-    <!--<Scrollbar class="scrollbar">-->
-    <!--<div class="scroll-me">-->
+    <Scrollbar class="scrollbar">
+    <div class="scroll-me">
     <Table width="550" height="200" border :columns="columns2" :data="data4"
            @on-select="select"
            @on-row-click="a"
@@ -8,8 +8,8 @@
            @on-select-row-click="b"
            @on-unselect="c"
            ref="table"></Table>
-    <!--</div>-->
-    <!--</Scrollbar>-->
+    </div>
+    </Scrollbar>
 
 </template>
 <script>
@@ -175,9 +175,11 @@
     };
 </script>
 <style>
-
+body{
+    height:500px;
+}
     .scrollbar {
-        width: 200px;
+        width: 100%;
         height: 300px;
     }
 

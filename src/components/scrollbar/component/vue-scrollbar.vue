@@ -1,6 +1,7 @@
 <template>
     <div
             @click="calculateSize"
+            @mouseenter="calculateSize"
             :class="'vue-scrollbar__wrapper' + ( this.classes ? ' ' + this.classes : '' )"
             ref="scrollWrapper"
             :style="this.styles">
@@ -81,16 +82,18 @@
                 vMovement: 0,
                 hMovement: 0,
                 dragging: false,
-                start: {y: 0, x: 0}
+                start: {y: 0, x: 0},
+                end:0
             };
         },
         methods: {
-
             scroll(e){
-                if(this.top < parseInt(this.vMovement) ){
-                    e.preventDefault();
-                    e.stopPropagation();//注销这里可以冒泡
-                }
+//                let elementSize = this.getSize();
+//                let lowerEnd = elementSize.scrollAreaHeight - elementSize.scrollWrapperHeight;
+//                if(this.top < parseInt(lowerEnd)){
+                e.preventDefault();
+                e.stopPropagation();//注销这里可以冒泡
+//                }
 
                 // Make sure the content height is not changed
                 this.calculateSize(() => {
@@ -172,6 +175,10 @@
                 this.normalizeHorizontal(x);
             },
 
+            scrollToEnd() {
+                this.top = this.end;
+            },
+
             normalizeVertical(next){
                 let elementSize = this.getSize();
 
@@ -249,6 +256,10 @@
 
                 let elementSize = this.getSize();
 
+                let lowerEnd = elementSize.scrollAreaHeight - elementSize.scrollWrapperHeight;
+
+                this.end = lowerEnd;
+
                 if (elementSize.scrollWrapperHeight !== this.scrollWrapperHeight ||
                     elementSize.scrollWrapperWidth !== this.scrollWrapperWidth ||
                     elementSize.scrollAreaHeight !== this.scrollAreaHeight ||
@@ -290,7 +301,6 @@
 
             // Attach The Event for Responsive View~
             window.addEventListener('resize', this.calculateSize);
-//            window.addEventListener('wheel', this.scroll);
         },
 //        updated(){
 //            this.calculateSize();
