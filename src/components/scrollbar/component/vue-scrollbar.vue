@@ -92,10 +92,10 @@
         },
         methods: {
             handleClick(){
-                this.state=true;
+//                this.state=true;
             },
             handleOut(){
-                this.state=false;
+//                this.state=false;
             },
             scroll(e){
 //	            this.state=true;
@@ -103,11 +103,13 @@
                 let lowerEnd = elementSize.scrollAreaHeight - elementSize.scrollWrapperHeight;
                 if(lowerEnd <= 0) {
                     this.state=false;
+                }else{
+                    this.state=true;
                 }
-//                if(this.state){
-                e.preventDefault();
-                e.stopPropagation();//注销这里可以冒泡
-//                }
+                if(this.state){
+                    e.preventDefault();
+                    e.stopPropagation();//注销这里可以冒泡
+                }
 
                 // Make sure the content height is not changed
                 this.calculateSize(() => {
