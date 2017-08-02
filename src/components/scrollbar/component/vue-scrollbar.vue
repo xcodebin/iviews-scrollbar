@@ -98,6 +98,9 @@
 //                this.state=false;
             },
             scroll(e){
+                if(this.top >= this.end){
+                    this.$emit('scrollToEnd',this.end);
+                }
 //	            this.state=true;
                 let elementSize = this.getSize();
                 let lowerEnd = elementSize.scrollAreaHeight - elementSize.scrollWrapperHeight;

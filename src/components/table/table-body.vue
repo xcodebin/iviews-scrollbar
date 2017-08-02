@@ -1,5 +1,5 @@
 <template>
-    <Scrollbar :style="scrollStyle" ref="scrollbars" @verticalScr="verticalScr" @horizontalScr="horizontalScr">
+    <Scrollbar :style="scrollStyle" ref="scrollbars" @verticalScr="verticalScr" @horizontalScr="horizontalScr" @scrollToEnd="scrollToEnd">
         <table cellspacing="0" cellpadding="0" border="0" :style="styleObject">
             <colgroup>
                 <col v-for="(column, index) in columns" :width="setCellWidth(column, index, false)">
@@ -78,6 +78,10 @@
             }
         },
         methods: {
+            scrollToEnd(data){
+//	        	console.log('滑到底了',data);
+                this.$emit('scrollToEnd',data);
+            },
             rowChecked (_index) {
                 return this.objData[_index] && this.objData[_index]._isChecked;
             },

@@ -21,6 +21,7 @@
                         @wheel="wheel"
                         @verticalScr="verticalScr"
                         @horizontalScr="horizontalScr"
+                        @scrollToEnd="scrollToEnd"
                         :columns="cloneColumns"
                         :data="rebuildData"
                         :scrollStyle="bodyStyle"
@@ -327,6 +328,9 @@
             }
         },
         methods: {
+            scrollToEnd(end){
+                this.$emit('scrollToEnd',end);
+            },
             rowClsName (index) {
                 return this.rowClassName(this.data[index], index);
             },
@@ -435,8 +439,8 @@
                         if (parseInt(i) === _index) {
                             data = this.objData[i];
                         }else{
-                        	if(this.objData[i]._isChecked){
-		                        this.$emit('on-unselect', i, JSON.parse(JSON.stringify(this.data[i])),[], this.objData);
+                            if(this.objData[i]._isChecked){
+                                this.$emit('on-unselect', i, JSON.parse(JSON.stringify(this.data[i])),[], this.objData);
                             }
                             this.objData[i]._isChecked=false;
                         }
