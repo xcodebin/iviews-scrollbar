@@ -79,6 +79,7 @@
                 state:false,
                 top: 0,
                 left: 0,
+                end:0,
                 scrollAreaHeight: null,
                 scrollAreaWidth: null,
                 scrollWrapperHeight: null,
@@ -87,7 +88,8 @@
                 hMovement: 0,
                 dragging: false,
                 start: {y: 0, x: 0},
-                end:0
+                sWidth:0,
+                sHeight:0
             };
         },
         methods: {
@@ -316,8 +318,11 @@
         },
 
         mounted () {
+            this.$nextTick(()=>{
+                this.sWidth=document.getElementsByClassName('vue-scrollbar__scrollbar-vertical');
+                console.log('aa', this.sWidth);
+            })
             this.calculateSize();
-
             // Attach The Event for Responsive View~
             window.addEventListener('resize', this.calculateSize);
         },
