@@ -345,6 +345,7 @@
                     this.columnsWidth = {};
                     this.$nextTick(() => {
                         this.$refs.tbody.$refs.scrollbars.calculateSize(); //初始化
+                        this.scrollBarWidth = this.$refs.tbody.$refs.scrollbars.$data.sWidth;
                         let columnsWidth = {};
                         let autoWidthIndex = -1;
                         if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);//todo 这行可能有问题

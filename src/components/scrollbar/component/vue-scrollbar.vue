@@ -319,9 +319,8 @@
 
         mounted () {
             this.$nextTick(()=>{
-                this.sWidth=document.getElementsByClassName('vue-scrollbar__scrollbar-vertical');
-                console.log('aa', this.sWidth);
-            })
+                this.sWidth=document.getElementsByClassName('vue-scrollbar__scrollbar-vertical')[0].offsetWidth;
+            });
             this.calculateSize();
             // Attach The Event for Responsive View~
             window.addEventListener('resize', this.calculateSize);
