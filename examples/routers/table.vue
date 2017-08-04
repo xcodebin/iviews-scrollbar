@@ -26,7 +26,7 @@
                         title: '姓名',
                         key: 'name',
                         width: 100,
-                        fixed: 'left'
+//                        fixed: 'left'
                     },
                     {
                         title: '年龄',
@@ -56,7 +56,7 @@
                     {
                         title: '操作',
                         key: 'action',
-                        fixed: 'right',
+//                        fixed: 'right',
                         width: 120,
                         render: (h, params) => {
                             return h('div', [
@@ -159,15 +159,16 @@
                 console.log(1)
                 console.log(val)
             },
-	        c(a, b, c, d){
-//                console.log(this.$refs.table.getdata());
-		        console.log(a)
-		        console.log(b)
-		        console.log(c)
-		        console.log(d)
-	        },
+            c(a, b, c, d){
+            //                console.log(this.$refs.table.getdata());
+                console.log(a)
+                console.log(b)
+                console.log(c)
+                console.log(d)
+            },
         },
         mounted(){
+        	console.log('我是table视图')
 //            console.log(this.$refs.table.getdata())
 //            console.log(this.$refs.table.getButtom())
             this.$refs.table.$refs.tbody.$refs.scrollbars.reset()
