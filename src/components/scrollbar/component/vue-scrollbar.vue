@@ -2,7 +2,7 @@
     <div
             @click="handleClick"
             v-clickoutside="handleOut"
-            @mousemove="calculateSize"
+            @mousemove=""
             @mouseout="handleOut"
             :class="'vue-scrollbar__wrapper' + ( this.classes ? ' ' + this.classes : '' )"
             ref="scrollWrapper"
@@ -56,6 +56,7 @@
     import VerticalScrollbar from './vertical-scrollbar.vue';
     import HorizontalScrollbar from './horizontal-scrollbar.vue';
     import clickoutside from '../../../directives/clickoutside';
+    import Clay from '../../../utils/clay';
 
     export default {
 
@@ -105,12 +106,9 @@
                 }
 //	            this.state=true;
                 let elementSize = this.getSize();
-                let lowerEnd = elementSize.scrollAreaHeight - elementSize.scrollWrapperHeight;
-                if(lowerEnd <= 0) {
-                    this.state=false;
-                }else{
-                    this.state=true;
-                }
+
+                elementSize.scrollAreaHeight - elementSize.scrollWrapperHeight <= 0 ? this.state=false:this.state=true;
+
                 if(this.state){
                     e.preventDefault();
                     e.stopPropagation();//注销这里可以冒泡
@@ -258,7 +256,6 @@
                 // The Elements
                 let $scrollArea = this.$refs.scrollArea;
                 let $scrollWrapper = this.$refs.scrollWrapper;
-
                 // Get new Elements Size
                 let elementSize = {
                     // Scroll Area Height and Width
@@ -273,13 +270,12 @@
             },
 
             calculateSize(cb){
+            	console.log(11111)
                 if (typeof cb !== 'function') cb = null;
 
                 let elementSize = this.getSize();
 
-                let lowerEnd = elementSize.scrollAreaHeight - elementSize.scrollWrapperHeight;
-
-                this.end = lowerEnd;
+                this.end = elementSize.scrollAreaHeight - elementSize.scrollWrapperHeight;
 
                 if (elementSize.scrollWrapperHeight !== this.scrollWrapperHeight ||
                     elementSize.scrollWrapperWidth !== this.scrollWrapperWidth ||
@@ -326,6 +322,11 @@
             this.calculateSize();
             // Attach The Event for Responsive View~
             window.addEventListener('resize', this.calculateSize);
+
+            let ele = new Clay(this.$refs.scrollArea);
+            ele.on('resize', ()=> {
+                this.calculateSize();
+            });
         },
 //        updated(){
 //            this.calculateSize();
