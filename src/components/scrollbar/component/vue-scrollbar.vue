@@ -326,7 +326,7 @@
             let self=this;
             ele.on('resize', ()=> {
                 this.$nextTick(function(){
-                    self.watchareaWidth = self.$slots.default[0].elm.style.width;
+                    if(!self.$slots.default[0].elm.style.width)self.watchareaWidth = self.$slots.default[0].elm.style.width;
                 });
                 this.calculateSize();
             });
