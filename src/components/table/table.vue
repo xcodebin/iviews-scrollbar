@@ -43,7 +43,7 @@
                 </table>
             </div>
             <div :class="[prefixCls + '-fixed']" :style="fixedTableStyle" v-if="isLeftFixed">
-                <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
+                <div :class="fixedHeaderClasses" v-if="showHeader">
                     <table-head
                             fixed="left"
                             :singleCheck="singleCheck"
@@ -51,7 +51,7 @@
                             :styleObject="fixedTableStyle"
                             :columns="leftFixedColumns"
                             :obj-data="objData"
-                            :columns-width.sync="columnsWidth"
+                            :columns-width="columnsWidth"
                             :data="rebuildData"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody">
@@ -66,7 +66,7 @@
                 </div>
             </div>
             <div :class="[prefixCls + '-fixed-right']" :style="fixedRightTableStyle" v-if="isRightFixed">
-                <div :class="[prefixCls + '-fixed-header']" v-if="showHeader">
+                <div :class="fixedHeaderClasses" v-if="showHeader">
                     <table-head
                             fixed="right"
                             :singleCheck="singleCheck"
@@ -228,6 +228,14 @@
                     }
                 ];
             },
+            fixedHeaderClasses () {
+                return [
+                    `${prefixCls}-fixed-header`,
+                    {
+                        [`${prefixCls}-fixed-header-with-empty`]: !this.rebuildData.length
+                    }
+                ];
+            },
             styles () {
                 let style = {};
                 if (this.height) {
@@ -286,7 +294,7 @@
             fixedBodyStyle () {
                 let style = {};
                 if (this.bodyHeight !== 0) {
-                    let height = this.bodyHeight + this.scrollBarWidth - 1;
+                    let height = this.bodyHeight + this.scrollBarWidth;
 
                     if (this.width && this.width < this.tableWidth){
                         height = this.bodyHeight;
@@ -344,8 +352,7 @@
                     }
                     this.columnsWidth = {};
                     this.$nextTick(() => {
-                        this.$refs.tbody.$refs.scrollbars.calculateSize(); //初始化
-                        this.scrollBarWidth = this.$refs.tbody.$refs.scrollbars.$data.sWidth;
+                        this.scrollBarWidth = this.$refs.tbody.$refs.scrollbars.$data.sWidth;//获取滚动条宽度
                         let columnsWidth = {};
                         let autoWidthIndex = -1;
                         if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);//todo 这行可能有问题
@@ -705,6 +712,10 @@
                         column._isFiltered = true;
                     }
 
+                    if ('sortType' in column) {
+                        column._sortType = column.sortType;
+                    }
+
                     if (column.fixed && column.fixed === 'left') {
                         left.push(column);
                     } else if (column.fixed && column.fixed === 'right') {
@@ -768,9 +779,13 @@
         watch: {
             data: {
                 handler () {
+                    const oldDataLen = this.rebuildData.length;
                     this.objData = this.makeObjData();
                     this.rebuildData = this.makeDataWithSortAndFilter();
                     this.handleResize();
+                    if (!oldDataLen) {
+                        this.fixedHeader();
+                    }
                     // here will trigger before clickCurrentRow, so use async
                     setTimeout(() => {
                         this.cloneData = deepCopy(this.data);

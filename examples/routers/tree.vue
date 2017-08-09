@@ -81,7 +81,7 @@
         },
         mounted () {
             this.updateTree(this.baseData);
-            this.$refs.scrollbar.scrollToEnd();
+//            this.$refs.scrollbar.scrollToEnd();
         }
     }
 </script>

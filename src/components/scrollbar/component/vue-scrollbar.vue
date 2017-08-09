@@ -19,9 +19,9 @@
         marginTop: this.top * -1 +'px',
         marginLeft: this.left * -1 +'px'
       }">
-
-            <slot></slot>
-
+            <div ref="watchArea" :style="{width:watchareaWidth}">
+                <slot></slot>
+            </div>
             <vertical-scrollbar
                     v-if="ready"
                     :area="scrollAreaHeight"
@@ -43,7 +43,6 @@
                     :on-dragging="handleScrollbarDragging"
                     :on-stop-drag="handleScrollbarStopDrag">
             </horizontal-scrollbar>
-
         </div>
 
     </div>
@@ -90,7 +89,8 @@
                 dragging: false,
                 start: {y: 0, x: 0},
                 sWidth:0,
-                sHeight:0
+                sHeight:0,
+                watchareaWidth:0
             };
         },
         methods: {
@@ -270,7 +270,6 @@
             },
 
             calculateSize(cb){
-            	console.log(11111)
                 if (typeof cb !== 'function') cb = null;
 
                 let elementSize = this.getSize();
@@ -323,14 +322,15 @@
             // Attach The Event for Responsive View~
             window.addEventListener('resize', this.calculateSize);
 
-            let ele = new Clay(this.$refs.scrollArea);
+            let ele = new Clay(this.$refs.watchArea);
+            let self=this;
             ele.on('resize', ()=> {
+                this.$nextTick(function(){
+                    self.watchareaWidth = self.$slots.default[0].elm.style.width;
+                });
                 this.calculateSize();
             });
         },
-//        updated(){
-//            this.calculateSize();
-//        },
         beforeDestroy (){
             // Remove Event
             window.removeEventListener('resize', this.calculateSize);
