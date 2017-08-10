@@ -63,7 +63,13 @@
             visible: {
                 type: Boolean,
                 default: false
-            }
+            },
+	        fTocs: {
+		        type: Boolean,
+	        },
+	        cTofs: {
+		        type: Boolean,
+	        }
         },
         data () {
             return {
@@ -122,14 +128,22 @@
                 this.handleCheck();
             },
             handleCheck () {
+            	debugger
+                console.log('123',this.fTocs)
+                console.log('234',this.cTofs)
                 if (this.disabled) return;
                 const checked = !this.data.checked;
                 if (!checked || this.indeterminate) {
-                    findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = false);
+//	                if(this.fToc) {
+		                findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = false);
+//	                }
                 } else {
-                    findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = true);
+                    if(this.fTocs){
+	                    findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = true);
+                    }
                 };
                 this.data.checked = checked;
+                debugger
                 this.dispatch('Tree', 'checked');
                 this.dispatch('Tree', 'on-checked');
                 if (this.showCheckbox == false ) { //单选的时候

@@ -1,6 +1,9 @@
 <template>
     <Scrollbar :style="treeStyle" ref="scrollbar">
     <Tree :data="baseData" multiple @on-check-change="handleChange" @on-toggle-expand="showExpand"
+          showCheckbox
+          :cTof="true"
+          :fToc="true"
         @on-select-node="onSelectNode"
         @on-cancel-node="onCancelNode"
         @on-select-change="onSelectChange"
@@ -23,17 +26,19 @@
                             {
                                 title: 'child1',
                                 id: '1-1',
-                                checked: true,
+
                                 // selected: true,
                                 expand: true,
                                 children: [
                                     {
                                         title: 'child1-1-1',
-                                        id: '1-1-1'
+                                        id: '1-1-1',
+	                                    checked: true,
                                     },
                                     {
                                         title: 'child1-1-2',
-                                        id: '1-1-2'
+                                        id: '1-1-2',
+	                                    checked: true,
                                     }
                                 ]
                             },
@@ -50,7 +55,7 @@
             treeStyle: {
                 type: Object,
                 default() {
-                    return {height: '50px'};
+                    return {height: '150px'};
                 }
             },
         },
@@ -59,7 +64,7 @@
                 console.log('啊啊啊', data);
             },
             updateTree (data) {
-                data[0].children[0].checked = true;
+//                data[0].children[0].checked = true;
 //                data[0].children[0].children[0].checked = true;
 //                data[0].children[0].children[1].checked = true;
             },

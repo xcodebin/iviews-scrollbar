@@ -5,10 +5,13 @@
             :key="item.nodeKey"
             :data="item"
             visible
+            :fTocs="fToc"
+            :cTofs="cTof"
             :multiple="multiple"
             :show-checkbox="showCheckbox"
             @on-select-node="onSelectNode"
             @on-cancel-node="onCancelNode"
+            ref="node"
             >
         </Tree-node>
         <div :class="[prefixCls + '-empty']" v-if="!data.length">{{ localeEmptyText }}</div>
@@ -45,7 +48,13 @@
             },
             emptyText: {
                 type: String
-            }
+            },
+	        fToc: {
+		        type: Boolean
+	        },
+	        cTof: {
+		        type: Boolean
+	        }
         },
         data () {
             return {
@@ -72,18 +81,26 @@
             },
             updateData (isInit = true) {
                 // init checked status
+                var self=this;
                 function reverseChecked(data) {
                     if (!data.nodeKey) data.nodeKey = key++;
                     if (data.children) {
                         let checkedLength = 0;
                         data.children.forEach(node => {
                             if (node.children) node = reverseChecked(node);
+                            debugger
                             if (node.checked) checkedLength++;
                         });
-                        if (isInit) {
-                            if (checkedLength >= data.children.length) data.checked = true;
-                        } else {
-                            data.checked = checkedLength >= data.children.length;
+                        debugger
+	                    console.log(self.cTof)
+                        if(self.cTof){
+	                        if (isInit) {
+		                        if (checkedLength >= data.children.length) data.checked = true;
+	                        } else {
+		                        data.checked = checkedLength >= data.children.length;
+	                        }
+                        }else{
+//	                        data.checked = true;
                         }
                         return data;
                     } else {
@@ -92,10 +109,18 @@
                 }
                 function forwardChecked(data) {
                     if (data.children) {
-                        data.children.forEach(node => {
-                            if (data.checked) node.checked = true;
-                            if (node.children) node = forwardChecked(node);
-                        });
+                    	console.log(self.fToc)
+                        debugger
+                        if(self.fToc){
+	                        data.children.forEach(node => {
+		                        if (data.checked) node.checked = true;
+		                        if (node.children) node = forwardChecked(node);
+	                        });
+                        }else{
+	                        data.children.forEach(node => {
+		                        if (node.children) node = forwardChecked(node);
+	                        });
+                        }
                         return data;
                     } else {
                         return data;
@@ -112,7 +137,7 @@
             }
         },
         mounted () {
-            this.updateData();
+	        this.updateData();
             this.$on('selected', ori => {
                 const nodes = findComponentsDownward(this, 'TreeNode');
                 nodes.forEach(node => {
@@ -124,6 +149,7 @@
                 this.$emit('on-select-change', this.getSelectedNodes());
             });
             this.$on('checked', () => {
+            	debugger
                 this.updateData(false);
             });
             this.$on('on-checked', () => {
@@ -139,6 +165,10 @@
                     this.updateData();
                     this.broadcast('TreeNode', 'indeterminate');
                 });
+            },
+            fToc(val){
+            	console.log(this.$refs.node)
+
             }
         }
     };
