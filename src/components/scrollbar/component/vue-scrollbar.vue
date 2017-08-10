@@ -1,9 +1,5 @@
 <template>
     <div
-            @click="handleClick"
-            v-clickoutside="handleOut"
-            @mousemove=""
-            @mouseout="handleOut"
             :class="'vue-scrollbar__wrapper' + ( this.classes ? ' ' + this.classes : '' )"
             ref="scrollWrapper"
             :style="this.styles">
@@ -17,9 +13,11 @@
                 @touchend="stopDrag"
                 :style="{
         marginTop: this.top * -1 +'px',
-        marginLeft: this.left * -1 +'px'
+        marginLeft: this.left * -1 +'px',
+        width:watchareaWidth,
+        minWidth:'100%'
       }">
-            <div ref="watchArea" :style="{width:watchareaWidth}">
+            <div ref="watchArea" :style="this.styles">
                 <slot></slot>
             </div>
             <vertical-scrollbar
@@ -54,7 +52,6 @@
 
     import VerticalScrollbar from './vertical-scrollbar.vue';
     import HorizontalScrollbar from './horizontal-scrollbar.vue';
-    import clickoutside from '../../../directives/clickoutside';
     import Clay from '../../../utils/clay';
 
     export default {
@@ -67,12 +64,10 @@
                 default: 53
             }
         },
-
         components: {
             VerticalScrollbar,
             HorizontalScrollbar
         },
-        directives: { clickoutside },
         data () {
             return {
                 ready: false,
@@ -90,16 +85,21 @@
                 start: {y: 0, x: 0},
                 sWidth:0,
                 sHeight:0,
-                watchareaWidth:0
+                watchareaWidth:'100%'
             };
         },
         methods: {
-            handleClick(){
-//                this.state=true;
-            },
-            handleOut(){
-//                this.state=false;
-            },
+//	        @click="handleClick"
+//	        v-clickoutside="handleOut"
+//	        @mouseout="handleOut"
+//          import clickoutside from '../../../directives/clickoutside';
+//	        directives: { clickoutside },
+//            handleClick(){
+////                this.state=true;
+//            },
+//            handleOut(){
+////                this.state=false;
+//            },
             scroll(e){
                 if(this.top >= this.end){
                     this.$emit('scrollToEnd',this.end);
@@ -315,25 +315,25 @@
         mounted () {
             this.$nextTick(()=>{
                 if(document.getElementsByClassName('vue-scrollbar__scrollbar-vertical') && document.getElementsByClassName('vue-scrollbar__scrollbar-vertical').length>0){
-                    this.sWidth=document.getElementsByClassName('vue-scrollbar__scrollbar-vertical')[0].offsetWidth;
+                    this.sWidth=document.getElementsByClassName('vue-scrollbar__scrollbar-vertical')[0].offsetWidth;//动态获取滚动条宽度
                 }
             });
-            this.calculateSize();
-            // Attach The Event for Responsive View~
-            window.addEventListener('resize', this.calculateSize);
 
             let ele = new Clay(this.$refs.watchArea);
-            let self=this;
             ele.on('resize', ()=> {
-                this.$nextTick(function(){
-                    if(!self.$slots.default[0].elm.style.width)self.watchareaWidth = self.$slots.default[0].elm.style.width;
+                this.$nextTick(()=>{
+                    if(this.$slots.default[0].elm.style.width && this.$slots.default[0].elm.style.width!='0px')this.watchareaWidth = this.$slots.default[0].elm.style.width;
                 });
                 this.calculateSize();
             });
+            this.calculateSize();
+
+                // Attach The Event for Responsive View~
+//            window.addEventListener('resize', this.calculateSize);
         },
         beforeDestroy (){
             // Remove Event
-            window.removeEventListener('resize', this.calculateSize);
+//            window.removeEventListener('resize', this.calculateSize);
 //            window.removeEventListener('wheel', this.scroll);
         }
 
