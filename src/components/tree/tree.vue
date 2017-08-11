@@ -132,7 +132,7 @@
             }
         },
         mounted () {
-             this.updateData();
+            this.updateData();
             this.$on('selected', ori => {
                 const nodes = findComponentsDownward(this, 'TreeNode');
                 nodes.forEach(node => {
