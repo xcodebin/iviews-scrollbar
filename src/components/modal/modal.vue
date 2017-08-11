@@ -4,7 +4,7 @@
             <div :class="maskClasses" v-show="visible" @click="mask"></div>
         </transition>
         <div :class="wrapClasses" @click="handleWrapClick">
-            <transition :name="transitionNames[0]">
+            <transition :name="transitionNames[0]" @after-enter="afterEnter">
                 <div :class="classes" :style="mainStyles" v-show="visible">
                     <div :class="[prefixCls + '-content']" :id="id">
                         <Spin size="large" class="spin-mask" fix v-if="isSpin" :style="{height:spinHeight}"></Spin>
@@ -252,18 +252,18 @@
 				return style;
 			},
 			localeNextBtnText() {
-                if (this.nextBtnText === undefined) {
-                    return this.t('i.modal.nextBtnText');
-                } else {
-                    return this.nextBtnText;
-                }
+				if (this.nextBtnText === undefined) {
+					return this.t('i.modal.nextBtnText');
+				} else {
+					return this.nextBtnText;
+				}
 			},
-          localePrevBtnText() {
-                if (this.prevBtnText === undefined) {
-                    return this.t('i.modal.prevBtnText');
-                } else {
-                    return this.prevBtnText;
-                }
+			localePrevBtnText() {
+				if (this.prevBtnText === undefined) {
+					return this.t('i.modal.prevBtnText');
+				} else {
+					return this.prevBtnText;
+				}
 			},
 			localeOkText() {
 				if (this.okText === undefined) {
@@ -281,6 +281,11 @@
 			}
 		},
 		methods: {
+			afterEnter() {
+				// 动画结束后
+				console.info('窗口展示后');
+				this.$emit('on-after-show');
+			},
 			prev() {    //
 				this.$emit('on-prev');
 			},
@@ -433,7 +438,7 @@
 					if (!this.scrollable) {
 						this.addScrollEffect();
 					}
-					this.$emit('on-after-show');
+
 				}
 				this.broadcast('Table', 'on-visible-change', val);
 			},
