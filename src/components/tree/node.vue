@@ -26,6 +26,8 @@
                     :data="item"
                     :visible="data.expand"
                     :multiple="multiple"
+                    :fTocs="fTocs"
+                    :cTofs="cTofs"
                     :show-checkbox="showCheckbox">
                 </Tree-node>
             </li>
@@ -64,12 +66,12 @@
                 type: Boolean,
                 default: false
             },
-	        fTocs: {
-		        type: Boolean,
-	        },
-	        cTofs: {
-		        type: Boolean,
-	        }
+            fTocs: {
+                type: Boolean,
+            },
+            cTofs: {
+                type: Boolean,
+            }
         },
         data () {
             return {
@@ -128,22 +130,16 @@
                 this.handleCheck();
             },
             handleCheck () {
-            	debugger
-                console.log('123',this.fTocs)
-                console.log('234',this.cTofs)
                 if (this.disabled) return;
                 const checked = !this.data.checked;
                 if (!checked || this.indeterminate) {
-//	                if(this.fToc) {
-		                findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = false);
-//	                }
+                    findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = false);
                 } else {
                     if(this.fTocs){
-	                    findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = true);
+                        findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = true);
                     }
-                };
+                }
                 this.data.checked = checked;
-                debugger
                 this.dispatch('Tree', 'checked');
                 this.dispatch('Tree', 'on-checked');
                 if (this.showCheckbox == false ) { //单选的时候
@@ -153,7 +149,7 @@
                     } else {
                         //取消选择
                         this.dispatch('Tree', 'on-select-node', this.data);
-                    };
+                    }
                 } else {
                     if (this.data.checked == false) {
                         //选中数据
@@ -161,7 +157,7 @@
                     } else {
                         //取消选择
                         this.dispatch('Tree', 'on-select-node', this.data);
-                    };
+                    }
                 }
             },
             setIndeterminate () {
