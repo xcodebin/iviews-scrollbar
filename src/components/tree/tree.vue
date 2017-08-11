@@ -49,10 +49,10 @@
             emptyText: {
                 type: String
             },
-            fToc: {
+            fToc: {                   //添加属性，父节点到子节点联动控制
                 type: Boolean
             },
-            cTof: {
+            cTof: {                    //添加属性，子节点到父节点联动控制
                 type: Boolean
             }
         },
