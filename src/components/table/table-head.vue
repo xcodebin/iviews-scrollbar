@@ -127,13 +127,6 @@
                     }
                 ];
             },
-            renderHeader (column, $index) {
-                if ('renderHeader' in this.columns[$index]) {
-                    return this.columns[$index].renderHeader(column, $index);
-                } else {
-                    return column.title || '#';
-                }
-            },
             selectAll () {
                 const status = !this.isSelectAll;
                 this.$parent.selectAll(status);

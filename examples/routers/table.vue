@@ -27,6 +27,16 @@
                         key: 'name',
                         width: 100,
 //                        fixed: 'left'
+		                render: (h, params) => {
+							return h('div', [
+								h('Icon', {
+									props: {
+										type: 'person'
+									}
+								}),
+								h('strong', params.row.age)
+							]);
+						}
                     },
                     {
                         title: '年龄',
