@@ -333,11 +333,11 @@
             this.calculateSize();
 
                 // Attach The Event for Responsive View~
-//            window.addEventListener('resize', this.calculateSize);
+            window.addEventListener('resize', this.calculateSize);
         },
         beforeDestroy (){
             // Remove Event
-//            window.removeEventListener('resize', this.calculateSize);
+            window.removeEventListener('resize', this.calculateSize);
 //            window.removeEventListener('wheel', this.scroll);
         }
 
