@@ -2,7 +2,7 @@
     <Scrollbar :style="treeStyle" ref="scrollbar">
     <Tree :data="baseData" multiple @on-check-change="handleChange" @on-toggle-expand="showExpand"
           showCheckbox
-          :cTof="true"
+          :cTof="false"
           :fToc="false"
         @on-select-node="onSelectNode"
         @on-cancel-node="onCancelNode"

@@ -68,9 +68,11 @@
             },
             fTocs: {
                 type: Boolean,
+                default: true
             },
             cTofs: {
                 type: Boolean,
+                default: true
             }
         },
         data () {
