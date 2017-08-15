@@ -4,6 +4,7 @@
           showCheckbox
           :cTof="true"
           :fToc="false"
+          :style="{'min-width':'200px'}"
         @on-select-node="onSelectNode"
         @on-cancel-node="onCancelNode"
         @on-select-change="onSelectChange"
@@ -55,7 +56,7 @@
             treeStyle: {
                 type: Object,
                 default() {
-                    return {height: '150px'};
+                    return {height: '50px'};
                 }
             },
         },
