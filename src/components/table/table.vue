@@ -4,6 +4,7 @@
             <div :class="[prefixCls + '-title']" v-if="showSlotHeader" ref="title"><slot name="header"></slot></div>
             <div :class="[prefixCls + '-header']" v-if="showHeader" ref="header" @mousewheel="handleMouseWheel">
                 <table-head
+                        ref="thead"
                         :singleCheck="singleCheck"
                         :prefix-cls="prefixCls"
                         :styleObject="tableStyle"
@@ -376,6 +377,25 @@
                             }
                             this.columnsWidth = columnsWidth;
                         }
+//                        else{
+//                            const $td = this.$refs.thead.$el.querySelectorAll('thead tr')[0].querySelectorAll('td');
+//                            for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
+//                                const column = this.cloneColumns[i];
+//
+//                                let width = parseInt(getStyle($td[i], 'width'));
+//                                if (i === autoWidthIndex) {
+//                                    width = parseInt(getStyle($td[i], 'width')) - 1;
+//                                }
+//                                if (column.width) width = column.width;
+//
+//                                this.cloneColumns[i]._width = width;
+//
+//                                columnsWidth[column._index] = {
+//                                    width: width
+//                                };
+//                            }
+//                            this.columnsWidth = columnsWidth;
+//                        }
                     });
                     // get table real height,for fixed when set height prop,but height < table's height,show scrollBarWidth
                     this.bodyRealHeight = parseInt(getStyle(this.$refs.tbody.$el, 'height'));
@@ -495,9 +515,9 @@
                     }
                 }
                 const selection = this.getSelection();
-                if (status) {
-                    this.$emit('on-select-all', selection);
-                }
+//                if (status) {
+                this.$emit('on-select-all', selection);
+//                }
                 this.$emit('on-selection-change', selection);
             },
             fixedHeader () {
