@@ -1,6 +1,6 @@
 <template>
     <div :class="wrapClasses" :style="styles">
-        <div :class="classes">
+        <div :class="classes" ref="table">
             <div :class="[prefixCls + '-title']" v-if="showSlotHeader" ref="title"><slot name="header"></slot></div>
             <div :class="[prefixCls + '-header']" v-if="showHeader" ref="header" @mousewheel="handleMouseWheel">
                 <table-head
@@ -240,8 +240,12 @@
             styles () {
                 let style = {};
                 if (this.height) {
-                    const height = (this.isLeftFixed || this.isRightFixed) ? parseInt(this.height) + this.scrollBarWidth + 2 : parseInt(this.height);
-                    style.height = `${height}px`;
+                    if(this.height.indexOf('%')){
+                        style.height = this.height;
+                    }else{
+                        const height = (this.isLeftFixed || this.isRightFixed) ? parseInt(this.height) + this.scrollBarWidth + 2 : parseInt(this.height);
+                        style.height = `${height}px`;
+                    }
                 }
                 if (this.width) style.width = `${this.width}px`;
                 return style;
@@ -523,10 +527,11 @@
             fixedHeader () {
                 if (this.height) {
                     this.$nextTick(() => {
+                        const tableHeight = parseInt(getStyle(this.$refs.table, 'height')) || 0;
                         const titleHeight = parseInt(getStyle(this.$refs.title, 'height')) || 0;
                         const headerHeight = parseInt(getStyle(this.$refs.header, 'height')) || 0;
                         const footerHeight = parseInt(getStyle(this.$refs.footer, 'height')) || 0;
-                        this.bodyHeight = this.height - titleHeight - headerHeight - footerHeight;
+                        this.bodyHeight = tableHeight - titleHeight - headerHeight - footerHeight;
                     });
                 } else {
                     this.bodyHeight = 0;

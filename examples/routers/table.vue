@@ -1,7 +1,7 @@
 <template>
     <Scrollbar class="scrollbar">
     <div class="scroll-me">
-    <Table width="550" height="200" border :columns="columns2" :data="data4"
+    <Table width="550" :height="'50%'" border :columns="columns2" :data="data4"
            @on-select="select"
            @on-row-click="a"
            @on-select-row-click="b"
