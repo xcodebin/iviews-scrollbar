@@ -240,7 +240,7 @@
             styles () {
                 let style = {};
                 if (this.height) {
-                    if(this.height.indexOf('%')){
+                    if(typeof (this.height) === 'string' && this.height.indexOf('%')){
                         style.height = this.height;
                     }else{
                         const height = (this.isLeftFixed || this.isRightFixed) ? parseInt(this.height) + this.scrollBarWidth + 2 : parseInt(this.height);
