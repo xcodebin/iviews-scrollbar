@@ -1,6 +1,6 @@
 <template>
     <div :class="wrapClasses" :style="styles">
-        <div :class="classes" ref="table">
+        <div :class="classes" ref="table" :style="tableDivStyle">
             <div :class="[prefixCls + '-title']" v-if="showSlotHeader" ref="title"><slot name="header"></slot></div>
             <div :class="[prefixCls + '-header']" v-if="showHeader" ref="header" @mousewheel="handleMouseWheel">
                 <table-head
@@ -25,7 +25,7 @@
                         @scrollToEnd="scrollToEnd"
                         :columns="cloneColumns"
                         :data="rebuildData"
-                        :scrollStyle="bodyStyle"
+                        :scrollStyle="scrollStyle"
                         :columns-width="columnsWidth"
                         :obj-data="objData"></table-body>
             </div>
@@ -172,6 +172,10 @@
             singleCheck: {//添加属性。有checkbox的单选
                 type: Boolean,
                 default: false
+            },
+            displayFill:{
+            	type: Boolean,
+                default: false
             }
         },
         data () {
@@ -239,16 +243,31 @@
             },
             styles () {
                 let style = {};
-                if (this.height) {
-                    if(typeof (this.height) === 'string' && this.height.indexOf('%')){
-                        style.height = this.height;
-                    }else{
-                        const height = (this.isLeftFixed || this.isRightFixed) ? parseInt(this.height) + this.scrollBarWidth + 2 : parseInt(this.height);
-                        style.height = `${height}px`;
-                    }
+	            if(this.displayFill){
+		            style.height = '100%';
+                }else{
+		            if (this.height) {
+			            if(typeof (this.height) === 'string' && this.height.indexOf('%')){
+				            style.height = this.height;
+			            }else{
+				            const height = (this.isLeftFixed || this.isRightFixed) ? parseInt(this.height) + this.scrollBarWidth + 2 : parseInt(this.height);
+				            style.height = `${height}px`;
+			            }
+		            }
                 }
                 if (this.width) style.width = `${this.width}px`;
                 return style;
+            },
+            tableDivStyle () {
+	            if(this.displayFill){
+		            let style = {
+			            height:'100%',
+			            display:'flex',
+			            'flex-direction': 'column'
+		            };
+		            return style;
+                }
+                return {};
             },
             tableStyle () {
                 let style = {};
@@ -268,6 +287,14 @@
                 }
                 return style;
             },
+	        scrollStyle () {
+		        if (this.displayFill){
+			        let style = {};
+			        style.height = '100%';
+			        return style;
+		        }
+		        return this.bodyStyle;
+	        },
             fixedTableStyle () {
                 let style = {};
                 let width = 0;
@@ -288,6 +315,11 @@
                 return style;
             },
             bodyStyle () {
+	            if (this.displayFill){
+		            let style = {};
+		            style.flex = '1';
+		            return style;
+	            }
                 let style = {};
                 if (this.bodyHeight !== 0) {
                     // add a height to resolve scroll bug when browser has a scrollBar in fixed type and height prop
