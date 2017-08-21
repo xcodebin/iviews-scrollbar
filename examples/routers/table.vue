@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div style="height: 400px">
+        <div style="height: 400px;width:600px">
             <Table  border :columns="columns3" :data="data4" displayFill
                     @on-select="select"
                     @on-row-click="a"
@@ -9,7 +9,7 @@
                     @on-select-all="a"
                     ref="table2"></Table>
         </div>
-        <Scrollbar class="scrollbar" style="margin-top: 30px">
+        <Scrollbar class="scrollbar" style="margin-top: 30px;">
             <div class="scroll-me">
                 <Table width="550" :height="400" border :columns="columns2" :data="data4"
                        @on-select="select"
@@ -39,7 +39,7 @@
 						title: '姓名',
 						key: 'name',
 						width: 100,
-//                        fixed: 'left'
+//                        fixed: 'left',
 						render: (h, params) => {
 							return h('div', [
 								h('Icon', {
@@ -108,7 +108,7 @@
 					{
 						title: '姓名',
 						key: 'name',
-//                        fixed: 'left'
+                        fixed: 'left',
 						render: (h, params) => {
 							return h('div', [
 								h('Icon', {
@@ -143,7 +143,7 @@
 					{
 						title: '操作',
 						key: 'action',
-//                        fixed: 'right',
+                        fixed: 'right',
 						width: 120,
 						render: (h, params) => {
 							return h('div', [

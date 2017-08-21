@@ -43,7 +43,7 @@
                     </tbody>
                 </table>
             </div>
-            <div :class="[prefixCls + '-fixed']" :style="fixedTableStyle" v-if="isLeftFixed">
+            <div :class="[prefixCls + '-fixed']" :style="fixedTableDivStyle" v-if="isLeftFixed">
                 <div :class="fixedHeaderClasses" v-if="showHeader">
                     <table-head
                             fixed="left"
@@ -66,7 +66,7 @@
                         :obj-data="objData"></table-body>
                 </div>
             </div>
-            <div :class="[prefixCls + '-fixed-right']" :style="fixedRightTableStyle" v-if="isRightFixed">
+            <div :class="[prefixCls + '-fixed-right']" :style="fixedRightTableDivStyle" v-if="isRightFixed">
                 <div :class="fixedHeaderClasses" v-if="showHeader">
                     <table-head
                             fixed="right"
@@ -295,6 +295,22 @@
 		        }
 		        return this.bodyStyle;
 	        },
+	        fixedTableDivStyle(){
+		        let style = {};
+		        let width = 0;
+		        if (this.displayFill){
+			        style = {
+				        height:'100%',
+				        display:'flex',
+				        'flex-direction': 'column'
+			        };
+		        }
+		        this.leftFixedColumns.forEach((col) => {
+			        if (col.fixed && col.fixed === 'left') width += col._width;
+		        });
+		        style.width = `${width}px`;
+		        return style;
+            },
             fixedTableStyle () {
                 let style = {};
                 let width = 0;
@@ -303,6 +319,23 @@
                 });
                 style.width = `${width}px`;
                 return style;
+            },
+	        fixedRightTableDivStyle(){
+		        let style = {};
+		        let width = 0;
+		        if (this.displayFill){
+			        style = {
+				        height:'100%',
+				        display:'flex',
+				        'flex-direction': 'column'
+			        };
+		        }
+		        this.rightFixedColumns.forEach((col) => {
+			        if (col.fixed && col.fixed === 'right') width += col._width;
+		        });
+		        width += this.scrollBarWidth;
+		        style.width = `${width}px`;
+		        return style;
             },
             fixedRightTableStyle () {
                 let style = {};
@@ -329,6 +362,11 @@
                 return style;
             },
             fixedBodyStyle () {
+	            if (this.displayFill){
+		            let style = {};
+		            style.flex = '1';
+		            return style;
+	            }
                 let style = {};
                 if (this.bodyHeight !== 0) {
                     let height = this.bodyHeight + this.scrollBarWidth;
