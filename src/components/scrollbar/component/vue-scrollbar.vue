@@ -2,26 +2,25 @@
     <div
             :class="'vue-scrollbar__wrapper' + ( this.classes ? ' ' + this.classes : '' )"
             ref="scrollWrapper"
+            @wheel="scroll"
             :style="this.styles">
 
         <div
                 :class="'vue-scrollbar__area' + ( this.dragging ? ' ' : ' vue-scrollbar-transition')"
                 ref="scrollArea"
-                @wheel="scroll"
                 @touchstart="startDrag"
                 @touchmove="onDrag"
                 @touchend="stopDrag"
                 :style="{
         marginTop: this.top * -1 +'px',
         marginLeft: this.left * -1 +'px',
-        width:watchareaWidth,
-        minWidth:'100%'
+        width:watchareaWidth
       }">
             <div ref="watchArea" :style="this.styles">
                 <slot></slot>
             </div>
             <vertical-scrollbar
-                    v-if="ready"
+                    v-if="ready && !nover"
                     :area="scrollAreaHeight"
                     :wrapper="scrollWrapperHeight"
                     :scrolling="vMovement"
@@ -32,7 +31,7 @@
             </vertical-scrollbar>
 
             <horizontal-scrollbar
-                    v-if="ready"
+                    v-if="ready && !nohor"
                     :area="scrollAreaWidth"
                     :wrapper="scrollWrapperWidth"
                     :scrolling="hMovement"
@@ -62,6 +61,14 @@
             speed: {
                 type: Number,
                 default: 53
+            },
+            nover: {
+                type: Boolean,
+                default: false
+            },
+            nohor: {
+                type: Boolean,
+                default: false
             }
         },
         components: {
@@ -83,7 +90,7 @@
                 hMovement: 0,
                 dragging: false,
                 start: {y: 0, x: 0},
-                sWidth:0,
+                sWidth:3,
                 sHeight:0,
                 watchareaWidth:'100%'
             };
@@ -313,19 +320,22 @@
         },
 
         mounted () {
+//        	debugger
             this.$nextTick(()=>{
                 if(document.getElementsByClassName('vue-scrollbar__scrollbar-vertical') && document.getElementsByClassName('vue-scrollbar__scrollbar-vertical').length>0){
                     this.sWidth=document.getElementsByClassName('vue-scrollbar__scrollbar-vertical')[0].offsetWidth;//动态获取滚动条宽度
                 }
+                this.$nextTick(()=>{
+                    if(this.$slots.default[0].elm.offsetWidth){
+                        this.watchareaWidth=this.$slots.default[0].elm.offsetWidth+'px';
+                    }
+                });
             });
-
             let ele = new Clay(this.$refs.watchArea);
             ele.on('resize', ()=> {
                 this.$nextTick(()=>{
-                    if(this.$slots.default[0].elm.style['min-width']){
-                        this.watchareaWidth=this.$slots.default[0].elm.style['min-width'];
-                    }else if(this.$slots.default[0].elm.style.width && this.$slots.default[0].elm.style.width!='0px'){
-                        this.watchareaWidth=this.$slots.default[0].elm.style.width;
+                    if(this.$slots.default[0].elm.offsetWidth){
+                        this.watchareaWidth=this.$slots.default[0].elm.offsetWidth+'px';
                     }
                 });
                 this.calculateSize();

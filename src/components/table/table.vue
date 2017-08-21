@@ -58,6 +58,7 @@
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody">
                     <table-body
                         fixed="left"
+                        :nohor="true"
                         :prefix-cls="prefixCls"
                         :styleObject="fixedTableStyle"
                         :columns="leftFixedColumns"
@@ -81,6 +82,7 @@
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody">
                     <table-body
                         fixed="right"
+                        :nohor="true"
                         :prefix-cls="prefixCls"
                         :styleObject="fixedRightTableStyle"
                         :columns="rightFixedColumns"
@@ -243,7 +245,7 @@
                     if(typeof (this.height) === 'string' && this.height.indexOf('%')){
                         style.height = this.height;
                     }else{
-                        const height = (this.isLeftFixed || this.isRightFixed) ? parseInt(this.height) + this.scrollBarWidth + 2 : parseInt(this.height);
+                        const height = parseInt(this.height);
                         style.height = `${height}px`;
                     }
                 }
@@ -253,16 +255,7 @@
             tableStyle () {
                 let style = {};
                 if (this.tableWidth !== 0) {
-                    let width = '';
-                    if (this.bodyHeight === 0) {
-                        width = this.tableWidth;
-                    } else {
-                        if (this.bodyHeight > this.bodyRealHeight) {
-                            width = this.tableWidth;
-                        } else {
-                            width = this.tableWidth - this.scrollBarWidth;
-                        }
-                    }
+                    let width =this.tableWidth;
 //                    const width = this.bodyHeight === 0 ? this.tableWidth : this.tableWidth - this.scrollBarWidth;
                     style.width = `${width}px`;
                 }
@@ -283,7 +276,6 @@
                 this.rightFixedColumns.forEach((col) => {
                     if (col.fixed && col.fixed === 'right') width += col._width;
                 });
-                width += this.scrollBarWidth;
                 style.width = `${width}px`;
                 return style;
             },
@@ -291,7 +283,7 @@
                 let style = {};
                 if (this.bodyHeight !== 0) {
                     // add a height to resolve scroll bug when browser has a scrollBar in fixed type and height prop
-                    const height = (this.isLeftFixed || this.isRightFixed) ? this.bodyHeight + this.scrollBarWidth : this.bodyHeight;
+                    const height = this.bodyHeight;
                     style.height = `${height}px`;
                 }
                 return style;
@@ -299,13 +291,8 @@
             fixedBodyStyle () {
                 let style = {};
                 if (this.bodyHeight !== 0) {
-                    let height = this.bodyHeight + this.scrollBarWidth;
-
-                    if (this.width && this.width < this.tableWidth){
-                        height = this.bodyHeight;
-                    }
-//                    style.height = this.scrollBarWidth > 0 ? `${this.bodyHeight}px` : `${this.bodyHeight - 1}px`;
-                    style.height = this.scrollBarWidth > 0 ? `${height}px` : `${height - 1}px`;
+                    let height = this.bodyHeight - this.scrollBarWidth;
+                    style.height =  `${height}px`;
                 }
                 return style;
             },
@@ -357,7 +344,7 @@
                     }
                     this.columnsWidth = {};
                     this.$nextTick(() => {
-                        this.scrollBarWidth = this.$refs.tbody.$refs.scrollbars.$data.sWidth;//获取滚动条宽度
+                        this.scrollBarWidth = this.$refs.tbody.$refs.scrollbars.sWidth;//获取滚动条宽度
                         let columnsWidth = {};
                         let autoWidthIndex = -1;
                         if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);//todo 这行可能有问题
