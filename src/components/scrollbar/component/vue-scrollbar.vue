@@ -320,7 +320,6 @@
         },
 
         mounted () {
-//        	debugger
             this.$nextTick(()=>{
                 if(document.getElementsByClassName('vue-scrollbar__scrollbar-vertical') && document.getElementsByClassName('vue-scrollbar__scrollbar-vertical').length>0){
                     this.sWidth=document.getElementsByClassName('vue-scrollbar__scrollbar-vertical')[0].offsetWidth;//动态获取滚动条宽度
