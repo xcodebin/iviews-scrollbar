@@ -1,13 +1,13 @@
 <template>
     <Scrollbar class="scrollbar">
     <div class="scroll-me">
-    <!--<Table width="550" :height="400" border :columns="columns2" :data="data4"-->
-           <!--@on-select="select"-->
-           <!--@on-row-click="a"-->
-           <!--@on-select-row-click="b"-->
-           <!--@on-unselect="c"-->
-           <!--@on-select-all="a"-->
-           <!--ref="table"></Table>-->
+    <Table width="550" :height="400" border :columns="columns2" :data="data4"
+           @on-select="select"
+           @on-row-click="a"
+           @on-select-row-click="b"
+           @on-unselect="c"
+           @on-select-all="a"
+           ref="table"></Table>
     </div>
     </Scrollbar>
 
@@ -26,7 +26,7 @@
                         title: '姓名',
                         key: 'name',
                         width: 100,
-//                        fixed: 'left'
+                        fixed: 'left',
 		                render: (h, params) => {
 							return h('div', [
 								h('Icon', {
@@ -66,7 +66,7 @@
                     {
                         title: '操作',
                         key: 'action',
-//                        fixed: 'right',
+                        fixed: 'right',
                         width: 120,
                         render: (h, params) => {
                             return h('div', [
@@ -190,7 +190,7 @@ body{
     height:500px;
 }
     .scrollbar {
-        width: 300px;
+        width: 100%;
         height: 300px;
     }
 

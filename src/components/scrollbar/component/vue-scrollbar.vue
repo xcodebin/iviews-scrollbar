@@ -334,8 +334,10 @@
             let ele = new Clay(this.$refs.watchArea);
             ele.on('resize', ()=> {
                 this.$nextTick(()=>{
-                    if(this.$slots.default[0].elm.offsetWidth){
-                        this.watchareaWidth=this.$slots.default[0].elm.offsetWidth+'px';
+                    if(this.$slots.default[0].elm.style['min-width']){
+                        this.watchareaWidth=this.$slots.default[0].elm.style['min-width'];
+                    }else if(this.$slots.default[0].elm.style.width && this.$slots.default[0].elm.style.width!='0px'){
+                        this.watchareaWidth=this.$slots.default[0].elm.style.width;
                     }
                 });
                 this.calculateSize();
