@@ -29,6 +29,10 @@
             duration: {
                 type: Number,
                 default: 1000
+            },
+            show: {
+                type:Boolean,
+                default:false
             }
         },
         data () {
@@ -53,7 +57,7 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-show`]: this.backTop
+                        [`${prefixCls}-show`]: this.backTop || this.showTop
                     }
                 ];
             },
@@ -65,6 +69,9 @@
             },
             innerClasses () {
                 return `${prefixCls}-inner`;
+            },
+            showTop () {
+                return this.show;
             }
         },
         methods: {
