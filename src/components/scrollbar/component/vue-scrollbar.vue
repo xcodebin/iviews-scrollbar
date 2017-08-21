@@ -14,7 +14,8 @@
                 :style="{
         marginTop: this.top * -1 +'px',
         marginLeft: this.left * -1 +'px',
-        width:watchareaWidth
+        width:watchareaWidth,
+        minWidth:'100%'
       }">
             <div ref="watchArea" :style="this.styles">
                 <slot></slot>
