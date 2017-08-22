@@ -49,6 +49,8 @@ module.exports = function (element, fn) {
         } else {
             if (getComputedStyle(element).position == 'static') {
                 element.style.position = 'relative';
+                // element.style.display = 'inline-block';
+                // element.style['min-width'] = '100%';
             }
             var obj = element.__resizeTrigger__ = document.createElement('object');
             obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;');

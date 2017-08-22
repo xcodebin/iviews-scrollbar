@@ -312,11 +312,24 @@
 
                 else return cb ? cb(elementSize) : false;
             },
+
             reset(){
                 this.top = 0;
                 this.left = 0;
                 this.vMovement = 0;
                 this.hMovement = 0;
+            },
+
+            handledom(){
+                this.$nextTick(()=> {
+                    if (this.$slots.default[0].elm.style['min-width']) {
+                        this.watchareaWidth = this.$slots.default[0].elm.style['min-width'];
+                    } else if (this.$slots.default[0].elm.style.width && this.$slots.default[0].elm.style.width != '0px') {
+                        this.watchareaWidth = this.$slots.default[0].elm.style.width;
+                    } else if(this.$slots.default[0].elm.offsetWidth){
+                        this.watchareaWidth=this.$slots.default[0].elm.offsetWidth+'px';
+                    }
+                });
             }
         },
 
@@ -325,30 +338,22 @@
                 if(document.getElementsByClassName('vue-scrollbar__scrollbar-vertical') && document.getElementsByClassName('vue-scrollbar__scrollbar-vertical').length>0){
                     this.sWidth=document.getElementsByClassName('vue-scrollbar__scrollbar-vertical')[0].offsetWidth;//动态获取滚动条宽度
                 }
-                this.$nextTick(()=>{
-                    if(this.$slots.default[0].elm.offsetWidth){
-                        this.watchareaWidth=this.$slots.default[0].elm.offsetWidth+'px';
-                    }
-                });
+                this.handledom();
             });
             let ele = new Clay(this.$refs.watchArea);
             ele.on('resize', ()=> {
-                this.$nextTick(()=>{
-                    if(this.$slots.default[0].elm.style['min-width']){
-                        this.watchareaWidth=this.$slots.default[0].elm.style['min-width'];
-                    }else if(this.$slots.default[0].elm.style.width && this.$slots.default[0].elm.style.width!='0px'){
-                        this.watchareaWidth=this.$slots.default[0].elm.style.width;
-                    }
-                });
+                this.handledom();
                 this.calculateSize();
             });
             this.calculateSize();
 
                 // Attach The Event for Responsive View~
+            window.addEventListener('resize', this.handledom);
             window.addEventListener('resize', this.calculateSize);
         },
         beforeDestroy (){
             // Remove Event
+            window.removeEventListener('resize', this.handledom);
             window.removeEventListener('resize', this.calculateSize);
 //            window.removeEventListener('wheel', this.scroll);
         }
