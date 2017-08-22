@@ -17,7 +17,7 @@
         width:watchareaWidth,
         minWidth:'100%'
       }">
-            <div ref="watchArea" :style="this.styles">
+            <div ref="watchArea" :style="this.styles" :id="id">
                 <slot></slot>
             </div>
             <vertical-scrollbar
@@ -78,6 +78,7 @@
         },
         data () {
             return {
+                id:'sc' + new Date().getTime(),
                 ready: false,
                 state:false,
                 top: 0,
@@ -324,11 +325,10 @@
                 this.$nextTick(()=> {
                     if (this.$slots.default[0].elm.style['min-width']) {
                         this.watchareaWidth = this.$slots.default[0].elm.style['min-width'];
-                    } else if (this.$slots.default[0].elm.style.width && this.$slots.default[0].elm.style.width != '0px') {
-                        this.watchareaWidth = this.$slots.default[0].elm.style.width;
-                    } else if(this.$slots.default[0].elm.offsetWidth){
-                        this.watchareaWidth=this.$slots.default[0].elm.offsetWidth+'px';
+                    } else {
+                        this.watchareaWidth = document.querySelector('#' + this.id).childNodes[0].style.width;
                     }
+//                    console.log(document.querySelector('#' + this.id).childNodes[0].style)
                 });
             }
         },
