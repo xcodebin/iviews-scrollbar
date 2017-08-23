@@ -195,7 +195,7 @@ body{
     }
 
     .scroll-me {
-        width: 500px;
+        width: 100%;
         height: 600px;
         background-color: #00c261;
     }

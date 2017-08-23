@@ -17,7 +17,7 @@
         width:watchareaWidth,
         minWidth:'100%'
       }">
-            <div ref="watchArea" :style="this.styles">
+            <div ref="watchArea" :style="this.styles" :id="id">
                 <slot></slot>
             </div>
             <vertical-scrollbar
@@ -53,7 +53,6 @@
     import VerticalScrollbar from './vertical-scrollbar.vue';
     import HorizontalScrollbar from './horizontal-scrollbar.vue';
     import Clay from '../../../utils/clay';
-    import { getStyle } from '../../../utils/assist';
 
     export default {
 
@@ -79,6 +78,7 @@
         },
         data () {
             return {
+                id:'sc' + new Date().getTime(),
                 ready: false,
                 state:false,
                 top: 0,
@@ -325,9 +325,10 @@
                 this.$nextTick(()=> {
                     if (this.$slots.default[0].elm.style['min-width']) {
                         this.watchareaWidth = this.$slots.default[0].elm.style['min-width'];
-                    } else if (this.$slots.default[0] && getStyle(this.$slots.default[0].elm,'width')) {
-                        this.watchareaWidth = getStyle(this.$slots.default[0].elm,'width');
+                    } else {
+                        this.watchareaWidth = document.querySelector('#' + this.id).childNodes[0].style.width;
                     }
+//                    console.log(document.querySelector('#' + this.id).childNodes[0].style)
                 });
             }
         },
