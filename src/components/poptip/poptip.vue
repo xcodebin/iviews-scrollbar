@@ -12,29 +12,31 @@
             @mouseup="handleBlur(false)">
             <slot></slot>
         </div>
-        <transition name="fade">
-            <div :class="[prefixCls + '-popper']" :style="styles" ref="popper" v-show="visible">
-                <div :class="[prefixCls + '-content']">
-                    <div :class="[prefixCls + '-arrow']"></div>
-                    <div :class="[prefixCls + '-inner']" v-if="confirm">
-                        <div :class="[prefixCls + '-body']">
-                            <i class="ivu-icon ivu-icon-help-circled"></i>
-                            <div :class="[prefixCls + '-body-message']"><slot name="title">{{ title }}</slot></div>
+        <div style="position: fixed;z-index:900">
+            <transition name="fade">
+                <div :class="[prefixCls + '-popper']" :style="styles" ref="popper" v-show="visible">
+                    <div :class="[prefixCls + '-content']">
+                        <div :class="[prefixCls + '-arrow']"></div>
+                        <div :class="[prefixCls + '-inner']" v-if="confirm">
+                            <div :class="[prefixCls + '-body']">
+                                <i class="ivu-icon ivu-icon-help-circled"></i>
+                                <div :class="[prefixCls + '-body-message']"><slot name="title">{{ title }}</slot></div>
+                            </div>
+                            <div :class="[prefixCls + '-footer']">
+                                <i-button type="text" size="small" @click.native="cancel">{{ localeCancelText }}</i-button>
+                                <i-button type="primary" size="small" @click.native="ok">{{ localeOkText }}</i-button>
+                            </div>
                         </div>
-                        <div :class="[prefixCls + '-footer']">
-                            <i-button type="text" size="small" @click.native="cancel">{{ localeCancelText }}</i-button>
-                            <i-button type="primary" size="small" @click.native="ok">{{ localeOkText }}</i-button>
-                        </div>
-                    </div>
-                    <div :class="[prefixCls + '-inner']" v-if="!confirm">
-                        <div :class="[prefixCls + '-title']" v-if="showTitle" ref="title"><slot name="title"><div :class="[prefixCls + '-title-inner']">{{ title }}</div></slot></div>
-                        <div :class="[prefixCls + '-body']">
-                            <div :class="[prefixCls + '-body-content']"><slot name="content"><div :class="[prefixCls + '-body-content-inner']">{{ content }}</div></slot></div>
+                        <div :class="[prefixCls + '-inner']" v-if="!confirm">
+                            <div :class="[prefixCls + '-title']" v-if="showTitle" ref="title"><slot name="title"><div :class="[prefixCls + '-title-inner']">{{ title }}</div></slot></div>
+                            <div :class="[prefixCls + '-body']">
+                                <div :class="[prefixCls + '-body-content']"><slot name="content"><div :class="[prefixCls + '-body-content-inner']">{{ content }}</div></slot></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </transition>
+            </transition>
+        </div>
     </div>
 </template>
 <script>
