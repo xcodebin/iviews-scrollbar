@@ -10,7 +10,8 @@ li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
 .v-link-active { color: #bbb; }
 </style>
 <template>
-    <div class="container">
+    <scrollbar :style="{height: '600px'}" ref="scro">
+        <div class="container">
         <nav>
             <ul>
                 <li><router-link to="/affix">Affix</router-link></li>
@@ -58,6 +59,7 @@ li + li { border-left: solid 1px #bbb; padding-left: 10px; margin-left: 10px; }
         </nav>
         <router-view></router-view>
     </div>
+    </scrollbar>
 </template>
 <script>
     module.exports = {

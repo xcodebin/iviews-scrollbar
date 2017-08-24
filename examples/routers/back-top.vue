@@ -4,8 +4,8 @@
     /*}*/
 </style>
 <template>
-    <Scrollbar style="height: 300px" ref="scrollbar">
-        <div style="height: 600px;width:300px;background-color: #1c2438">
+    <Scrollbar style="height: 600px" ref="scrollbar">
+        <div style="height: 1600px;width:300px;background-color: #1c2438">
 
         </div>
         <BackTop :show="true" @on-click="aa">

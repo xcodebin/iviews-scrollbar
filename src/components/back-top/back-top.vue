@@ -81,6 +81,10 @@
             back () {
                 const sTop = document.documentElement.scrollTop || document.body.scrollTop;
                 scrollTop(window, sTop, 0, this.duration);
+	            if(this.$root.$children[0].$refs.scro){
+		            this.$root.$children[0].$refs.scro.scrollToY(0);
+
+                }
                 this.$emit('on-click');
             }
         }
