@@ -56,7 +56,29 @@
                     {
                         title: '地址',
                         key: 'address',
-                        width: 200
+                        width: 200,
+                        render: (h, params) => {
+                            return h('Poptip', {
+                                props: {
+                                    trigger: 'hover',
+                                    title: params.row.address + '个画像',
+                                    placement: 'bottom'
+                                }
+                            }, [
+                                h('Tag', params.row.address),
+                                h('div', {
+                                    slot: 'content'
+                                }, [
+                                    h('ul',() => {
+                                        return h('li', {
+                                            style: {
+                                                textAlign: 'center',
+                                                padding: '4px'
+                                            }
+                                        })
+                                    })
+                            ])]);
+                        }
                     },
                     {
                         title: '邮编',
