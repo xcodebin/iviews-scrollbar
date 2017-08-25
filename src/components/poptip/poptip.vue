@@ -12,9 +12,16 @@
             @mouseup="handleBlur(false)">
             <slot></slot>
         </div>
-        <div style="position: fixed;z-index:900">
-            <transition name="fade">
-                <div :class="[prefixCls + '-popper']" :style="styles" ref="popper" v-show="visible">
+        <transition name="fade">
+                <div
+                        :class="popperClasses"
+                        :style="styles"
+                        ref="popper"
+                        v-show="visible"
+                        @mouseenter="handleMouseenter"
+                        @mouseleave="handleMouseleave"
+                        :data-transfer="transfer"
+                        v-transfer-dom>
                     <div :class="[prefixCls + '-content']">
                         <div :class="[prefixCls + '-arrow']"></div>
                         <div :class="[prefixCls + '-inner']" v-if="confirm">
@@ -36,13 +43,13 @@
                     </div>
                 </div>
             </transition>
-        </div>
     </div>
 </template>
 <script>
     import Popper from '../base/popper';
     import iButton from '../button/button.vue';
     import clickoutside from '../../directives/clickoutside';
+    import TransferDom from '../../directives/transfer-dom';
     import { oneOf } from '../../utils/assist';
     import Locale from '../../mixins/locale';
 
@@ -51,7 +58,7 @@
     export default {
         name: 'Poptip',
         mixins: [ Popper, Locale ],
-        directives: { clickoutside },
+        directives: { clickoutside, TransferDom },
         components: { iButton },
         props: {
             trigger: {
@@ -85,6 +92,10 @@
             },
             cancelText: {
                 type: String
+            },
+            transfer: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -100,6 +111,14 @@
                     `${prefixCls}`,
                     {
                         [`${prefixCls}-confirm`]: this.confirm
+                    }
+                ];
+            },
+            popperClasses () {
+                return [
+                    `${prefixCls}-popper`,
+                    {
+                        [`${prefixCls}-confirm`]: this.transfer && this.confirm
                     }
                 ];
             },
@@ -163,13 +182,21 @@
                 if (this.trigger !== 'hover' || this.confirm) {
                     return false;
                 }
-                this.visible = true;
+                if (this.enterTimer) clearTimeout(this.enterTimer);
+                this.enterTimer = setTimeout(() => {
+                    this.visible = true;
+                }, 100);
             },
             handleMouseleave () {
                 if (this.trigger !== 'hover' || this.confirm) {
                     return false;
                 }
-                this.visible = false;
+                if (this.enterTimer) {
+                    clearTimeout(this.enterTimer);
+                    this.enterTimer = setTimeout(() => {
+                        this.visible = false;
+                    }, 100);
+                }
             },
             cancel () {
                 this.visible = false;

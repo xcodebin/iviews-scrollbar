@@ -126,9 +126,6 @@
         },
         update(){
 
-        },
-        watch(){
-
         }
     };
 </script>
