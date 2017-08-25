@@ -110,9 +110,6 @@
 ////                this.state=false;
 //            },
             scroll(e){
-                if(this.top >= this.end){
-                    this.$emit('scrollToEnd',this.end);
-                }
 //	            this.state=true;
                 let elementSize = this.getSize();
 
@@ -149,6 +146,10 @@
                     // Horizontal Scrolling
                     if (shifted && canScrollX) this.normalizeHorizontal(nextX);
                 });
+                if(this.top >= this.end){
+                    this.$emit('scrollToEnd',this.end);
+                }
+                this.$emit('scroll',this.top);
 
             },
 

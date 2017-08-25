@@ -4,7 +4,7 @@
     /*}*/
 </style>
 <template>
-    <Scrollbar style="height: 600px" ref="scrollbar">
+    <Scrollbar style="height: 600px" ref="scrollbar" @scroll="bb">
         <div style="height: 1600px;width:300px;background-color: #1c2438">
 
         </div>
@@ -24,6 +24,10 @@
         methods:{
         	aa(){
         		this.$refs.scrollbar.scrollToY(0)
+            },
+            bb(aa){
+        		console.log(aa)
+//        		this.$refs.scrollbar.scrollToY(0)
             }
         },
         mounted(){
