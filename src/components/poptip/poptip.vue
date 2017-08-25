@@ -1,48 +1,59 @@
 <template>
     <div
-        :class="classes"
-        @mouseenter="handleMouseenter"
-        @mouseleave="handleMouseleave"
-        v-clickoutside="handleClose">
+            :class="classes"
+            @mouseenter="handleMouseenter"
+            @mouseleave="handleMouseleave"
+            v-clickoutside="handleClose">
         <div
-            :class="[prefixCls + '-rel']"
-            ref="reference"
-            @click="handleClick"
-            @mousedown="handleFocus(false)"
-            @mouseup="handleBlur(false)">
+                :class="[prefixCls + '-rel']"
+                ref="reference"
+                @click="handleClick"
+                @mousedown="handleFocus(false)"
+                @mouseup="handleBlur(false)">
             <slot></slot>
         </div>
         <transition name="fade">
-                <div
-                        :class="popperClasses"
-                        :style="styles"
-                        ref="popper"
-                        v-show="visible"
-                        @mouseenter="handleMouseenter"
-                        @mouseleave="handleMouseleave"
-                        :data-transfer="transfer"
-                        v-transfer-dom>
-                    <div :class="[prefixCls + '-content']">
-                        <div :class="[prefixCls + '-arrow']"></div>
-                        <div :class="[prefixCls + '-inner']" v-if="confirm">
-                            <div :class="[prefixCls + '-body']">
-                                <i class="ivu-icon ivu-icon-help-circled"></i>
-                                <div :class="[prefixCls + '-body-message']"><slot name="title">{{ title }}</slot></div>
-                            </div>
-                            <div :class="[prefixCls + '-footer']">
-                                <i-button type="text" size="small" @click.native="cancel">{{ localeCancelText }}</i-button>
-                                <i-button type="primary" size="small" @click.native="ok">{{ localeOkText }}</i-button>
+            <div
+                    :class="popperClasses"
+                    :style="styles"
+                    ref="popper"
+                    @click="clickself"
+                    v-show="visible"
+                    @mouseenter="handleMouseenter"
+                    @mouseleave="handleMouseleave"
+                    :data-transfer="transfer"
+                    v-transfer-dom>
+                <div :class="[prefixCls + '-content']">
+                    <div :class="[prefixCls + '-arrow']"></div>
+                    <div :class="[prefixCls + '-inner']" v-if="confirm">
+                        <div :class="[prefixCls + '-body']">
+                            <i class="ivu-icon ivu-icon-help-circled"></i>
+                            <div :class="[prefixCls + '-body-message']">
+                                <slot name="title">{{ title }}</slot>
                             </div>
                         </div>
-                        <div :class="[prefixCls + '-inner']" v-if="!confirm">
-                            <div :class="[prefixCls + '-title']" v-if="showTitle" ref="title"><slot name="title"><div :class="[prefixCls + '-title-inner']">{{ title }}</div></slot></div>
-                            <div :class="[prefixCls + '-body']">
-                                <div :class="[prefixCls + '-body-content']"><slot name="content"><div :class="[prefixCls + '-body-content-inner']">{{ content }}</div></slot></div>
+                        <div :class="[prefixCls + '-footer']">
+                            <i-button type="text" size="small" @click.native="cancel">{{ localeCancelText }}</i-button>
+                            <i-button type="primary" size="small" @click.native="ok">{{ localeOkText }}</i-button>
+                        </div>
+                    </div>
+                    <div :class="[prefixCls + '-inner']" v-if="!confirm">
+                        <div :class="[prefixCls + '-title']" v-if="showTitle" ref="title">
+                            <slot name="title">
+                                <div :class="[prefixCls + '-title-inner']">{{ title }}</div>
+                            </slot>
+                        </div>
+                        <div :class="[prefixCls + '-body']">
+                            <div :class="[prefixCls + '-body-content']">
+                                <slot name="content">
+                                    <div :class="[prefixCls + '-body-content-inner']">{{ content }}</div>
+                                </slot>
                             </div>
                         </div>
                     </div>
                 </div>
-            </transition>
+            </div>
+        </transition>
     </div>
 </template>
 <script>
@@ -50,16 +61,16 @@
     import iButton from '../button/button.vue';
     import clickoutside from '../../directives/clickoutside';
     import TransferDom from '../../directives/transfer-dom';
-    import { oneOf } from '../../utils/assist';
+    import {oneOf} from '../../utils/assist';
     import Locale from '../../mixins/locale';
 
     const prefixCls = 'ivu-poptip';
 
     export default {
         name: 'Poptip',
-        mixins: [ Popper, Locale ],
-        directives: { clickoutside, TransferDom },
-        components: { iButton },
+        mixins: [Popper, Locale],
+        directives: {clickoutside, TransferDom},
+        components: {iButton},
         props: {
             trigger: {
                 validator (value) {
@@ -102,7 +113,8 @@
             return {
                 prefixCls: prefixCls,
                 showTitle: true,
-                isInput: false
+                isInput: false,
+                visibleflag: false
             };
         },
         computed: {
@@ -156,7 +168,15 @@
                 }
                 this.visible = !this.visible;
             },
+            clickself(){
+                this.visibleflag = true;
+            },
             handleClose () {
+                if (this.transfer && this.visibleflag) {
+                    this.visibleflag = false;
+                    this.visible = true;
+                    return;
+                }
                 if (this.confirm) {
                     this.visible = false;
                     return true;
@@ -198,7 +218,8 @@
                     }, 100);
                 }
             },
-            cancel () {
+            cancel (e) {
+                e.stopPropagation();
                 this.visible = false;
                 this.$emit('on-cancel');
             },
