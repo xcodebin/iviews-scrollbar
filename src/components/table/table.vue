@@ -417,6 +417,7 @@
             },
             clickCurrentRow (_index) {
                 this.highlightCurrentRow (_index);
+                this.toggleSelect(_index);//行点击与选择联动
                 this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])));
             },
             dblclickCurrentRow (_index) {
