@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div style="height:300px;width: 500px;display: flex;flex-direction: column">
+        <div style="height:300px;width: 500px;display: flex;flex-direction: column;display: -moz-flex; -moz-flex-direction:column">
             <div>sdfdsfdsf</div>
-            <Table width="550" style="flex: 1;height: 100%" border :columns="columns2" :data="data4"
+            <Table style="flex: 1;-moz-flex:1;height: 100%;" border :columns="columns2" :data="data4"
                    @on-select="select"
                    @on-row-click="a"
                    @on-select-row-click="b"
@@ -10,7 +10,7 @@
                    @on-select-all="a"
                    ref="table"></Table>
             <!--<scrollbar ref="scroll" style="flex: 1;width: 100%">-->
-                <!--<div style="background: darkseagreen;width: 800px;height: 400px"></div>-->
+            <!--<div style="background: darkseagreen;width: 800px;height: 400px"></div>-->
             <!--</scrollbar>-->
             <div @click="refresh" style="background: red">刷新</div>
         </div>
@@ -88,7 +88,7 @@
 					{
 						title: '操作',
 						key: 'action',
-						fixed: 'right',
+//						fixed: 'right',
 						width: 120,
 						render: (h, params) => {
 							return h('div', [

@@ -264,7 +264,7 @@
 
             getSize(){
                 // The Elements
-                let $scrollArea = this.$refs.scrollArea;
+                let $scrollArea = this.$refs.watchArea;
                 let $scrollWrapper = this.$refs.scrollWrapper;
                 // Get new Elements Size
                 let elementSize = {

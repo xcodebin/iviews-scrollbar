@@ -1,6 +1,6 @@
 <template>
     <div :class="wrapClasses" :style="styles">
-        <div :class="classes" ref="table" style="display: flex;flex-direction: column;flex: 1">
+        <div :class="classes" ref="table" class="table-flex">
             <div :class="[prefixCls + '-title']" v-if="showSlotHeader" ref="title">
                 <slot name="header"></slot>
             </div>
@@ -27,18 +27,18 @@
                     @scrollToEnd="scrollToEnd"
                     :columns="cloneColumns"
                     :data="rebuildData"
-                    style="flex: 1;width: 100%"
+                    class="table-flex-body"
                     :columns-width="columnsWidth"
                     :obj-data="objData"></table-body>
             <div
                     :class="[prefixCls + '-tip']"
-                    style="flex:1; display: flex;flex-direction: column;height: 100%;align-items: center;justify-content: center;min-height: 48px"
+                    class="table-flex-nodata"
                     v-show="((!!localeNoDataText && (!data || data.length === 0)) || (!!localeNoFilteredDataText && (!rebuildData || rebuildData.length === 0)))">
                 <span v-html="localeNoDataText" v-if="!data || data.length === 0"></span>
                 <span v-html="localeNoFilteredDataText" v-else></span>
             </div>
             <div :class="[prefixCls + '-fixed']" :style="fixedTableStyle" v-if="isLeftFixed"
-                 style="height: 100%;display: flex;flex-direction: column">
+                 class="table-flex-fixed">
                 <div :class="fixedHeaderClasses" v-if="showHeader">
                     <table-head
                             fixed="left"
@@ -50,7 +50,8 @@
                             :columns-width="columnsWidth"
                             :data="rebuildData"></table-head>
                 </div>
-                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" style="flex: 1" ref="fixedBody">
+                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" class="table-flex-fixed-body"
+                     ref="fixedBody">
                     <table-body
                             fixed="left"
                             :nohor="true"
@@ -63,7 +64,7 @@
                 </div>
             </div>
             <div :class="[prefixCls + '-fixed-right']" :style="fixedRightTableStyle" v-if="isRightFixed"
-                 style="height: 100%;display: flex;flex-direction: column">
+                 class="table-flex-fixed">
                 <div :class="fixedHeaderClasses" v-if="showHeader">
                     <table-head
                             fixed="right"
@@ -75,7 +76,8 @@
                             :columns-width="columnsWidth"
                             :data="rebuildData"></table-head>
                 </div>
-                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody" style="flex: 1">
+                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody"
+                     class="table-flex-fixed-body">
                     <table-body
                             fixed="right"
                             :nohor="true"
@@ -546,7 +548,7 @@
 			},
 			handleMouseWheel (event) {
 				const deltaX = event.deltaX;
-				const $body = this.$refs.body;
+				const $body = this.$refs.tbody;
 
 				if (deltaX > 0) {
 					$body.scrollLeft = $body.scrollLeft + 10;
@@ -830,3 +832,50 @@
 		}
 	};
 </script>
+<style>
+    .table-flex {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        display: -moz-flex;
+        -moz-flex-direction: column;
+        -moz-flex: 1;
+    }
+
+    .table-flex-body {
+        flex: 1;
+        width: 100%;
+        -moz-flex: 1;
+    }
+
+    .table-flex-nodata {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        min-height: 48px;
+        display: -moz-flex;
+        -moz-flex-direction: column;
+        -moz-flex: 1;
+        -moz-align-items: center;
+        -moz-justify-content: center;
+    }
+
+    .table-flex-fixed {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        display: -moz-flex;
+        -moz-flex-direction: column;
+    }
+
+    .table-flex-fixed-body {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        display: -moz-flex;
+        -moz-flex-direction: column;
+    }
+</style>
