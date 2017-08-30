@@ -37,8 +37,7 @@
                 <span v-html="localeNoDataText" v-if="!data || data.length === 0"></span>
                 <span v-html="localeNoFilteredDataText" v-else></span>
             </div>
-            <div :class="[prefixCls + '-fixed']" :style="fixedTableStyle" v-if="isLeftFixed"
-                 class="table-flex-fixed">
+            <div :class="[prefixCls + '-fixed','table-flex-fixed']" :style="fixedTableStyle" v-if="isLeftFixed">
                 <div :class="fixedHeaderClasses" v-if="showHeader">
                     <table-head
                             fixed="left"
@@ -50,8 +49,7 @@
                             :columns-width="columnsWidth"
                             :data="rebuildData"></table-head>
                 </div>
-                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" class="table-flex-fixed-body"
-                     ref="fixedBody">
+                <div :class="[prefixCls + '-fixed-body','table-flex-fixed-body']" :style="fixedBodyStyle" ref="fixedBody">
                     <table-body
                             fixed="left"
                             :nohor="true"
@@ -63,8 +61,7 @@
                             :obj-data="objData"></table-body>
                 </div>
             </div>
-            <div :class="[prefixCls + '-fixed-right']" :style="fixedRightTableStyle" v-if="isRightFixed"
-                 class="table-flex-fixed">
+            <div :class="[prefixCls + '-fixed-right','table-flex-fixed']" :style="fixedRightTableStyle" v-if="isRightFixed">
                 <div :class="fixedHeaderClasses" v-if="showHeader">
                     <table-head
                             fixed="right"
@@ -76,8 +73,7 @@
                             :columns-width="columnsWidth"
                             :data="rebuildData"></table-head>
                 </div>
-                <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody"
-                     class="table-flex-fixed-body">
+                <div :class="[prefixCls + '-fixed-body','table-flex-fixed-body']" :style="fixedBodyStyle" ref="fixedRightBody">
                     <table-body
                             fixed="right"
                             :nohor="true"
@@ -832,7 +828,7 @@
 		}
 	};
 </script>
-<style>
+<style scoped>
     .table-flex {
         display: flex;
         flex-direction: column;
@@ -872,10 +868,7 @@
     }
 
     .table-flex-fixed-body {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        display: -moz-flex;
-        -moz-flex-direction: column;
+        flex: 1;
+        -moz-flex: 1;
     }
 </style>

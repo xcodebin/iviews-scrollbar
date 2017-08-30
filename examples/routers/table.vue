@@ -38,7 +38,7 @@
 						title: '姓名',
 						key: 'name',
 						width: 100,
-//						fixed: 'left',
+						fixed: 'left',
 						render: (h, params) => {
 							return h('div', [
 								h('Icon', {
@@ -88,7 +88,7 @@
 					{
 						title: '操作',
 						key: 'action',
-//						fixed: 'right',
+						fixed: 'right',
 						width: 120,
 						render: (h, params) => {
 							return h('div', [
