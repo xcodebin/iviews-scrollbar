@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div style="height:300px;width: 500px;background: red;display: flex;flex-direction: column">
+        <div style="height:300px;width: 500px;display: flex;flex-direction: column">
             <div>sdfdsfdsf</div>
             <Table width="550" style="flex: 1;height: 100%" border :columns="columns2" :data="data4"
                    @on-select="select"
