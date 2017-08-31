@@ -12,6 +12,8 @@
                 confirm
                 title="您确认删除这条内容吗？"
                 @on-ok="ok"
+                :isOkShow="false"
+                :isCancelShow="false"
                 @on-cancel="cancel">
             <Button>删除</Button>
         </Poptip>
