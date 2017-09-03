@@ -40,11 +40,35 @@
                     {
                         value: 'chongqing',
                         label: '重庆市'
+                    },
+                    {
+                        value: '234',
+                        label: '重庆市'
+                    },
+                    {
+                        value: '234',
+                        label: '重庆市'
+                    },
+                    {
+                        value: '435',
+                        label: '重庆市'
+                    },
+                    {
+                        value: '456',
+                        label: '重庆市'
+                    },
+                    {
+                        value: '678',
+                        label: '重庆市'
+                    },
+                    {
+                        value: 'Z123',
+                        label: '重庆市'
                     }
                 ],
                 model11: '',
                 model12: []
-            }
+            };
         }
-    }
+    };
 </script>

@@ -1,5 +1,7 @@
 <template>
-    <div class="ivu-select-dropdown" :class="className" :style="styles"><slot></slot></div>
+    <Scrollbar class="ivu-select-dropdown" :class="className" :style="styles">
+        <div><slot></slot></div>
+    </Scrollbar>
 </template>
 <script>
     import Vue from 'vue';
