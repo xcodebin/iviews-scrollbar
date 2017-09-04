@@ -1,33 +1,40 @@
 <template>
     <div style="margin: 100px;">
-        <Poptip
-                confirm
-                transfer
-                title="您确认删除这条内容吗？"
-                @on-ok="ok"
-                @on-cancel="cancel">
-            <Button>删除</Button>
-        </Poptip>
-        <Poptip
-                confirm
-                title="您确认删除这条内容吗？"
-                @on-ok="ok"
-                :isOkShow="false"
-                :isCancelShow="false"
-                @on-cancel="cancel">
-            <Button>删除</Button>
-        </Poptip>
+        <div style="height: 300px;width:400px;overflow: scroll">
+            <div style="height: 800px;width: 700px">
+                <div style="padding-top: 230px;">
+                    <Poptip
+                            confirm
+                            transfer
+                            title="您确认删除这条内容吗？"
+                            @on-ok="ok"
+                            @on-cancel="cancel">
+                        <Button>删除</Button>
+                    </Poptip>
+                    <Poptip
+                            confirm
+                            title="您确认删除这条内容吗？"
+                            @on-ok="ok"
+                            :isOkShow="false"
+                            :isCancelShow="false"
+                            @on-cancel="cancel">
+                        <Button>删除</Button>
+                    </Poptip>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 <script>
-    export default {
-        methods: {
-            ok () {
-                this.$Message.info('点击了确定');
-            },
-            cancel () {
-                this.$Message.info('点击了取消');
-            }
-        }
-    }
+	export default {
+		methods: {
+			ok () {
+				this.$Message.info('点击了确定');
+			},
+			cancel () {
+				this.$Message.info('点击了取消');
+			}
+		}
+	}
 </script>
