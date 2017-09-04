@@ -34,6 +34,7 @@
                 :placement="placement"
                 ref="dropdown"
                 :data-transfer="transfer"
+                :scrollbar="scrollbar"
                 v-transfer-dom>
                 <ul v-show="notFoundShow" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
                 <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']"><slot></slot></ul>
@@ -69,6 +70,10 @@
                 default: ''
             },
             multiple: {
+                type: Boolean,
+                default: false
+            },
+            scrollbar: {
                 type: Boolean,
                 default: false
             },

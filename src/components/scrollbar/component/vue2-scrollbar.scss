@@ -13,10 +13,9 @@
 }
 
 .vue-scrollbar__wrapper {
-  margin: 0 auto;
-  overflow: hidden;
+  overflow: hidden!important;
   position: relative;
-  background: white;
+  background: #fff;
 }
 .vue-scrollbar__wrapper:hover .vue-scrollbar__scrollbar-vertical, .vue-scrollbar__wrapper:hover .vue-scrollbar__scrollbar-horizontal {
   opacity: 1;

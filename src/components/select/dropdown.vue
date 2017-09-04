@@ -1,11 +1,19 @@
 <template>
-    <div class="ivu-select-dropdown" :class="className" :style="styles"><slot></slot></div>
+    <Scrollbar class="ivu-select-dropdown dropdownFix" :class="className" :style="styles" v-if="scrollbar">
+        <div>
+            <slot></slot>
+        </div>
+    </Scrollbar>
+    <div class="ivu-select-dropdown" :class="className" :style="styles" v-else>
+        <slot></slot>
+    </div>
 </template>
 <script>
     import Vue from 'vue';
     const isServer = Vue.prototype.$isServer;
-    import { getStyle } from '../../utils/assist';
-    const Popper = isServer ? function() {} : require('popper.js');  // eslint-disable-line
+    import {getStyle} from '../../utils/assist';
+    const Popper = isServer ? function () {
+    } : require('popper.js');  // eslint-disable-line
 
     export default {
         name: 'Drop',
@@ -16,6 +24,10 @@
             },
             className: {
                 type: String
+            },
+            scrollbar: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -84,3 +96,11 @@
         }
     };
 </script>
+<style>
+    .dropdownFix.vue-scrollbar__wrapper {
+        background-color: #fff;
+    }
+    .ivu-dropdown .dropdownFix.ivu-select-dropdown{
+        max-height: 200px;
+    }
+</style>
