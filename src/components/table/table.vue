@@ -258,7 +258,6 @@
 //                    const width = this.bodyHeight === 0 ? this.tableWidth : this.tableWidth - this.scrollBarWidth;
 					style.width = `${width}px`;
 				}
-				console.log(style);
 				return style;
 			},
 			fixedTableStyle () {
