@@ -1,6 +1,6 @@
 <template>
     <div style="margin: 100px;">
-        <div style="height: 300px;width:400px;overflow: scroll">
+        <Scrollbar style="height: 300px;width:400px;overflow: scroll">
             <div style="height: 800px;width: 700px">
                 <div style="padding-top: 230px;">
                     <Poptip
@@ -22,19 +22,19 @@
                     </Poptip>
                 </div>
             </div>
-        </div>
+        </Scrollbar>
 
     </div>
 </template>
 <script>
-	export default {
-		methods: {
-			ok () {
-				this.$Message.info('点击了确定');
-			},
-			cancel () {
-				this.$Message.info('点击了取消');
-			}
-		}
-	}
+    export default {
+        methods: {
+            ok () {
+                this.$Message.info('点击了确定');
+            },
+            cancel () {
+                this.$Message.info('点击了取消');
+            }
+        }
+    }
 </script>

@@ -281,15 +281,6 @@
                 style.width = `${width}px`;
                 return style;
             },
-            bodyStyle () {
-                let style = {};
-                if (this.bodyHeight !== 0) {
-                    // add a height to resolve scroll bug when browser has a scrollBar in fixed type and height prop
-                    const height = this.bodyHeight;
-                    style.height = `${height}px`;
-                }
-                return style;
-            },
             fixedBodyStyle () {
                 let style = {};
                 if (this.bodyHeight !== 0) {
@@ -341,7 +332,7 @@
                     const allWidth = !this.columns.some(cell => !cell.width);    // each column set a width
 
                     if (allWidth) {
-                        this.tableWidth = this.columns.map(cell => cell.width).reduce((a, b) => a + b);
+                        this.tableWidth = this.columns.map(cell => cell.width).reduce((a, b) => a + b, 0);
                     } else {
                         this.tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
                     }
@@ -371,25 +362,6 @@
                             }
                             this.columnsWidth = columnsWidth;
                         }
-//                        else{
-//                            const $td = this.$refs.thead.$el.querySelectorAll('thead tr')[0].querySelectorAll('td');
-//                            for (let i = 0; i < $td.length; i++) {    // can not use forEach in Firefox
-//                                const column = this.cloneColumns[i];
-//
-//                                let width = parseInt(getStyle($td[i], 'width'));
-//                                if (i === autoWidthIndex) {
-//                                    width = parseInt(getStyle($td[i], 'width')) - 1;
-//                                }
-//                                if (column.width) width = column.width;
-//
-//                                this.cloneColumns[i]._width = width;
-//
-//                                columnsWidth[column._index] = {
-//                                    width: width
-//                                };
-//                            }
-//                            this.columnsWidth = columnsWidth;
-//                        }
                     });
                     // get table real height,for fixed when set height prop,but height < table's height,show scrollBarWidth
                     this.bodyRealHeight = parseInt(getStyle(this.$refs.tbody.$el, 'height'));
@@ -427,7 +399,7 @@
                 this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])));
             },
             dblclickCurrentRow (_index) {
-                this.highlightCurrentRow(_index);
+                this.highlightCurrentRow (_index);
                 this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.cloneData[_index])));
             },
             getSelection () {
@@ -460,6 +432,7 @@
             //对外接口--
             toggleSelect (_index) {
                 let data = {};
+
                 for (let i in this.objData) {
                     if (this.singleCheck) {
                         if (parseInt(i) === _index) {

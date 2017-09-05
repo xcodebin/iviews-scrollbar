@@ -47,7 +47,7 @@
                 prefixCls: prefixCls,
                 hoverIndex: -1,
                 isHover: false,
-                isHalf: false,
+                isHalf: this.allowHalf && this.value.toString().indexOf('.') >= 0,
                 currentValue: this.value
             };
         },
@@ -114,7 +114,7 @@
                 this.hoverIndex = -1;
             },
             setHalf (val) {
-                this.isHalf = val.toString().indexOf('.') >= 0;
+                this.isHalf = this.allowHalf && val.toString().indexOf('.') >= 0;
             },
             handleClick (value) {
                 if (this.disabled) return;
