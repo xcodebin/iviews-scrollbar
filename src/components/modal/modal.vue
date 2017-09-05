@@ -114,8 +114,7 @@
                 type: Object
             },
             className: {
-                type: String,
-                default: 'vertical-center-modal'
+                type: String
             },
             // for instance
             footerHide: {
@@ -482,19 +481,5 @@
 
     ._left {
         text-align: left;
-    }
-
-    .vertical-center-modal {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        & > .ivu-modal {
-            position: initial !important;
-        }
-    }
-
-    .spin-mask {
-        border-radius: 6px;
-        background-color: rgba(255, 255, 255, 0.6);
     }
 </style>

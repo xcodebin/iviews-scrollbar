@@ -353,6 +353,7 @@
                 // Attach The Event for Responsive View~
 //            window.addEventListener('resize', this.handledom);
             window.addEventListener('resize', this.calculateSize);
+//            this.scrollToX(0)
         },
         beforeDestroy (){
             // Remove Event
