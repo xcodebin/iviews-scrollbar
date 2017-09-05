@@ -98,6 +98,7 @@
 <style>
     .dropdownFix.vue-scrollbar__wrapper {
         background-color: #fff;
+        padding: 0;
     }
     .ivu-dropdown .dropdownFix.ivu-select-dropdown{
         max-height: 200px;

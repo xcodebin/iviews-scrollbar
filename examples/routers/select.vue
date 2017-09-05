@@ -2,7 +2,7 @@
     <div>
         <h4>有remote属性</h4>
         {{ selectedIds }}
-        <i-select remote clearable filterable multiple :label="selectedLabel" v-model="selectedIds" style='margin-bottom:20px;'>
+        <i-select remote clearable filterable multiple :label="selectedLabel" v-model="selectedIds" scrollbar style='margin-bottom:20px;'>
             <i-option v-for="option in list" :value="option.id" :key="option.id">{{option.name}}</i-option>
         </i-select>
         <i-button @click="setVal3">设置3</i-button>
