@@ -233,11 +233,12 @@
             cancel (e) {
                 e.stopPropagation();
                 this.visible = false;
-                this.$emit('on-cancel');
+                this.$emit('on-cancel', e);
             },
-            ok () {
+            ok (e) {
+                e.stopPropagation();
                 this.visible = false;
-                this.$emit('on-ok');
+                this.$emit('on-ok', e);
             },
             getInputChildren () {
                 const $input = this.$refs.reference.querySelectorAll('input');
