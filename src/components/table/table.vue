@@ -173,6 +173,10 @@
             singleCheck: {//添加属性。有checkbox的单选
                 type: Boolean,
                 default: false
+            },
+            rowLinkage: {//行点击与选中是否联动
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -394,12 +398,14 @@
                 this.$emit('on-current-change', JSON.parse(JSON.stringify(this.cloneData[_index])), oldData);
             },
             clickCurrentRow (_index) {
-                this.highlightCurrentRow (_index);
-                this.toggleSelect(_index);//行点击与选择联动
+                this.highlightCurrentRow(_index);
+                if (this.rowLinkage) {
+                    this.toggleSelect(_index);//行点击与选择联动
+                }
                 this.$emit('on-row-click', JSON.parse(JSON.stringify(this.cloneData[_index])));
             },
             dblclickCurrentRow (_index) {
-                this.highlightCurrentRow (_index);
+                this.highlightCurrentRow(_index);
                 this.$emit('on-row-dblclick', JSON.parse(JSON.stringify(this.cloneData[_index])));
             },
             getSelection () {
