@@ -2,7 +2,7 @@
     <div>
         <div style="height:300px;width: 550px;display: flex;flex-direction: column;display: -moz-flex; -moz-flex-direction:column ;background-color: green">
             <div>sdfdsfdsf</div>
-            <Table style="flex: 1;-moz-flex:1;height: 100%;" border :columns="columns2" :data="data4"
+            <Table style="flex: 1;-moz-flex:1;height: 100%;" :width="'100%'" border :columns="columns2" :data="data4"
                    @on-select="select"
                    @on-row-click="a"
                    @on-select-row-click="b"
