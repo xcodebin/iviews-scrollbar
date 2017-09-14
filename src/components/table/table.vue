@@ -247,7 +247,7 @@
                     display: 'flex',
                     'flex-direction': 'column'
                 };
-                if (this.height) {
+                if (this.height) { //为支持table100%，且仅支持100%
                     if (typeof (this.height) === 'string' && this.height.indexOf('%')) {
                         style.height = this.height;
                     } else {
@@ -255,7 +255,7 @@
                         style.height = `${height}px`;
                     }
                 }
-                if (this.width) {
+                if (this.width) { //为支持table100%，且仅支持100%
                     if (typeof (this.width) === 'string' && this.width.indexOf('%')) {
                         style.width = this.width;
                     } else {
