@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div style="height:300px;width: 500px;display: flex;flex-direction: column;display: -moz-flex; -moz-flex-direction:column">
+        <div style="height:300px;width: 550px;display: flex;flex-direction: column;display: -moz-flex; -moz-flex-direction:column ;background-color: green">
             <div>sdfdsfdsf</div>
             <Table style="flex: 1;-moz-flex:1;height: 100%;" border :columns="columns2" :data="data4"
                    @on-select="select"
@@ -38,7 +38,6 @@
 						title: '姓名',
 						key: 'name',
 						width: 100,
-						fixed: 'left',
 						render: (h, params) => {
 							return h('div', [
 								h('Icon', {
@@ -88,7 +87,6 @@
 					{
 						title: '操作',
 						key: 'action',
-						fixed: 'right',
 						width: 120,
 						render: (h, params) => {
 							return h('div', [

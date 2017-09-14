@@ -131,10 +131,10 @@
                 }
             },
             width: {
-                type: [Number, String]
+                type: [Number]
             },
             height: {
-                type: [Number, String]
+                type: [Number]
             },
             stripe: {
                 type: Boolean,
@@ -247,14 +247,15 @@
                     display: 'flex',
                     'flex-direction': 'column'
                 };
-                if (this.height) {
-                    if (typeof (this.height) === 'string' && this.height.indexOf('%')) {
-                        style.height = this.height;
-                    } else {
-                        const height = parseInt(this.height);
-                        style.height = `${height}px`;
-                    }
-                }
+                if (this.height) style.height = `${this.height}px`;
+//                {
+//                    if (typeof (this.height) === 'string' && this.height.indexOf('%')) {
+//                        style.height = this.height;
+//                    } else {
+//                        const height = parseInt(this.height);
+//                        style.height = `${height}px`;
+//                    }
+//                }
                 if (this.width) style.width = `${this.width}px`;
                 return style;
             },
