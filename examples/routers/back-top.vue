@@ -19,15 +19,16 @@
         data(){
             return {
                 back: false
-            }
+            };
         },
         methods: {
             aa(){
+                console.log('aa');
                 this.$refs.scrollbar.scrollToY(0);
                 this.back = false;
             },
             bb(aa){
-                console.log(aa)
+                console.log(aa);
                 if (aa > 300) {
                     this.back = true;
                 }
@@ -37,5 +38,5 @@
         mounted(){
 
         }
-    }
+    };
 </script>
