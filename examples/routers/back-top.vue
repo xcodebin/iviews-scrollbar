@@ -1,6 +1,6 @@
 <style>
     /*body{*/
-        /*height: 2000px;*/
+    /*height: 2000px;*/
     /*}*/
 </style>
 <template>
@@ -8,7 +8,7 @@
         <div style="height: 1600px;width:300px;background-color: #1c2438">
 
         </div>
-        <BackTop :show="true" @on-click="aa">
+        <BackTop :show="back" @on-click="aa">
 
         </BackTop>
     </Scrollbar>
@@ -18,20 +18,24 @@
     export default {
         data(){
             return {
-
+                back: false
             }
         },
-        methods:{
-        	aa(){
-        		this.$refs.scrollbar.scrollToY(0)
+        methods: {
+            aa(){
+                this.$refs.scrollbar.scrollToY(0);
+                this.back = false;
             },
             bb(aa){
-        		console.log(aa)
+                console.log(aa)
+                if (aa > 300) {
+                    this.back = true;
+                }
 //        		this.$refs.scrollbar.scrollToY(0)
             }
         },
         mounted(){
-            
+
         }
     }
 </script>
