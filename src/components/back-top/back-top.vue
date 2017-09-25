@@ -8,8 +8,8 @@
     </div>
 </template>
 <script>
-    import { scrollTop } from '../../utils/assist';
-    import { on, off } from '../../utils/dom';
+    import {scrollTop} from '../../utils/assist';
+    import {on, off} from '../../utils/dom';
     const prefixCls = 'ivu-back-top';
 
     export default {
@@ -31,8 +31,8 @@
                 default: 1000
             },
             show: {
-                type:Boolean,
-                default:false
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -81,9 +81,9 @@
             back () {
                 const sTop = document.documentElement.scrollTop || document.body.scrollTop;
                 scrollTop(window, sTop, 0, this.duration);
-	            if(this.$root.$children[0].$refs.scro){
-		            this.$root.$children[0].$refs.scro.scrollToY(0);
-
+                if (this.$root.$children[0].$refs.scro) {
+                    this.$root.$children[0].$refs.scro.scrollToY(0);
+                    this.show = false;
                 }
                 this.$emit('on-click');
             }
