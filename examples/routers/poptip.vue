@@ -6,9 +6,11 @@
                     <Poptip
                             confirm
                             transfer
+                            :icon="false"
                             title="您确认删除这条内容吗？"
                             @on-ok="ok"
                             @on-cancel="cancel">
+                        <Input slot="title"></Input>
                         <Button>删除</Button>
                     </Poptip>
                     <Poptip

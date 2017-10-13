@@ -27,10 +27,16 @@
                     <div :class="[prefixCls + '-arrow']"></div>
                     <div :class="[prefixCls + '-inner']" v-if="confirm">
                         <div :class="[prefixCls + '-body']">
-                            <i class="ivu-icon ivu-icon-help-circled"></i>
-                            <div :class="[prefixCls + '-body-message']">
-                                <slot name="title">{{ title }}</slot>
-                            </div>
+                            <template v-if="icon">
+                                <i class="ivu-icon ivu-icon-help-circled" ></i>
+                                <div :class="[prefixCls + '-body-message']">
+                                    {{ title }}
+                                </div>
+                            </template>
+                            <template v-else>
+                                {{ title }}
+                            </template>
+                            <slot name="title"></slot>
                         </div>
                         <div :class="[prefixCls + '-footer']">
                             <i-button type="text" size="small" v-if="isCancelShow" @click.native="cancel">
@@ -76,6 +82,10 @@
         directives: {clickoutside, TransferDom},
         components: {iButton},
         props: {
+            icon: {
+                type: Boolean,
+                default: true
+            },
             isOkShow: {
                 type: Boolean,
                 default: true
