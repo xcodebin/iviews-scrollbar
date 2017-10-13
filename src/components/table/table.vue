@@ -92,16 +92,21 @@
                 <slot name="footer"></slot>
             </div>
         </div>
+        <Spin fix size="large" v-if="loading">
+            <slot name="loading"></slot>
+        </Spin>
     </div>
 </template>
 <script>
     import tableHead from './table-head.vue';
     import tableBody from './table-body.vue';
+    import Spin from '../spin/spin.vue';
     import {oneOf, getStyle, deepCopy} from '../../utils/assist';
     import {on, off} from '../../utils/dom';
     import Csv from '../../utils/csv';
     import ExportCsv from './export-csv';
     import Locale from '../../mixins/locale';
+    import elementResizeDetectorMaker from 'element-resize-detector';
 
     const prefixCls = 'ivu-table';
 
@@ -110,8 +115,8 @@
 
     export default {
         name: 'Table',
-        mixins: [Locale],
-        components: {tableHead, tableBody},
+        mixins: [ Locale ],
+        components: { tableHead, tableBody, Spin },
         props: {
             data: {
                 type: Array,
@@ -169,6 +174,10 @@
             },
             disabledHover: {
                 type: Boolean
+            },
+            loading: {
+                type: Boolean,
+                default: false
             },
             singleCheck: {//添加属性。有checkbox的单选
                 type: Boolean,
@@ -341,7 +350,6 @@
             handleResize () {
                 this.$nextTick(() => {
                     const allWidth = !this.columns.some(cell => !cell.width);    // each column set a width
-
                     if (allWidth) {
                         this.tableWidth = this.columns.map(cell => cell.width).reduce((a, b) => a + b, 0);
                     } else {
@@ -768,8 +776,11 @@
             this.handleResize();
             this.fixedHeader();
             this.$nextTick(() => this.ready = true);
-//            window.addEventListener('resize', this.handleResize, false);
+
             on(window, 'resize', this.handleResize);
+            this.observer = elementResizeDetectorMaker();
+            this.observer.listenTo(this.$el, this.handleResize);
+
             this.$on('on-visible-change', (val) => {
                 if (val) {
                     this.handleResize();
@@ -782,8 +793,8 @@
             });
         },
         beforeDestroy () {
-//            window.removeEventListener('resize', this.handleResize, false);
             off(window, 'resize', this.handleResize);
+            this.observer.removeListener(this.$el, this.handleResize);
         },
         watch: {
             data: {
