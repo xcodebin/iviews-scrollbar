@@ -2,7 +2,7 @@
     <Scrollbar :style="scrollStyle" ref="scrollbars" :nover="nover" :nohor="nohor" @verticalScr="verticalScr" @horizontalScr="horizontalScr" @scrollToEnd="scrollToEnd">
         <table cellspacing="0" cellpadding="0" border="0" :style="styleObject">
             <colgroup>
-                <col v-for="(column, index) in columns" :width="setCellWidth(column, index, false)">
+                <col v-for="(column, index) in columns" :width="getCell(column, index)">
             </colgroup>
             <tbody :class="[prefixCls + '-tbody']">
             <template v-for="(row, index) in data">
@@ -114,6 +114,11 @@
             },
             horizontalScr(W){
                 this.$emit('horizontalScr', W);
+            },
+            getCell(column, index){
+                let colWidth = this.setCellWidth(column, index, false);
+                this.$parent.$data.colWidth[index] = colWidth;
+                return colWidth;
             }
         }
     };
