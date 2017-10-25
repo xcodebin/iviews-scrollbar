@@ -1,8 +1,9 @@
 <template>
     <span :class="wrapClasses" @click="toggle">
+        <input type="hidden" :name="name" :value="currentValue">
         <span :class="innerClasses">
-            <slot name="open" v-if="currentValue"></slot>
-            <slot name="close" v-if="!currentValue"></slot>
+            <slot name="open" v-if="currentValue === trueValue"></slot>
+            <slot name="close" v-if="currentValue === falseValue"></slot>
         </span>
     </span>
 </template>
@@ -36,6 +37,9 @@
                 validator (value) {
                     return oneOf(value, ['large', 'small', 'default']);
                 }
+            },
+            name: {
+                type: String
             }
         },
         data () {
@@ -48,7 +52,7 @@
                 return [
                     `${prefixCls}`,
                     {
-                        [`${prefixCls}-checked`]: this.currentValue,
+                        [`${prefixCls}-checked`]: this.currentValue === this.trueValue,
                         [`${prefixCls}-disabled`]: this.disabled,
                         [`${prefixCls}-${this.size}`]: !!this.size
                     }
