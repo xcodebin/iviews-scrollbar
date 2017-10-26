@@ -92,7 +92,7 @@
                 <slot name="footer"></slot>
             </div>
         </div>
-        <Spin fix size="large" v-if="loading">
+        <Spin fix size="large" v-if="loading" class="spin-fix">
             <slot name="loading"></slot>
         </Spin>
     </div>
