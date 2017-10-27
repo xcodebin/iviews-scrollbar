@@ -8,6 +8,7 @@
         <transition :name="transition">
             <Drop
                 :class="dropdownCls"
+                :className="className"
                 v-show="currentVisible"
                 :placement="placement"
                 ref="drop"
@@ -50,6 +51,9 @@
             transfer: {
                 type: Boolean,
                 default: false
+            },
+            className: {
+                type: String
             }
         },
         computed: {
