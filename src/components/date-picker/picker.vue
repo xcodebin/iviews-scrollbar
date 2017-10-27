@@ -22,7 +22,7 @@
         </div>
         <transition :name="transition">
             <Drop
-                @click.native="handleTransferClick"
+                @click.native.stop="handleTransferClick"
                 v-show="opened"
                 :class="{ [prefixCls + '-transfer']: transfer }"
                 :placement="placement"
