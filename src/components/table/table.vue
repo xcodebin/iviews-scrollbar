@@ -115,8 +115,8 @@
 
     export default {
         name: 'Table',
-        mixins: [ Locale ],
-        components: { tableHead, tableBody, Spin },
+        mixins: [Locale],
+        components: {tableHead, tableBody, Spin},
         props: {
             data: {
                 type: Array,
@@ -357,8 +357,11 @@
                         this.tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
                     }
                     this.columnsWidth = {};
+                    if (!this.$refs.tbody) return;
                     this.$nextTick(() => {
-                        this.scrollBarWidth = this.$refs.tbody.$refs.scrollbars.sWidth;//获取滚动条宽度
+                        if (this.$refs.tbody) {
+                            this.scrollBarWidth = this.$refs.tbody.$refs.scrollbars.sWidth;//获取滚动条宽度
+                        }
                         let columnsWidth = {};
                         let autoWidthIndex = -1;
                         if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);//todo 这行可能有问题
@@ -386,7 +389,9 @@
                     // get table real height,for fixed when set height prop,but height < table's height,show scrollBarWidth
                     this.bodyRealHeight = parseInt(getStyle(this.$refs.tbody.$el, 'height'));
                     this.$nextTick(() => {
-                        this.$refs.tbody.$refs.scrollbars.calculateSize();
+                        if (this.$refs.tbody) {
+                            this.$refs.tbody.$refs.scrollbars.calculateSize();
+                        }
                     });
                 });
             },
