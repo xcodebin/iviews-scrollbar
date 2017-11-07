@@ -285,7 +285,7 @@
         methods: {
             afterEnter() {
                 // 动画结束后
-                console.info('窗口展示后');
+//                console.info('窗口展示后');
                 this.$emit('on-after-show');
             },
             prev() {    //
@@ -394,7 +394,8 @@
             },
             visible(val) {
                 let a = null;
-                if (this.isSpin) {
+                if (this.spinShow) {
+                    this.isSpin = true;
                     a = setTimeout(() => {
                         this.isSpin = false;
                         this.$emit('on-after-load');
@@ -455,5 +456,14 @@
 
     ._left {
         text-align: left;
+    }
+    .spin-fix {
+        display: flex;
+        z-index: 900;
+        .ivu-spin-main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 </style>
