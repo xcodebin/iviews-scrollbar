@@ -7,7 +7,7 @@
             <transition :name="transitionNames[0]" @after-enter="afterEnter">
                 <div :class="classes" :style="mainStyles" v-show="visible">
                     <div :class="[prefixCls + '-content']" :id="id">
-                        <Spin s size="large" fix class="spin-fix" v-if="isSpin"></Spin>
+                        <Spin size="large" fix class="spin-fix" v-if="isSpin"></Spin>
 
                         <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
                             <slot name="close">
