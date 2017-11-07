@@ -51,7 +51,7 @@
                     },
                     {
                         title: '年龄',
-                        key: 'age',
+                        key: 'col1',
                         width: 100
                     },
                     {
