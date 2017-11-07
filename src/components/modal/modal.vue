@@ -161,7 +161,7 @@
             },
             spinShow: {
                 type: Boolean,
-                default: true
+                default: false
             },
             height: {
                 type: [String, Number]
@@ -296,9 +296,6 @@
                 this.$emit('on-next');
             },
             close() {
-//                if (this.spinShow) {
-//                    this.isSpin = true;
-//                }
                 this.$emit('on-before-close');
                 this.visible = false;
                 this.$emit('input', false);
@@ -398,22 +395,7 @@
         },
         watch: {
             spinShow(val) {
-                let a = null;
-                if (val) {
-                    if (this.visible) {
-                        this.isSpin = true;
-                        a = setTimeout(() => {
-                            this.isSpin = false;
-                            this.$emit('on-after-load');
-                        }, this.spinTimeout);
-
-                    } else {
-                        this.isSpin = false;
-                    }
-                } else {
-                    clearTimeout(a);
-                    this.isSpin = false;
-                }
+                this.isSpin = val;
             },
             value(val) {
                 this.visible = val;
