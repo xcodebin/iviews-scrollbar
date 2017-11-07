@@ -186,6 +186,10 @@
             rowLinkage: {//行点击与选中是否联动
                 type: Boolean,
                 default: false
+            },
+            mustOne: {//行点击与选中是否联动
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -476,10 +480,16 @@
                         }
                     }
                 }
-                const status = !data._isChecked;
-
+                let status = !data._isChecked;
                 this.objData[_index]._isChecked = status;
-
+                if (this.mustOne) {
+                    if (this.getSelection().length == 0) {
+                        this.$nextTick(() => {
+                            this.objData[_index]._isChecked = true;
+                        });
+                        return;
+                    }
+                }
                 const selection = this.getSelection();
                 this.$emit(status ? 'on-select' : 'on-unselect', _index, JSON.parse(JSON.stringify(this.data[_index])), selection, this.objData);
                 this.$emit('on-selection-change', selection);
