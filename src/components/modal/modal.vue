@@ -7,7 +7,7 @@
             <transition :name="transitionNames[0]" @after-enter="afterEnter">
                 <div :class="classes" :style="mainStyles" v-show="visible">
                     <div :class="[prefixCls + '-content']" :id="id">
-                        <Spin size="large" class="spin-mask" fix v-if="isSpin" :style="{height:spinHeight}"></Spin>
+                        <Spin s size="large" fix class="spin-fix" v-if="isSpin"></Spin>
 
                         <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
                             <slot name="close">
@@ -201,7 +201,6 @@
         data() {
             return {
                 isSpin: this.spinShow,
-                spinHeight: '100%',
                 prefixCls: prefixCls,
                 wrapShow: false,
                 showHead: true,
@@ -362,10 +361,6 @@
         },
         mounted() {
 
-            this.$nextTick(() => {
-                this.spinHeight = document.querySelector('#' + this.id).clientHeight + 'px';
-            });
-
             if (this.visible) {
                 this.wrapShow = true;
             }
@@ -382,9 +377,6 @@
             document.addEventListener('keydown', this.EscClose);
 
 //            this.spinShow = false;
-        },
-        updated() {
-            this.spinHeight = document.querySelector('#' + this.id).clientHeight + 'px';
         },
         beforeDestroy() {
             document.removeEventListener('keydown', this.EscClose);
