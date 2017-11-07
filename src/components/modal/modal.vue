@@ -457,13 +457,4 @@
     ._left {
         text-align: left;
     }
-    .spin-fix {
-        display: flex;
-        z-index: 900;
-        .ivu-spin-main {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    }
 </style>
