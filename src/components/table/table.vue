@@ -551,9 +551,11 @@
                 if (this.isLeftFixed) this.$refs.fixedBody.scrollTop = H;
                 if (this.isRightFixed) this.$refs.fixedRightBody.scrollTop = H;
                 this.hideColumnFilter();
+                this.$emit('on-verticalScr', H);
             },
             horizontalScr(W){
                 if (this.showHeader) this.$refs.header.scrollLeft = W;
+                this.$emit('on-horizontalScr', W);
             },
             handleMouseWheel (event) {
                 const deltaX = event.deltaX;
