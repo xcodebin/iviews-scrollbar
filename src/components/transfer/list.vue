@@ -7,25 +7,40 @@
         </div>
         <div :class="bodyClasses">
             <div :class="prefixCls + '-body-search-wrapper'" v-if="filterable">
-                <Search
-                    :prefix-cls="prefixCls + '-search'"
-                    :query="query"
-                    @on-query-clear="handleQueryClear"
-                    @on-query-change="handleQueryChange"
-                    :placeholder="filterPlaceholder"></Search>
+                <Search :prefix-cls="prefixCls + '-search'"
+                        :query="query"
+                        @on-query-clear="handleQueryClear"
+                        @on-query-change="handleQueryChange"
+                        :placeholder="filterPlaceholder"></Search>
             </div>
-            <ul :class="prefixCls + '-content'">
-                <li
-                    v-for="item in filterData"
-                    :class="itemClasses(item)"
-                    @click.prevent="select(item)">
-                    <Checkbox :value="isCheck(item)" :disabled="item.disabled"></Checkbox>
-                    <span v-html="showLabel(item)"></span>
-                </li>
-                <li :class="prefixCls + '-content-not-found'">{{ notFoundText }}</li>
-            </ul>
+            <template v-if="scrollbar">
+                <Scrollbar :class="prefixCls + '-content'">
+                    <ul>
+                        <li v-for="item in filterData"
+                            :class="itemClasses(item)"
+                            @click.prevent="select(item)">
+                            <Checkbox :value="isCheck(item)" :disabled="item.disabled"></Checkbox>
+                            <span v-html="showLabel(item)"></span>
+                        </li>
+                        <li :class="prefixCls + '-content-not-found'">{{ notFoundText }}</li>
+                    </ul>
+                </Scrollbar>
+            </template>
+            <template v-if="!scrollbar">
+                <ul :class="prefixCls + '-content'">
+                    <li v-for="item in filterData"
+                        :class="itemClasses(item)"
+                        @click.prevent="select(item)">
+                        <Checkbox :value="isCheck(item)" :disabled="item.disabled"></Checkbox>
+                        <span v-html="showLabel(item)"></span>
+                    </li>
+                    <li :class="prefixCls + '-content-not-found'">{{ notFoundText }}</li>
+                </ul>
+            </template>
         </div>
-        <div :class="prefixCls + '-footer'" v-if="showFooter"><slot></slot></div>
+        <div :class="prefixCls + '-footer'" v-if="showFooter">
+            <slot></slot>
+        </div>
     </div>
 </template>
 <script>
@@ -34,7 +49,7 @@
 
     export default {
         name: 'TransferList',
-        components: { Search, Checkbox },
+        components: {Search, Checkbox},
         props: {
             prefixCls: String,
             data: Array,
@@ -46,7 +61,11 @@
             filterPlaceholder: String,
             filterMethod: Function,
             notFoundText: String,
-            validKeysCount: Number
+            validKeysCount: Number,
+            scrollbar: {
+                type: Boolean,
+                default: true
+            }
         },
         data () {
             return {
@@ -117,8 +136,8 @@
             },
             toggleSelectAll (status) {
                 const keys = status ?
-                        this.data.filter(data => !data.disabled || this.checkedKeys.indexOf(data.key) > -1).map(data => data.key) :
-                        this.data.filter(data => data.disabled && this.checkedKeys.indexOf(data.key) > -1).map(data => data.key);
+                    this.data.filter(data => !data.disabled || this.checkedKeys.indexOf(data.key) > -1).map(data => data.key) :
+                    this.data.filter(data => data.disabled && this.checkedKeys.indexOf(data.key) > -1).map(data => data.key);
                 this.$emit('on-checked-keys-change', keys);
             },
             handleQueryClear () {
