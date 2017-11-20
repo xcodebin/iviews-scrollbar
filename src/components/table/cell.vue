@@ -4,8 +4,8 @@
         <template v-if="renderType === 'selection'">
             <Checkbox :value="checked" @click.native.stop="handleClick" @on-change="toggleSelect" :disabled="disabled"></Checkbox>
         </template>
-        <template v-if="renderType === 'html'"><span v-html="row[column.key]?row[column.key]:'----'"></span></template>
-        <template v-if="renderType === 'normal'"><span>{{row[column.key]?row[column.key]:'----'}}</span></template>
+        <template v-if="renderType === 'html'"><span v-html="row[column.key]===''?'----':row[column.key]"></span></template>
+        <template v-if="renderType === 'normal'"><span>{{row[column.key]===""?'----':row[column.key]}}</span></template>
         <template v-if="renderType === 'expand' && !row._disableExpand">
             <div :class="expandCls" @click="toggleExpand">
                 <Icon type="ios-arrow-right"></Icon>
