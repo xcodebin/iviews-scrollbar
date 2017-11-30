@@ -208,25 +208,7 @@ export function findComponentDownward(context, componentName) {
     }
     return children;
 }
-export function findComponentsOneLayerDownward(context, componentName) {
-    const childrens = context.$children;
-    let childrenP = null;
-    if (childrens.length) {
-        for (const child of childrens) {
-            const name = child.$options.name;
-            if (name === componentName) {
-                childrenP = childrens;
-                break;
-            } else {
-                childrenP = findComponentsOneLayerDownward(child, componentName);
-                if (childrenP) break;
-            }
-        }
-    }
-    if (childrenP) {
-        return childrenP.filter(item => item.$options.name === componentName);
-    }
-}
+
 // Find components downward
 export function findComponentsDownward(context, componentName) {
     return context.$children.reduce((components, child) => {

@@ -1,11 +1,9 @@
 <template>
-    <div :class="prefixCls" v-show="show">
-        <slot></slot>
-    </div>
+    <div :class="prefixCls" v-show="show"><slot></slot></div>
 </template>
 <script>
     const prefixCls = 'ivu-tabs-tabpane';
-    import {findComponentUpward} from '../../utils/assist';
+
     export default {
         name: 'TabPane',
         props: {
@@ -37,8 +35,7 @@
         },
         methods: {
             updateNav () {
-                const parent = findComponentUpward(this, 'Tabs');
-                parent.updateNav();
+                this.$parent.updateNav();
             }
         },
         watch: {
