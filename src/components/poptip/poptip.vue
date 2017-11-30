@@ -38,7 +38,7 @@
                             </template>
                             <slot name="title"></slot>
                         </div>
-                        <div :class="[prefixCls + '-footer']">
+                        <div :class="[prefixCls + '-footer']" v-if="isCancelShow||isOkShow">
                             <i-button type="text" size="small" v-if="isCancelShow" @click.native="cancel">
                                 {{ localeCancelText }}
                             </i-button>

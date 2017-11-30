@@ -126,7 +126,7 @@
             labelStyles () {
                 let style = {};
                 const labelWidth = this.labelWidth || this.form.labelWidth;
-                if (labelWidth) {
+                if (labelWidth || labelWidth === 0) {
                     style.width = `${labelWidth}px`;
                 }
                 return style;
@@ -134,7 +134,7 @@
             contentStyles () {
                 let style = {};
                 const labelWidth = this.labelWidth || this.form.labelWidth;
-                if (labelWidth) {
+                if (labelWidth || labelWidth === 0) {
                     style.marginLeft = `${labelWidth}px`;
                 }
                 return style;
