@@ -13,12 +13,10 @@
                 spinTimeout = '1000'
                 @on-prev="prev"
                 @on-next="next"
-
                 prevBtnText="这是上一步"
                 nextBtnText="下一步按钮"
                 okText="这是确定按钮"
                 cancelText="这是取消按钮"
-
                 height="500px"
                 @on-after-load = 'load'
                 @on-before-show="onShowBegin"

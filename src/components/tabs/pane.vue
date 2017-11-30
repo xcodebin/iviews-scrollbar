@@ -58,6 +58,9 @@
         },
         mounted () {
             this.updateNav();
+        },
+        destroyed () {
+            this.updateNav();
         }
     };
 </script>

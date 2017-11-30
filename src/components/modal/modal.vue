@@ -7,7 +7,7 @@
             <transition :name="transitionNames[0]" @after-enter="afterEnter">
                 <div :class="classes" :style="mainStyles" v-show="visible">
                     <div :class="[prefixCls + '-content']" :id="id">
-                        <Spin size="large" class="spin-mask" fix v-if="isSpin" :style="{height:spinHeight}"></Spin>
+                        <Spin size="large" fix class="spin-fix" v-if="isSpin"></Spin>
 
                         <a :class="[prefixCls + '-close']" v-if="closable" @click="close">
                             <slot name="close">
@@ -161,7 +161,7 @@
             },
             spinShow: {
                 type: Boolean,
-                default: true
+                default: false
             },
             height: {
                 type: [String, Number]
@@ -201,7 +201,6 @@
         data() {
             return {
                 isSpin: this.spinShow,
-                spinHeight: '100%',
                 prefixCls: prefixCls,
                 wrapShow: false,
                 showHead: true,
@@ -286,7 +285,7 @@
         methods: {
             afterEnter() {
                 // 动画结束后
-                console.info('窗口展示后');
+//                console.info('窗口展示后');
                 this.$emit('on-after-show');
             },
             prev() {    //
@@ -296,9 +295,6 @@
                 this.$emit('on-next');
             },
             close() {
-//                if (this.spinShow) {
-//                    this.isSpin = true;
-//                }
                 this.$emit('on-before-close');
                 this.visible = false;
                 this.$emit('input', false);
@@ -365,10 +361,6 @@
         },
         mounted() {
 
-            this.$nextTick(() => {
-                this.spinHeight = document.querySelector('#' + this.id).clientHeight + 'px';
-            });
-
             if (this.visible) {
                 this.wrapShow = true;
             }
@@ -386,9 +378,6 @@
 
 //            this.spinShow = false;
         },
-        updated() {
-            this.spinHeight = document.querySelector('#' + this.id).clientHeight + 'px';
-        },
         beforeDestroy() {
             document.removeEventListener('keydown', this.EscClose);
             this.removeScrollEffect();
@@ -398,29 +387,15 @@
         },
         watch: {
             spinShow(val) {
-                let a = null;
-                if (val) {
-                    if (this.visible) {
-                        this.isSpin = true;
-                        a = setTimeout(() => {
-                            this.isSpin = false;
-                            this.$emit('on-after-load');
-                        }, this.spinTimeout);
-
-                    } else {
-                        this.isSpin = false;
-                    }
-                } else {
-                    clearTimeout(a);
-                    this.isSpin = false;
-                }
+                this.isSpin = val;
             },
             value(val) {
                 this.visible = val;
             },
             visible(val) {
                 let a = null;
-                if (this.isSpin) {
+                if (this.spinShow) {
+                    this.isSpin = true;
                     a = setTimeout(() => {
                         this.isSpin = false;
                         this.$emit('on-after-load');

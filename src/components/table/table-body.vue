@@ -123,6 +123,3 @@
         }
     };
 </script>
-<style>
-    @import './../scrollbar/component/vue2-scrollbar.scss';
-</style>

@@ -7,6 +7,8 @@
         <div :class="[prefixCls + '-rel']" ref="reference" @click="handleClick"><slot></slot></div>
         <transition :name="transition">
             <Drop
+                :class="dropdownCls"
+                :className="className"
                 v-show="currentVisible"
                 :placement="placement"
                 ref="drop"
@@ -49,11 +51,19 @@
             transfer: {
                 type: Boolean,
                 default: false
+            },
+            className: {
+                type: String
             }
         },
         computed: {
             transition () {
                 return ['bottom-start', 'bottom', 'bottom-end'].indexOf(this.placement) > -1 ? 'slide-up' : 'fade';
+            },
+            dropdownCls () {
+                return {
+                    [prefixCls + '-transfer']: this.transfer
+                };
             }
         },
         data () {

@@ -92,7 +92,7 @@
                 <slot name="footer"></slot>
             </div>
         </div>
-        <Spin fix size="large" v-if="loading">
+        <Spin fix size="large" v-if="loading" class="spin-fix">
             <slot name="loading"></slot>
         </Spin>
     </div>
@@ -115,8 +115,8 @@
 
     export default {
         name: 'Table',
-        mixins: [ Locale ],
-        components: { tableHead, tableBody, Spin },
+        mixins: [Locale],
+        components: {tableHead, tableBody, Spin},
         props: {
             data: {
                 type: Array,
@@ -184,6 +184,10 @@
                 default: false
             },
             rowLinkage: {//行点击与选中是否联动
+                type: Boolean,
+                default: false
+            },
+            mustOne: {//行点击与选中是否联动
                 type: Boolean,
                 default: false
             }
@@ -357,8 +361,11 @@
                         this.tableWidth = parseInt(getStyle(this.$el, 'width')) - 1;
                     }
                     this.columnsWidth = {};
+                    if (!this.$refs.tbody) return;
                     this.$nextTick(() => {
-                        this.scrollBarWidth = this.$refs.tbody.$refs.scrollbars.sWidth;//获取滚动条宽度
+                        if (this.$refs.tbody) {
+                            this.scrollBarWidth = this.$refs.tbody.$refs.scrollbars.sWidth;//获取滚动条宽度
+                        }
                         let columnsWidth = {};
                         let autoWidthIndex = -1;
                         if (allWidth) autoWidthIndex = this.cloneColumns.findIndex(cell => !cell.width);//todo 这行可能有问题
@@ -386,7 +393,9 @@
                     // get table real height,for fixed when set height prop,but height < table's height,show scrollBarWidth
                     this.bodyRealHeight = parseInt(getStyle(this.$refs.tbody.$el, 'height'));
                     this.$nextTick(() => {
-                        this.$refs.tbody.$refs.scrollbars.calculateSize();
+                        if (this.$refs.tbody) {
+                            this.$refs.tbody.$refs.scrollbars.calculateSize();
+                        }
                     });
                 });
             },
@@ -471,10 +480,16 @@
                         }
                     }
                 }
-                const status = !data._isChecked;
-
+                let status = !data._isChecked;
                 this.objData[_index]._isChecked = status;
-
+                if (this.mustOne) {
+                    if (this.getSelection().length == 0) {
+                        this.$nextTick(() => {
+                            this.objData[_index]._isChecked = true;
+                        });
+                        return;
+                    }
+                }
                 const selection = this.getSelection();
                 this.$emit(status ? 'on-select' : 'on-unselect', _index, JSON.parse(JSON.stringify(this.data[_index])), selection, this.objData);
                 this.$emit('on-selection-change', selection);
@@ -536,9 +551,11 @@
                 if (this.isLeftFixed) this.$refs.fixedBody.scrollTop = H;
                 if (this.isRightFixed) this.$refs.fixedRightBody.scrollTop = H;
                 this.hideColumnFilter();
+                this.$emit('on-verticalScr', H);
             },
             horizontalScr(W){
                 if (this.showHeader) this.$refs.header.scrollLeft = W;
+                this.$emit('on-horizontalScr', W);
             },
             handleMouseWheel (event) {
                 const deltaX = event.deltaX;
@@ -763,8 +780,9 @@
                 let noHeader = false;
                 if ('noHeader' in params) noHeader = params.noHeader;
 
-                const data = Csv(columns, datas, ',', noHeader);
-                ExportCsv.download(params.filename, data);
+                const data = Csv(columns, datas, params, noHeader);
+                if (params.callback) params.callback(data);
+                else ExportCsv.download(params.filename, data);
             }
         },
         created () {

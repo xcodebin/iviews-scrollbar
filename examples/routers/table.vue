@@ -8,6 +8,8 @@
                    @on-select-row-click="b"
                    @on-unselect="c"
                    @on-select-all="a"
+                   singleCheck
+                   mustOne
                    ref="table"></Table>
             <!--<scrollbar ref="scroll" style="flex: 1;width: 100%">-->
             <!--<div style="background: darkseagreen;width: 800px;height: 400px"></div>-->
@@ -51,7 +53,7 @@
                     },
                     {
                         title: '年龄',
-                        key: 'age',
+                        key: 'col1',
                         width: 100
                     },
                     {

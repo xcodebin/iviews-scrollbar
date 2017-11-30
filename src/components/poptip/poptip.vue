@@ -14,15 +14,15 @@
         </div>
         <transition name="fade">
             <div
-                    :class="popperClasses"
-                    :style="styles"
-                    ref="popper"
-                    @click="clickself"
-                    v-show="visible"
-                    @mouseenter="handleMouseenter"
-                    @mouseleave="handleMouseleave"
-                    :data-transfer="transfer"
-                    v-transfer-dom>
+                :class="popperClasses"
+                :style="styles"
+                ref="popper"
+                v-show="visible"
+                @click.stop="handleTransferClick"
+                @mouseenter="handleMouseenter"
+                @mouseleave="handleMouseleave"
+                :data-transfer="transfer"
+                v-transfer-dom>
                 <div :class="[prefixCls + '-content']">
                     <div :class="[prefixCls + '-arrow']"></div>
                     <div :class="[prefixCls + '-inner']" v-if="confirm">
@@ -136,7 +136,7 @@
                 prefixCls: prefixCls,
                 showTitle: true,
                 isInput: false,
-                visibleflag: false
+                disableCloseUnderTransfer: false,  // transfer 模式下，点击 slot 也会触发关闭
             };
         },
         computed: {
@@ -190,14 +190,13 @@
                 }
                 this.visible = !this.visible;
             },
-            clickself(){
-                this.visibleflag = true;
+            handleTransferClick () {
+                if (this.transfer) this.disableCloseUnderTransfer = true;
             },
             handleClose () {
-                if (this.transfer && this.visibleflag) {
-                    this.visibleflag = false;
-                    this.visible = true;
-                    return;
+                if (this.disableCloseUnderTransfer) {
+                    this.disableCloseUnderTransfer = false;
+                    return false;
                 }
                 if (this.confirm) {
                     this.visible = false;
