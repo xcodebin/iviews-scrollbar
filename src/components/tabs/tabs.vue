@@ -1,41 +1,63 @@
 <template>
     <div :class="classes">
         <div :class="[prefixCls + '-bar']">
-            <div :class="[prefixCls + '-nav-right']" v-if="showSlot"><slot name="extra"></slot></div>
+            <div :class="[prefixCls + '-nav-right']" v-if="showSlot">
+                <slot name="extra"></slot>
+            </div>
             <div :class="[prefixCls + '-nav-container']">
-                <div ref="navWrap" :class="[prefixCls + '-nav-wrap', scrollable ? prefixCls + '-nav-scrollable' : '']" >
-                    <span :class="[prefixCls + '-nav-prev', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollPrev"><Icon type="chevron-left"></Icon></span>
-                    <span :class="[prefixCls + '-nav-next', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollNext"><Icon type="chevron-right"></Icon></span>
+                <div ref="navWrap" :class="[prefixCls + '-nav-wrap', scrollable ? prefixCls + '-nav-scrollable' : '']">
+                    <span :class="[prefixCls + '-nav-prev', scrollable ? '' : prefixCls + '-nav-scroll-disabled']"
+                          @click="scrollPrev"><Icon type="chevron-left"></Icon></span>
+                    <span :class="[prefixCls + '-nav-next', scrollable ? '' : prefixCls + '-nav-scroll-disabled']"
+                          @click="scrollNext"><Icon type="chevron-right"></Icon></span>
                     <div ref="navScroll" :class="[prefixCls + '-nav-scroll']">
-                        <div ref="nav" :class="[prefixCls + '-nav']" class="nav-text"  :style="navStyle">
+                        <div ref="nav" :class="[prefixCls + '-nav']" class="nav-text" :style="navStyle">
                             <div :class="barClasses" :style="barStyle"></div>
                             <div :class="tabCls(item)" v-for="(item, index) in navList" @click="handleChange(index)">
                                 <Icon v-if="item.icon !== ''" :type="item.icon"></Icon>
                                 <Render v-if="item.labelType === 'function'" :render="item.label"></Render>
                                 <template v-else>{{ item.label }}</template>
-                                <Icon v-if="showClose(item)" type="ios-close-empty" @click.native.stop="handleRemove(index)"></Icon>
+                                <Icon v-if="showClose(item)" type="ios-close-empty"
+                                      @click.native.stop="handleRemove(index)"></Icon>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div :class="contentClasses" :style="contentStyle"><slot></slot></div>
+        <div :class="contentClasses" :style="contentStyle">
+            <slot></slot>
+        </div>
     </div>
 </template>
 <script>
     import Icon from '../icon/icon.vue';
     import Render from '../base/render';
-    import { oneOf } from '../../utils/assist';
+    import {oneOf} from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import elementResizeDetectorMaker from 'element-resize-detector';
-
     const prefixCls = 'ivu-tabs';
-
+    function findComponentsPDownward(context, componentName) {
+        const childrens = context.$children;
+        let childrenP = null;
+        if (childrens.length) {
+            for (const child of childrens) {
+                const name = child.$options.name;
+                if (name === componentName) {
+                    childrenP = childrens;
+                    break;
+                } else {
+                    childrenP = findComponentsPDownward(child, componentName);
+                    if (childrenP) break;
+                }
+            }
+        }
+        return childrenP;
+    }
     export default {
         name: 'Tabs',
-        mixins: [ Emitter ],
-        components: { Icon, Render },
+        mixins: [Emitter],
+        components: {Icon, Render},
         props: {
             value: {
                 type: [String, Number]
@@ -131,7 +153,8 @@
         },
         methods: {
             getTabs () {
-                return this.$children.filter(item => item.$options.name === 'TabPane');
+                const childrenP = findComponentsPDownward(this, 'TabPane');
+                return childrenP.filter(item => item.$options.name === 'TabPane');
             },
             updateNav () {
                 this.navList = [];
@@ -239,8 +262,8 @@
                 if (!currentOffset) return;
 
                 let newOffset = currentOffset > containerWidth
-                ? currentOffset - containerWidth
-                : 0;
+                    ? currentOffset - containerWidth
+                    : 0;
 
                 this.setOffset(newOffset);
             },
@@ -251,16 +274,16 @@
                 if (navWidth - currentOffset <= containerWidth) return;
 
                 let newOffset = navWidth - currentOffset > containerWidth * 2
-                ? currentOffset + containerWidth
-                : (navWidth - containerWidth);
+                    ? currentOffset + containerWidth
+                    : (navWidth - containerWidth);
 
                 this.setOffset(newOffset);
             },
             getCurrentScrollOffset() {
-                const { navStyle } = this;
+                const {navStyle} = this;
                 return navStyle.transform
-                ? Number(navStyle.transform.match(/translateX\(-(\d+(\.\d+)*)px\)/)[1])
-                : 0;
+                    ? Number(navStyle.transform.match(/translateX\(-(\d+(\.\d+)*)px\)/)[1])
+                    : 0;
             },
             setOffset(value) {
                 this.navStyle.transform = `translateX(-${value}px)`;
@@ -269,7 +292,7 @@
                 if (!this.scrollable) return;
                 const nav = this.$refs.nav;
                 const activeTab = this.$el.querySelector(`.${prefixCls}-tab-active`);
-                if(!activeTab) return;
+                if (!activeTab) return;
 
                 const navScroll = this.$refs.navScroll;
                 const activeTabBounding = activeTab.getBoundingClientRect();
@@ -284,11 +307,11 @@
 
                 if (activeTabBounding.left < navScrollBounding.left) {
                     newOffset = currentOffset - (navScrollBounding.left - activeTabBounding.left);
-                }else if (activeTabBounding.right > navScrollBounding.right) {
+                } else if (activeTabBounding.right > navScrollBounding.right) {
                     newOffset = currentOffset + activeTabBounding.right - navScrollBounding.right;
                 }
 
-                if(currentOffset !== newOffset){
+                if (currentOffset !== newOffset) {
                     this.setOffset(Math.max(newOffset, 0));
                 }
             },
