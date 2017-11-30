@@ -33,7 +33,7 @@
 <script>
     import Icon from '../icon/icon.vue';
     import Render from '../base/render';
-    import {oneOf, findComponentsOnePDownward} from '../../utils/assist';
+    import {oneOf, findComponentsOneLayerDownward} from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import elementResizeDetectorMaker from 'element-resize-detector';
     const prefixCls = 'ivu-tabs';
@@ -137,7 +137,7 @@
         },
         methods: {
             getTabs () {
-                return findComponentsOnePDownward(this, 'TabPane');
+                return findComponentsOneLayerDownward(this, 'TabPane');
             },
             updateNav () {
                 this.navList = [];

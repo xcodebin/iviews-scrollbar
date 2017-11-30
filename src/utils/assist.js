@@ -208,7 +208,7 @@ export function findComponentDownward(context, componentName) {
     }
     return children;
 }
-export function findComponentsOnePDownward(context, componentName) {
+export function findComponentsOneLayerDownward(context, componentName) {
     const childrens = context.$children;
     let childrenP = null;
     if (childrens.length) {
@@ -218,7 +218,7 @@ export function findComponentsOnePDownward(context, componentName) {
                 childrenP = childrens;
                 break;
             } else {
-                childrenP = findComponentsOnePDownward(child, componentName);
+                childrenP = findComponentsOneLayerDownward(child, componentName);
                 if (childrenP) break;
             }
         }
