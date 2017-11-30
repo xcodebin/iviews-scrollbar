@@ -33,27 +33,11 @@
 <script>
     import Icon from '../icon/icon.vue';
     import Render from '../base/render';
-    import {oneOf} from '../../utils/assist';
+    import {oneOf, findComponentsOnePDownward} from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import elementResizeDetectorMaker from 'element-resize-detector';
     const prefixCls = 'ivu-tabs';
-    function findComponentsPDownward(context, componentName) {
-        const childrens = context.$children;
-        let childrenP = null;
-        if (childrens.length) {
-            for (const child of childrens) {
-                const name = child.$options.name;
-                if (name === componentName) {
-                    childrenP = childrens;
-                    break;
-                } else {
-                    childrenP = findComponentsPDownward(child, componentName);
-                    if (childrenP) break;
-                }
-            }
-        }
-        return childrenP;
-    }
+
     export default {
         name: 'Tabs',
         mixins: [Emitter],
@@ -153,8 +137,7 @@
         },
         methods: {
             getTabs () {
-                const childrenP = findComponentsPDownward(this, 'TabPane');
-                return childrenP.filter(item => item.$options.name === 'TabPane');
+                return findComponentsOnePDownward(this, 'TabPane');
             },
             updateNav () {
                 this.navList = [];

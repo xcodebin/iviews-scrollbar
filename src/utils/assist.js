@@ -1,7 +1,7 @@
 import Vue from 'vue';
 const isServer = Vue.prototype.$isServer;
 // 判断参数是否是其中之一
-export function oneOf (value, validList) {
+export function oneOf(value, validList) {
     for (let i = 0; i < validList.length; i++) {
         if (value === validList[i]) {
             return true;
@@ -10,13 +10,13 @@ export function oneOf (value, validList) {
     return false;
 }
 
-export function camelcaseToHyphen (str) {
+export function camelcaseToHyphen(str) {
     return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
 }
 
 // For Modal scrollBar hidden
 let cached;
-export function getScrollBarSize (fresh) {
+export function getScrollBarSize(fresh) {
     if (isServer) return 0;
     if (fresh || cached === undefined) {
         const inner = document.createElement('div');
@@ -61,12 +61,12 @@ const SPECIAL_CHARS_REGEXP = /([\:\-\_]+(.))/g;
 const MOZ_HACK_REGEXP = /^moz([A-Z])/;
 
 function camelCase(name) {
-    return name.replace(SPECIAL_CHARS_REGEXP, function(_, separator, letter, offset) {
+    return name.replace(SPECIAL_CHARS_REGEXP, function (_, separator, letter, offset) {
         return offset ? letter.toUpperCase() : letter;
     }).replace(MOZ_HACK_REGEXP, 'Moz$1');
 }
 // getStyle
-export function getStyle (element, styleName) {
+export function getStyle(element, styleName) {
     if (!element || !styleName) return null;
     styleName = camelCase(styleName);
     if (styleName === 'float') {
@@ -75,7 +75,7 @@ export function getStyle (element, styleName) {
     try {
         const computed = document.defaultView.getComputedStyle(element, '');
         return element.style[styleName] || computed ? computed[styleName] : null;
-    } catch(e) {
+    } catch (e) {
         return element.style[styleName];
     }
 }
@@ -96,16 +96,16 @@ export function warnProp(component, prop, correctType, wrongType) {
 function typeOf(obj) {
     const toString = Object.prototype.toString;
     const map = {
-        '[object Boolean]'  : 'boolean',
-        '[object Number]'   : 'number',
-        '[object String]'   : 'string',
-        '[object Function]' : 'function',
-        '[object Array]'    : 'array',
-        '[object Date]'     : 'date',
-        '[object RegExp]'   : 'regExp',
+        '[object Boolean]': 'boolean',
+        '[object Number]': 'number',
+        '[object String]': 'string',
+        '[object Function]': 'function',
+        '[object Array]': 'array',
+        '[object Date]': 'date',
+        '[object RegExp]': 'regExp',
         '[object Undefined]': 'undefined',
-        '[object Null]'     : 'null',
-        '[object Object]'   : 'object'
+        '[object Null]': 'null',
+        '[object Object]': 'object'
     };
     return map[toString.call(obj)];
 }
@@ -117,7 +117,7 @@ function deepCopy(data) {
 
     if (t === 'array') {
         o = [];
-    } else if ( t === 'object') {
+    } else if (t === 'object') {
         o = {};
     } else {
         return data;
@@ -127,7 +127,7 @@ function deepCopy(data) {
         for (let i = 0; i < data.length; i++) {
             o.push(deepCopy(data[i]));
         }
-    } else if ( t === 'object') {
+    } else if (t === 'object') {
         for (let i in data) {
             o[i] = deepCopy(data[i]);
         }
@@ -145,7 +145,7 @@ export function scrollTop(el, from = 0, to, duration = 500) {
             window.mozRequestAnimationFrame ||
             window.msRequestAnimationFrame ||
             function (callback) {
-                return window.setTimeout(callback, 1000/60);
+                return window.setTimeout(callback, 1000 / 60);
             }
         );
     }
@@ -167,11 +167,12 @@ export function scrollTop(el, from = 0, to, duration = 500) {
         }
         window.requestAnimationFrame(() => scroll(d, end, step));
     }
+
     scroll(from, to, step);
 }
 
 // Find components upward
-function findComponentUpward (context, componentName, componentNames) {
+function findComponentUpward(context, componentName, componentNames) {
     if (typeof componentName === 'string') {
         componentNames = [componentName];
     } else {
@@ -189,7 +190,7 @@ function findComponentUpward (context, componentName, componentNames) {
 export {findComponentUpward};
 
 // Find component downward
-export function findComponentDownward (context, componentName) {
+export function findComponentDownward(context, componentName) {
     const childrens = context.$children;
     let children = null;
 
@@ -207,9 +208,27 @@ export function findComponentDownward (context, componentName) {
     }
     return children;
 }
-
+export function findComponentsOnePDownward(context, componentName) {
+    const childrens = context.$children;
+    let childrenP = null;
+    if (childrens.length) {
+        for (const child of childrens) {
+            const name = child.$options.name;
+            if (name === componentName) {
+                childrenP = childrens;
+                break;
+            } else {
+                childrenP = findComponentsOnePDownward(child, componentName);
+                if (childrenP) break;
+            }
+        }
+    }
+    if (childrenP) {
+        return childrenP.filter(item => item.$options.name === componentName);
+    }
+}
 // Find components downward
-export function findComponentsDownward (context, componentName) {
+export function findComponentsDownward(context, componentName) {
     return context.$children.reduce((components, child) => {
         if (child.$options.name === componentName) components.push(child);
         const foundChilds = findComponentsDownward(child, componentName);
@@ -218,7 +237,7 @@ export function findComponentsDownward (context, componentName) {
 }
 
 /* istanbul ignore next */
-const trim = function(string) {
+const trim = function (string) {
     return (string || '').replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, '');
 };
 
