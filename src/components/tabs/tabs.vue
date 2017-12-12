@@ -1,26 +1,33 @@
 <template>
     <div :class="classes">
         <div :class="[prefixCls + '-bar']">
-            <div :class="[prefixCls + '-nav-right']" v-if="showSlot"><slot name="extra"></slot></div>
+            <div :class="[prefixCls + '-nav-right']" v-if="showSlot">
+                <slot name="extra"></slot>
+            </div>
             <div :class="[prefixCls + '-nav-container']">
-                <div ref="navWrap" :class="[prefixCls + '-nav-wrap', scrollable ? prefixCls + '-nav-scrollable' : '']" >
-                    <span :class="[prefixCls + '-nav-prev', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollPrev"><Icon type="chevron-left"></Icon></span>
-                    <span :class="[prefixCls + '-nav-next', scrollable ? '' : prefixCls + '-nav-scroll-disabled']" @click="scrollNext"><Icon type="chevron-right"></Icon></span>
+                <div ref="navWrap" :class="[prefixCls + '-nav-wrap', scrollable ? prefixCls + '-nav-scrollable' : '']">
+                    <span :class="[prefixCls + '-nav-prev', scrollable ? '' : prefixCls + '-nav-scroll-disabled']"
+                          @click="scrollPrev"><Icon type="chevron-left"></Icon></span>
+                    <span :class="[prefixCls + '-nav-next', scrollable ? '' : prefixCls + '-nav-scroll-disabled']"
+                          @click="scrollNext"><Icon type="chevron-right"></Icon></span>
                     <div ref="navScroll" :class="[prefixCls + '-nav-scroll']">
-                        <div ref="nav" :class="[prefixCls + '-nav']" class="nav-text"  :style="navStyle">
+                        <div ref="nav" :class="[prefixCls + '-nav']" class="nav-text" :style="navStyle">
                             <div :class="barClasses" :style="barStyle"></div>
                             <div :class="tabCls(item)" v-for="(item, index) in navList" @click="handleChange(index)">
                                 <Icon v-if="item.icon !== ''" :type="item.icon"></Icon>
                                 <Render v-if="item.labelType === 'function'" :render="item.label"></Render>
                                 <template v-else>{{ item.label }}</template>
-                                <Icon v-if="showClose(item)" type="ios-close-empty" @click.native.stop="handleRemove(index)"></Icon>
+                                <Icon v-if="showClose(item)" type="ios-close-empty"
+                                      @click.native.stop="handleRemove(index)"></Icon>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div :class="contentClasses" :style="contentStyle"><slot></slot></div>
+        <div :class="contentClasses" :style="contentStyle">
+            <slot></slot>
+        </div>
     </div>
 </template>
 <script>
@@ -56,6 +63,10 @@
                 default: true
             },
             closable: {
+                type: Boolean,
+                default: false
+            },
+            loop: { //为for循环做的兼容
                 type: Boolean,
                 default: false
             }
@@ -130,6 +141,7 @@
         },
         methods: {
             getTabs () {
+                if (this.loop)return this.$children[2].$children.filter(item => item.$options._componentTag ===  'Tab-pane');
                 return this.$children.filter(item => item.$options.name === 'TabPane');
             },
             updateNav () {

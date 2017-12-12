@@ -1,5 +1,7 @@
 <template>
-    <div :class="prefixCls" v-show="show"><slot></slot></div>
+    <div :class="prefixCls" v-show="show">
+        <slot></slot>
+    </div>
 </template>
 <script>
     const prefixCls = 'ivu-tabs-tabpane';
@@ -24,6 +26,10 @@
             closable: {
                 type: Boolean,
                 default: null
+            },
+            loop: {
+                type: Boolean,
+                default: false
             }
         },
         data () {
@@ -35,6 +41,10 @@
         },
         methods: {
             updateNav () {
+                if (this.loop) {
+                    this.$parent.$parent.updateNav();
+                    return;
+                }
                 this.$parent.updateNav();
             }
         },

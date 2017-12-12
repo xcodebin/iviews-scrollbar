@@ -21,14 +21,14 @@
                     <span :class="titleClasses" v-html="data.title" @click="handleSelect"></span>
                 </template>
                 <Tree-node
-                    v-for="item in data.children"
-                    :key="item.nodeKey"
-                    :data="item"
-                    :visible="data.expand"
-                    :multiple="multiple"
-                    :fTocs="fTocs"
-                    :cTofs="cTofs"
-                    :show-checkbox="showCheckbox">
+                        v-for="item in data.children"
+                        :key="item.nodeKey"
+                        :data="item"
+                        :visible="data.expand"
+                        :multiple="multiple"
+                        :fTocs="fTocs"
+                        :cTofs="cTofs"
+                        :show-checkbox="showCheckbox">
                 </Tree-node>
             </li>
         </ul>
@@ -39,14 +39,14 @@
     import Icon from '../icon/icon.vue';
     import CollapseTransition from '../base/collapse-transition';
     import Emitter from '../../mixins/emitter';
-    import { findComponentsDownward } from '../../utils/assist';
+    import {findComponentsDownward} from '../../utils/assist';
 
     const prefixCls = 'ivu-tree';
 
     export default {
         name: 'TreeNode',
-        mixins: [ Emitter ],
-        components: { Checkbox, Icon, CollapseTransition },
+        mixins: [Emitter],
+        components: {Checkbox, Icon, CollapseTransition},
         props: {
             data: {
                 type: Object,
@@ -119,7 +119,8 @@
                 this.$set(this.data, 'expand', !this.data.expand);
                 this.dispatch('Tree', 'toggle-expand', this.data);
             },
-            handleSelect () {
+            handleSelect (e) {
+                e.stopPropagation();
                 if (this.data.disabled) return;
                 if (this.data.selected) {
                     this.data.selected = false;
@@ -129,22 +130,23 @@
                     this.dispatch('Tree', 'selected', this.data);
                 }
                 this.dispatch('Tree', 'on-selected');
-                this.handleCheck();
+                this.handleCheck(e);
             },
-            handleCheck () {
+            handleCheck (e) {
+                if(e) e.stopPropagation();
                 if (this.disabled) return;
                 const checked = !this.data.checked;
                 if (!checked || this.indeterminate) {
                     findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = false);
                 } else {
-                    if(this.fTocs){
+                    if (this.fTocs) {
                         findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = true);
                     }
                 }
                 this.data.checked = checked;
                 this.dispatch('Tree', 'checked');
                 this.dispatch('Tree', 'on-checked');
-                if (this.showCheckbox == false ) { //单选的时候
+                if (this.showCheckbox == false) { //单选的时候
                     if (this.data.selected == false) {
                         //选中数据
                         this.dispatch('Tree', 'on-cancel-node', this.data);
