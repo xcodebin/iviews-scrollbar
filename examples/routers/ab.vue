@@ -1,5 +1,5 @@
 <template>
-    <Tab-pane loop label="标签二" name="name1">
+    <Tab-pane loop :label="'标签二'" :name="'name'+index">
         <Table :columns="columns1" :data="data1"></Table>
     </Tab-pane>
 </template>
@@ -7,6 +7,9 @@
 <script>
     export default {
         components: {},
+        props: {
+            index: Number
+        },
         data() {
             return {
                 columns1: [

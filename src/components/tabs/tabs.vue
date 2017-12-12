@@ -141,7 +141,15 @@
         },
         methods: {
             getTabs () {
-                if (this.loop)return this.$children[2].$children.filter(item => item.$options._componentTag ===  'Tab-pane');
+                if (this.loop) {
+                    let res = [];
+                    this.$children.forEach(item => {
+                        if (item.$children[0] && item.$children[0].$options._componentTag === 'Tab-pane') {
+                            res.push(item.$children[0]);
+                        }
+                    });
+                    return res;
+                }
                 return this.$children.filter(item => item.$options.name === 'TabPane');
             },
             updateNav () {

@@ -9,7 +9,7 @@
         <!--<Tab-pane label="标签三" name="name3">-->
             <!--<Table :columns="columns1" :data="data1"></Table>-->
         <!--</Tab-pane>-->
-        <ab></ab>
+        <ab v-for="i in 10" :key="i" :index="i"></ab>
     </Tabs>
 </template>
 <script>
