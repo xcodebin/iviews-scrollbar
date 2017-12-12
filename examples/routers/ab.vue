@@ -1,7 +1,7 @@
 <template>
-    <Tab-pane loop :label="'标签二'" :name="'name'+index">
+    <TabPane loop :label="'标签二'" :name="'name'+index">
         <Table :columns="columns1" :data="data1"></Table>
-    </Tab-pane>
+    </TabPane>
 </template>
 
 <script>

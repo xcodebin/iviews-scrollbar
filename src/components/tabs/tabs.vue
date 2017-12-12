@@ -144,7 +144,7 @@
                 if (this.loop) {
                     let res = [];
                     this.$children.forEach(item => {
-                        if (item.$children[0] && item.$children[0].$options._componentTag === 'Tab-pane') {
+                        if (item.$children[0] && item.$children[0].$options._componentTag === 'Tab-pane' || 'TabPane') {
                             res.push(item.$children[0]);
                         }
                     });
