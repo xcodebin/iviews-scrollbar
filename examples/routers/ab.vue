@@ -1,6 +1,9 @@
 <template>
     <TabPane loop :label="'标签二'" :name="'name'+index">
         <Table :columns="columns1" :data="data1"></Table>
+        子组件显示父组件的值：
+        <div style="background-color: #a344be">{{test}}</div>
+        <Button @click.native="children">子组件按钮</Button>
     </TabPane>
 </template>
 
@@ -8,7 +11,8 @@
     export default {
         components: {},
         props: {
-            index: Number
+            index: Number,
+            test: Object
         },
         data() {
             return {
@@ -50,7 +54,11 @@
                 ]
             };
         },
-        methods: {}
+        methods: {
+            children(){
+                this.$emit('childrenclick', this.index);
+            }
+        }
     };
 </script>
 

@@ -1,15 +1,18 @@
 <template>
     <Tabs loop value="name1" :animated="false">
         <!--<Tab-pane :label="label1" name="name1">-->
-            <!--<Table :columns="columns1" :data="data1"></Table>-->
+        <!--<Table :columns="columns1" :data="data1"></Table>-->
         <!--</Tab-pane>-->
         <!--<Tab-pane label="标签二" name="name2">-->
-            <!--<Table :columns="columns1" :data="data1"></Table>-->
+        <!--<Table :columns="columns1" :data="data1"></Table>-->
         <!--</Tab-pane>-->
         <!--<Tab-pane label="标签三" name="name3">-->
-            <!--<Table :columns="columns1" :data="data1"></Table>-->
+        <!--<Table :columns="columns1" :data="data1"></Table>-->
         <!--</Tab-pane>-->
-        <ab v-for="i in 10" :key="i" :index="i"></ab>
+        <ab v-for="(item,i) in test.a" :key="i" :index="i" :test="test" @childrenclick="childrenClick"></ab>
+        父组件值现在的状态
+        <div style="background-color: #19be6b">{{test}}</div>
+        <Button @click.native="father">父组件按钮</Button>
     </Tabs>
 </template>
 <script>
@@ -61,8 +64,25 @@
                         age: 26,
                         address: '深圳市南山区深南大道'
                     }
-                ]
+                ],
+                test: {
+                    a: [{disabled: true}, {disabled: true}, {disabled: true}],
+                    b: {
+                        s: 'parent',
+                        d: 'parent'
+                    }
+                }
+            };
+        },
+        methods: {
+            father(){
+                this.test.b.s = 'parent修改';
+            },
+            childrenClick(val){
+                console.log(val);
+                this.test.a[val].disabled = !this.test.a[val].disabled;
+                this.test.b.s = val + '子组件修改';
             }
         }
-    }
+    };
 </script>
