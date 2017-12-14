@@ -4,6 +4,7 @@
         子组件显示父组件的值：
         <div style="background-color: #a344be">{{test}}</div>
         <Button @click.native="children">子组件按钮</Button>
+        <Button @click.native="childrenUnnormal">子组件非正常操作按钮</Button>
     </TabPane>
 </template>
 
@@ -57,6 +58,9 @@
         methods: {
             children(){
                 this.$emit('childrenclick', this.index);
+            },
+            childrenUnnormal(){
+                this.test.b.d = '非正常改掉子组件prop';
             }
         }
     };
