@@ -78,7 +78,7 @@
                 type: Boolean,
                 default: false
             },
-            deleteTip: { //是否删除提示  //二次提醒
+            deleteTip: { //是否删除提示  // 二次提醒
                 type: Boolean,
                 default: false
             },
