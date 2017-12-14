@@ -19,6 +19,13 @@
                                 <template v-else>{{ item.label }}</template>
                                 <Icon v-if="showClose(item)" type="ios-close-empty"
                                       @click.native.stop="handleRemove(index)"></Icon>
+                                <Poptip v-if="deleteTip"
+                                        transfer
+                                        confirm
+                                        :title="titleTxt"
+                                        @on-ok="confirmDelete(index)">
+                                    <Icon type="ios-close-empty"></Icon>
+                                </Poptip>
                             </div>
                         </div>
                     </div>
@@ -32,6 +39,7 @@
 </template>
 <script>
     import Icon from '../icon/icon.vue';
+    import Poptip from '../poptip/poptip';
     import Render from '../base/render';
     import {oneOf, MutationObserver} from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
@@ -41,7 +49,7 @@
     export default {
         name: 'Tabs',
         mixins: [Emitter],
-        components: {Icon, Render},
+        components: {Icon, Render, Poptip},
         props: {
             value: {
                 type: [String, Number]
@@ -69,6 +77,14 @@
             loop: { //为for循环做的兼容
                 type: Boolean,
                 default: false
+            },
+            deleteTip: { //是否删除提示  //二次提醒
+                type: Boolean,
+                default: false
+            },
+            titleTxt: {
+                type: String,
+                default: ''
             }
         },
         data () {
@@ -212,6 +228,9 @@
                 this.activeKey = nav.name;
                 this.$emit('input', nav.name);
                 this.$emit('on-click', nav.name);
+            },
+            confirmDelete(index){
+                this.handleRemove(index);
             },
             handleRemove (index) {
                 const tabs = this.getTabs();
@@ -367,7 +386,6 @@
                         this.mutationObserver.disconnect();
                     }
                 });
-
                 this.mutationObserver.observe(hiddenParentNode, {
                     attributes: true, childList: true, characterData: true, attributeFilter: ['style']
                 });
