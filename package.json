@@ -1,6 +1,6 @@
 {
   "name": "iviews",
-  "version": "1.0.6-rc.30",
+  "version": "1.0.6-rc.1",
   "title": "iView",
   "description": "A high quality  UI components Library with Vue.js",
   "main": "dist/iview.js",
