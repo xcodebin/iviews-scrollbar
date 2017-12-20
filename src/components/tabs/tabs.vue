@@ -235,7 +235,11 @@
             handleRemove (index) {
                 const tabs = this.getTabs();
                 const tab = tabs[index];
-                tab.$destroy();
+                if (this.loop) {
+                    tabs[index].$parent.$destory;
+                } else {
+                    tab.$destroy();
+                }
 
                 if (tab.currentName === this.activeKey) {
                     const newTabs = this.getTabs();
