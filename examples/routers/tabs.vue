@@ -74,13 +74,19 @@
                 }
             };
         },
+        watch: {
+            'test.a': function (val) {
+                console.log('test.a被改掉了');
+            }
+        },
         methods: {
             father(){
                 this.test.b.s = 'parent修改';
             },
             childrenClick(val){
                 console.log(val);
-                this.test.a[val].disabled = !this.test.a[val].disabled;
+                this.test.a[val].disabled = !this.test.a[val].disabled; //这种操作不会触发test.a的监听
+//                this.test.a = JSON.parse(JSON.stringify(this.test.a)); //这种操作会触发test.a的监听
                 this.test.b.s = val + '子组件修改';
             }
         }
