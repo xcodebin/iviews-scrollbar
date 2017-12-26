@@ -8,6 +8,7 @@
                    @on-select-row-click="b"
                    @on-unselect="c"
                    @on-select-all="a"
+                   @resetColwidth="aa"
                    singleCheck
                    mustOne
                    ref="table"></Table>
@@ -184,8 +185,8 @@
                 console.log(c)
                 console.log(d)
             },
-            a(val){
-                console.log(val)
+            aa(val){
+                console.log('aa', val)
             },
             b(val){
                 console.log(1)

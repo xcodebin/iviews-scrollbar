@@ -209,7 +209,7 @@
                 scrollBarWidth: 3,
                 currentContext: this.context,
                 cloneData: deepCopy(this.data),    // when Cell has a button to delete row data, clickCurrentRow will throw an error, so clone a data
-                colWidth: []
+                colWidth: {}
             };
         },
         computed: {
@@ -843,6 +843,11 @@
             },
             height () {
                 this.fixedHeader();
+            },
+            colWidth: {
+                handler (val) {
+                    this.$emit('resetColwidth', val);
+                }
             }
         }
     };

@@ -1,5 +1,6 @@
 <template>
-    <Scrollbar :style="scrollStyle" ref="scrollbars" :nover="nover" :nohor="nohor" @verticalScr="verticalScr" @horizontalScr="horizontalScr" @scrollToEnd="scrollToEnd">
+    <Scrollbar :style="scrollStyle" ref="scrollbars" :nover="nover" :nohor="nohor" @verticalScr="verticalScr"
+               @horizontalScr="horizontalScr" @scrollToEnd="scrollToEnd">
         <table cellspacing="0" cellpadding="0" border="0" :style="styleObject">
             <colgroup>
                 <col v-for="(column, index) in columns" :width="getCell(column, index)">
@@ -7,25 +8,25 @@
             <tbody :class="[prefixCls + '-tbody']">
             <template v-for="(row, index) in data">
                 <table-tr
-                    :row="row"
-                    :key="row._rowKey"
-                    :prefix-cls="prefixCls"
-                    @mouseenter.native.stop="handleMouseIn(row._index)"
-                    @mouseleave.native.stop="handleMouseOut(row._index)"
-                    @click.native="clickCurrentRow(row._index)"
-                    @dblclick.native.stop="dblclickCurrentRow(row._index)">
+                        :row="row"
+                        :key="row._rowKey"
+                        :prefix-cls="prefixCls"
+                        @mouseenter.native.stop="handleMouseIn(row._index)"
+                        @mouseleave.native.stop="handleMouseOut(row._index)"
+                        @click.native="clickCurrentRow(row._index)"
+                        @dblclick.native.stop="dblclickCurrentRow(row._index)">
                     <td v-for="column in columns" :class="alignCls(column, row)">
                         <Cell
-                            :fixed="fixed"
-                            :prefix-cls="prefixCls"
-                            :row="row"
-                            :key="column._columnKey"
-                            :column="column"
-                            :natural-index="index"
-                            :index="row._index"
-                            :checked="rowChecked(row._index)"
-                            :disabled="rowDisabled(row._index)"
-                            :expanded="rowExpanded(row._index)"
+                                :fixed="fixed"
+                                :prefix-cls="prefixCls"
+                                :row="row"
+                                :key="column._columnKey"
+                                :column="column"
+                                :natural-index="index"
+                                :index="row._index"
+                                :checked="rowChecked(row._index)"
+                                :disabled="rowDisabled(row._index)"
+                                :expanded="rowExpanded(row._index)"
                         ></Cell>
                     </td>
                 </table-tr>
@@ -48,8 +49,8 @@
 
     export default {
         name: 'TableBody',
-        mixins: [ Mixin ],
-        components: { Cell, Expand, TableTr },
+        mixins: [Mixin],
+        components: {Cell, Expand, TableTr},
         props: {
             prefixCls: String,
             styleObject: Object,
@@ -86,7 +87,7 @@
         methods: {
             scrollToEnd(data){
 //	        	console.log('滑到底了',data);
-                this.$emit('scrollToEnd',data);
+                this.$emit('scrollToEnd', data);
             },
             rowChecked (_index) {
                 return this.objData[_index] && this.objData[_index]._isChecked;
@@ -117,7 +118,8 @@
             },
             getCell(column, index){
                 let colWidth = this.setCellWidth(column, index, false);
-                this.$parent.$data.colWidth[index] = colWidth;
+                this.$set(this.$parent.$data.colWidth, index, colWidth);
+//                this.$parent.$data.colWidth[index] = colWidth;
                 return colWidth;
             }
         }
