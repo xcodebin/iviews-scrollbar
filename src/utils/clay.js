@@ -1,6 +1,5 @@
 import {$, extend} from './utils';
 import elementResizeEvent from './element-resize-event';
-import exportable from 'exportable';
 
 var Clay = function () {
     class Clay {
@@ -101,8 +100,8 @@ var Clay = function () {
     return Clay;
 };
 
-exportable({
+export default {
     module: module,
     name: 'Clay',
     definition: Clay
-});
+};

@@ -1,4 +1,4 @@
-function extend(a, b) {
+export function extend(a, b) {
     for (var key in b) {
         if (b.hasOwnProperty(key)) {
             a[key] = b[key];
@@ -7,11 +7,11 @@ function extend(a, b) {
     return a;
 }
 
-function $(selector) {
+export function $(selector) {
     return document.querySelector(selector);
 }
 
-function raf() {
+export function raf() {
     return window.requestAnimationFrame ||
         window.webkitRequestAnimationFrame ||
         window.mozRequestAnimationFrame ||
@@ -20,8 +20,3 @@ function raf() {
         };
 }
 
-module.exports = {
-    extend: extend,
-    $: $,
-    raf: raf
-};
