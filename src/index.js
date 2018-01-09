@@ -129,6 +129,7 @@ const iview = {
 };
 
 const install = function (Vue, opts = {}) {
+    if (install.installed) return;
     locale.use(opts.locale);
     locale.i18n(opts.i18n);
 
