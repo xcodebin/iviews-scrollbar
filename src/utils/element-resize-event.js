@@ -1,4 +1,4 @@
-export default function (element, fn) {
+module.exports = function (element, fn) {
     var document = window.document;
 
     var attachEvent = document.attachEvent;
