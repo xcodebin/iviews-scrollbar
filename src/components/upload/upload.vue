@@ -1,40 +1,46 @@
 <template>
     <div :class="[prefixCls]">
-        <div
-            :class="classes"
-            @click="handleClick"
-            @drop.prevent="onDrop"
-            @dragover.prevent="dragOver = true"
-            @dragleave.prevent="dragOver = false">
+        <div    v-if="!onlyProgress||!(fileList[0]&&fileList[0].showProgress)"
+                :class="classes"
+                @click="handleClick"
+                @drop.prevent="onDrop"
+                @dragover.prevent="dragOver = true"
+                @dragleave.prevent="dragOver = false">
             <input
-                ref="input"
-                type="file"
-                :class="[prefixCls + '-input']"
-                @change="handleChange"
-                :multiple="multiple"
-                :accept="accept">
+                    ref="input"
+                    type="file"
+                    :class="[prefixCls + '-input']"
+                    @change="handleChange"
+                    :multiple="multiple"
+                    :accept="accept">
             <slot></slot>
         </div>
         <slot name="tip"></slot>
         <upload-list
-            v-if="showUploadList"
-            :files="fileList"
-            @on-file-remove="handleRemove"
-            @on-file-preview="handlePreview"></upload-list>
+                v-if="!onlyProgress&&showUploadList"
+                :files="fileList"
+                @on-file-remove="handleRemove"
+                @on-file-preview="handlePreview"></upload-list>
+        <upload-progress
+                v-if="onlyProgress"
+                :files="fileList"
+                @on-file-remove="handleRemove"
+                @on-file-preview="handlePreview"></upload-progress>
     </div>
 </template>
 <script>
     import UploadList from './upload-list.vue';
+    import UploadProgress from './upload-progress.vue';
     import ajax from './ajax';
-    import { oneOf } from '../../utils/assist';
+    import {oneOf} from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
 
     const prefixCls = 'ivu-upload';
 
     export default {
         name: 'Upload',
-        mixins: [ Emitter ],
-        components: { UploadList },
+        mixins: [Emitter],
+        components: {UploadList, UploadProgress},
         props: {
             action: {
                 type: String,
@@ -47,6 +53,10 @@
                 }
             },
             multiple: {
+                type: Boolean,
+                default: false
+            },
+            onlyProgress: {
                 type: Boolean,
                 default: false
             },
@@ -63,7 +73,7 @@
             },
             showUploadList: {
                 type: Boolean,
-                default: true
+                default: false
             },
             type: {
                 type: String,

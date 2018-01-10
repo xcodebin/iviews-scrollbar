@@ -14,8 +14,8 @@
         </div>
         <Upload
                 ref="upload"
+                onlyProgress
                 :show-upload-list="false"
-                :default-file-list="defaultList"
                 :on-success="handleSuccess"
                 :format="['jpg','jpeg','png']"
                 :max-size="2048"
