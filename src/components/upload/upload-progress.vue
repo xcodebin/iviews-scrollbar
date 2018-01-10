@@ -3,10 +3,10 @@
         <li
                 v-for="file in files"
                 :class="fileCls(file)"
+                v-show="file.showProgress"
                 @click="handleClick(file)">
             <transition name="fade">
                 <i-progress
-                        v-show="file.showProgress"
                         :stroke-width="2"
                         :percent="parsePercentage(file.percentage)"
                         :status="file.status === 'finished' && file.showProgress ? 'success' : 'normal'"></i-progress>
