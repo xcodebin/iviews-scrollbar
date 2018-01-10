@@ -58,7 +58,7 @@
             },
             onlyProgress: {
                 type: Boolean,
-                default: false
+                default: true
             },
             data: {
                 type: Object
