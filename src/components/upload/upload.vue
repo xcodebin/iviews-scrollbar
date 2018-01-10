@@ -1,11 +1,11 @@
 <template>
     <div :class="[prefixCls]">
-        <div    v-if="!onlyProgress||!(fileList[0]&&fileList[0].showProgress)"
-                :class="classes"
-                @click="handleClick"
-                @drop.prevent="onDrop"
-                @dragover.prevent="dragOver = true"
-                @dragleave.prevent="dragOver = false">
+        <div v-show="!onlyProgress||!(fileList[0]&&fileList[0].showProgress)"
+             :class="classes"
+             @click="handleClick"
+             @drop.prevent="onDrop"
+             @dragover.prevent="dragOver = true"
+             @dragleave.prevent="dragOver = false">
             <input
                     ref="input"
                     type="file"
@@ -265,8 +265,11 @@
                     uid: file.uid,
                     showProgress: true
                 };
-
-                this.fileList.push(_file);
+                if (this.onlyProgress) {
+                    this.fileList = [_file];
+                }else{
+                    this.fileList.push(_file);
+                }
             },
             getFile (file) {
                 const fileList = this.fileList;

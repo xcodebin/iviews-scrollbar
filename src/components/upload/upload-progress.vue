@@ -6,7 +6,7 @@
                 @click="handleClick(file)">
             <transition name="fade">
                 <i-progress
-                        v-if="file.showProgress"
+                        v-show="file.showProgress"
                         :stroke-width="2"
                         :percent="parsePercentage(file.percentage)"
                         :status="file.status === 'finished' && file.showProgress ? 'success' : 'normal'"></i-progress>
