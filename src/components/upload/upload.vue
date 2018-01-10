@@ -1,6 +1,6 @@
 <template>
     <div :class="[prefixCls]">
-        <div v-show="!onlyProgress||!(fileList[0]&&fileList[0].showProgress)"
+        <div v-show="!(oneProgress&&fileList[0]&&fileList[0].showProgress)"
              :class="classes"
              @click="handleClick"
              @drop.prevent="onDrop"
@@ -17,12 +17,12 @@
         </div>
         <slot name="tip"></slot>
         <upload-list
-                v-if="!onlyProgress&&showUploadList"
+                v-if="!oneProgress&&showUploadList"
                 :files="fileList"
                 @on-file-remove="handleRemove"
                 @on-file-preview="handlePreview"></upload-list>
         <upload-progress
-                v-if="onlyProgress"
+                v-if="oneProgress"
                 :files="fileList"
                 @on-file-remove="handleRemove"
                 @on-file-preview="handlePreview"></upload-progress>
@@ -56,7 +56,7 @@
                 type: Boolean,
                 default: false
             },
-            onlyProgress: {
+            oneProgress: {
                 type: Boolean,
                 default: true
             },
@@ -175,6 +175,10 @@
                 if (!files) {
                     return;
                 }
+                if (this.oneProgress) {
+                    console.log(this.fileList[0]);
+                    this.fileList = [];
+                }
                 this.uploadFiles(files);
                 this.$refs.input.value = null;
             },
@@ -265,7 +269,7 @@
                     uid: file.uid,
                     showProgress: true
                 };
-                if (this.onlyProgress) {
+                if (this.oneProgress) {
                     this.fileList = [_file];
                 }else{
                     this.fileList.push(_file);
