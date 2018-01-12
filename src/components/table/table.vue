@@ -458,7 +458,7 @@
 //                    data.i = json[i];
 //                }
 //                this.objData = data;
-                this.objData = json;
+                this.objData = Object.assign({}, this.objData, json);
             },
             //对外接口--
             toggleSelect (_index) {
