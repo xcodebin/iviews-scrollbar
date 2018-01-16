@@ -1,5 +1,5 @@
 <template>
-    <ul :class="[prefixCls + '-list']">
+    <ul>
         <li
                 v-for="file in files"
                 :class="fileCls(file)"
