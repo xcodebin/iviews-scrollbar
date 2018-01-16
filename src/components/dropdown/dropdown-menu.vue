@@ -1,6 +1,12 @@
 <template>
-    <ul class="ivu-dropdown-menu"><slot></slot></ul>
+    <ul class="ivu-dropdown-menu" @click="prevent"><slot></slot></ul>
 </template>
 <script>
-    export default {};
+    export default {
+    	methods: {
+	    	prevent(e){
+				event.stopPropagation();
+			}
+		}
+    };
 </script>
