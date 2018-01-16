@@ -36,7 +36,7 @@
             }
         },
         methods: {
-            handleClick () {
+            handleClick (e) {
                 const $parent = this.$parent.$parent.$parent;
                 const hasChildren = this.$parent && this.$parent.$options.name === 'Dropdown';
 
@@ -51,7 +51,7 @@
                         $parent.$emit('on-hover-click');
                     }
                 }
-                $parent.$emit('on-click', this.name);
+                $parent.$emit('on-click', this.name, e);
             }
         }
     };
