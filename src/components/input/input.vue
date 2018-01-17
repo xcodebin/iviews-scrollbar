@@ -27,8 +27,7 @@
                 @focus="handleFocus"
                 @blur="handleBlur"
                 @input="handleInput"
-                @change="handleChange"
-                @click="prever">
+                @change="handleChange">
             <div :class="[prefixCls + '-group-append']" v-if="append" v-show="slotReady"><slot name="append"></slot></div>
         </template>
         <textarea
@@ -171,9 +170,6 @@
             }
         },
         methods: {
-            prever(){
-                event.stopPropagation();
-            },
             handleEnter (event) {
                 this.$emit('on-enter', event);
             },
