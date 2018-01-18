@@ -60,7 +60,7 @@
                                 @click="changePage(3)"><a>3</a></li>
                             <li :title="4" v-if="allPages > 4 && (currentPage == 2 ||currentPage == 1)"
                                 :class="[prefixCls + '-item']" @click="changePage(4)"><a>4</a></li>
-                            <li :title="allPages" v-if="allPages > 1&& currentPage < allPages" :class="lastPageClasses"
+                            <li :title="allPages" v-if="allPages > 1&& currentPage <= allPages" :class="lastPageClasses"
                                 @click="changePage(allPages)"><a>{{ allPages }}</a></li>
                             <li
                                     :title="t('i.page.next')"
@@ -98,7 +98,7 @@
                             @click="changePage(3)"><a>3</a></li>
                         <li :title="4" v-if="allPages > 4 && (currentPage == 2 ||currentPage == 1)"
                             :class="[prefixCls + '-item']" @click="changePage(4)"><a>4</a></li>
-                        <li :title="allPages" v-if="allPages > 1&& currentPage < allPages" :class="lastPageClasses"
+                        <li :title="allPages" v-if="allPages > 1&& currentPage <= allPages" :class="lastPageClasses"
                             @click="changePage(allPages)"><a>{{ allPages }}</a></li>
                         <li
                                 :title="t('i.page.next')"
@@ -221,7 +221,7 @@
                     @click="changePage(3)"><a>3</a></li>
                 <li :title="4" v-if="allPages > 4 && (currentPage == 2 ||currentPage == 1)"
                     :class="[prefixCls + '-item']" @click="changePage(4)"><a>4</a></li>
-                <li :title="allPages" v-if="allPages > 1&& currentPage < allPages" :class="lastPageClasses"
+                <li :title="allPages" v-if="allPages > 1&& currentPage <= allPages" :class="lastPageClasses"
                     @click="changePage(allPages)">
                     <a>{{ allPages }}</a></li>
                 <li
@@ -258,7 +258,7 @@
                 @click="changePage(3)"><a>3</a></li>
             <li :title="4" v-if="allPages > 4 && (currentPage == 2 ||currentPage == 1)" :class="[prefixCls + '-item']"
                 @click="changePage(4)"><a>4</a></li>
-            <li :title="allPages" v-if="allPages > 1&& currentPage < allPages" :class="lastPageClasses" @click="changePage(allPages)">
+            <li :title="allPages" v-if="allPages > 1&& currentPage <= allPages" :class="lastPageClasses" @click="changePage(allPages)">
                 <a>{{ allPages }}</a></li>
             <li
                     :title="t('i.page.next')"
