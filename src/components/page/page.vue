@@ -60,7 +60,7 @@
                                 @click="changePage(3)"><a>3</a></li>
                             <li :title="4" v-if="allPages > 4 && (currentPage == 2 ||currentPage == 1)"
                                 :class="[prefixCls + '-item']" @click="changePage(4)"><a>4</a></li>
-                            <li :title="allPages" v-if="allPages > 1" :class="lastPageClasses"
+                            <li :title="allPages" v-if="allPages > 1&& currentPage < allPages" :class="lastPageClasses"
                                 @click="changePage(allPages)"><a>{{ allPages }}</a></li>
                             <li
                                     :title="t('i.page.next')"
@@ -98,7 +98,7 @@
                             @click="changePage(3)"><a>3</a></li>
                         <li :title="4" v-if="allPages > 4 && (currentPage == 2 ||currentPage == 1)"
                             :class="[prefixCls + '-item']" @click="changePage(4)"><a>4</a></li>
-                        <li :title="allPages" v-if="allPages > 1" :class="lastPageClasses"
+                        <li :title="allPages" v-if="allPages > 1&& currentPage < allPages" :class="lastPageClasses"
                             @click="changePage(allPages)"><a>{{ allPages }}</a></li>
                         <li
                                 :title="t('i.page.next')"
@@ -221,7 +221,8 @@
                     @click="changePage(3)"><a>3</a></li>
                 <li :title="4" v-if="allPages > 4 && (currentPage == 2 ||currentPage == 1)"
                     :class="[prefixCls + '-item']" @click="changePage(4)"><a>4</a></li>
-                <li :title="allPages" v-if="allPages > 1" :class="lastPageClasses" @click="changePage(allPages)">
+                <li :title="allPages" v-if="allPages > 1&& currentPage < allPages" :class="lastPageClasses"
+                    @click="changePage(allPages)">
                     <a>{{ allPages }}</a></li>
                 <li
                         :title="t('i.page.next')"
@@ -257,7 +258,7 @@
                 @click="changePage(3)"><a>3</a></li>
             <li :title="4" v-if="allPages > 4 && (currentPage == 2 ||currentPage == 1)" :class="[prefixCls + '-item']"
                 @click="changePage(4)"><a>4</a></li>
-            <li :title="allPages" v-if="allPages > 1" :class="lastPageClasses" @click="changePage(allPages)">
+            <li :title="allPages" v-if="allPages > 1&& currentPage < allPages" :class="lastPageClasses" @click="changePage(allPages)">
                 <a>{{ allPages }}</a></li>
             <li
                     :title="t('i.page.next')"
@@ -269,282 +270,282 @@
     </ul>
 </template>
 <script>
-    import {oneOf} from '../../utils/assist';
-    import iSelect from '../../components/select/select.vue';
-    import iOption from '../../components/select/option.vue';
-    import tooltip from '../../components/tooltip/tooltip.vue';
-    import Locale from '../../mixins/locale';
-    const prefixCls = 'ivu-page';
-    function isValueNumber(value) {
-        return (/^[1-9][0-9]*$/).test(value + '');
-    }
+	import {oneOf} from '../../utils/assist';
+	import iSelect from '../../components/select/select.vue';
+	import iOption from '../../components/select/option.vue';
+	import tooltip from '../../components/tooltip/tooltip.vue';
+	import Locale from '../../mixins/locale';
+	const prefixCls = 'ivu-page';
+	function isValueNumber(value) {
+		return (/^[1-9][0-9]*$/).test(value + '');
+	}
 
-    export default {
-        name: 'Page',
-        mixins: [Locale],
-        components: {iSelect, iOption, tooltip},
-        props: {
-            current: {
-                type: Number,
-                default: 1
-            },
-            total: {
-                type: Number,
-                default: 0
-            },
-            pageSize: {
-                type: Number,
-                default: 10
-            },
-            pageSizeOpts: {
-                type: Array,
-                default () {
-                    return [10, 20, 30, 40];
-                }
-            },
-            placement: {
-                validator (value) {
-                    return oneOf(value, ['top', 'bottom']);
-                },
-                default: 'bottom'
-            },
-            size: {
-                validator (value) {
-                    return oneOf(value, ['small']);
-                }
-            },
-            simple: {
-                type: Boolean,
-                default: false
-            },
-            pageTooltip: {
-                type: Boolean,
-                default: false
-            },
-            showTotal: {
-                type: Boolean,
-                default: false
-            },
-            showElevator: {
-                type: Boolean,
-                default: false
-            },
-            showSizer: {
-                type: Boolean,
-                default: false
-            },
-            className: {
-                type: String
-            },
-            styles: {
-                type: Object
-            },
-        },
-        data () {
-            return {
-                prefixCls: prefixCls,
-                currentPage: this.current,
-                currentPageSize: this.pageSize
-            };
-        },
-        watch: {
-            current (val) {
-                this.currentPage = val;
-            },
-            pageSize (val) {
-                this.currentPageSize = val;
-            }
-        },
-        computed: {
+	export default {
+		name: 'Page',
+		mixins: [Locale],
+		components: {iSelect, iOption, tooltip},
+		props: {
+			current: {
+				type: Number,
+				default: 1
+			},
+			total: {
+				type: Number,
+				default: 0
+			},
+			pageSize: {
+				type: Number,
+				default: 10
+			},
+			pageSizeOpts: {
+				type: Array,
+				default () {
+					return [10, 20, 30, 40];
+				}
+			},
+			placement: {
+				validator (value) {
+					return oneOf(value, ['top', 'bottom']);
+				},
+				default: 'bottom'
+			},
+			size: {
+				validator (value) {
+					return oneOf(value, ['small']);
+				}
+			},
+			simple: {
+				type: Boolean,
+				default: false
+			},
+			pageTooltip: {
+				type: Boolean,
+				default: false
+			},
+			showTotal: {
+				type: Boolean,
+				default: false
+			},
+			showElevator: {
+				type: Boolean,
+				default: false
+			},
+			showSizer: {
+				type: Boolean,
+				default: false
+			},
+			className: {
+				type: String
+			},
+			styles: {
+				type: Object
+			},
+		},
+		data () {
+			return {
+				prefixCls: prefixCls,
+				currentPage: this.current,
+				currentPageSize: this.pageSize
+			};
+		},
+		watch: {
+			current (val) {
+				this.currentPage = val;
+			},
+			pageSize (val) {
+				this.currentPageSize = val;
+			}
+		},
+		computed: {
 //            size () {
 //                return this.isSmall ? 'small' : 'default';
 //            },
-            optsClasses () {
-                return [
-                    `${prefixCls}-options`
-                ];
-            },
-            sizerClasses () {
-                return [
-                    `${prefixCls}-options-sizer`
-                ];
-            },
-            ElevatorClasses () {
-                return [
-                    `${prefixCls}-options-elevator`
-                ];
-            },
-            isSmall () {
-                return !!this.size;
-            },
-            allPages () {
-                const allPage = Math.ceil(this.total / this.currentPageSize);
-                return (allPage === 0) ? 1 : allPage;
-            },
-            currentPageBegin () {
-                return this.currentPageSize * (this.currentPage - 1) + 1;
-            },
-            currentPageEnd () {
-                let value = this.currentPageSize * (this.currentPage);
-                if (value > this.total) {
-                    value = this.total;
-                }
-                return value;
-            },
-            simpleWrapClasses () {
-                return [
-                    `${prefixCls}`,
-                    `${prefixCls}-simple`,
-                    {
-                        [`${this.className}`]: !!this.className
-                    }
-                ];
-            },
-            simplePagerClasses () {
-                return `${prefixCls}-simple-pager`;
-            },
-            wrapClasses () {
-                return [
-                    `${prefixCls}`,
-                    {
-                        [`${this.className}`]: !!this.className,
-                        'mini': !!this.size
-                    }
-                ];
-            },
-            prevClasses () {
-                return [
-                    `${prefixCls}-prev`,
-                    {
-                        [`${prefixCls}-disabled`]: this.currentPage === 1
-                    }
-                ];
-            },
-            nextClasses () {
-                return [
-                    `${prefixCls}-next`,
-                    {
-                        [`${prefixCls}-disabled`]: this.currentPage === this.allPages
-                    }
-                ];
-            },
-            firstPageClasses () {
-                return [
-                    `${prefixCls}-item`,
-                    {
-                        [`${prefixCls}-item-active`]: this.currentPage === 1
-                    }
-                ];
-            },
-            lastPageClasses () {
-                return [
-                    `${prefixCls}-item`,
-                    {
-                        [`${prefixCls}-item-active`]: this.currentPage === this.allPages
-                    }
-                ];
-            }
-        },
-        methods: {
-            changePages (event) {
-                let val = event.target.value.trim();
-                let page = 0;
+			optsClasses () {
+				return [
+					`${prefixCls}-options`
+				];
+			},
+			sizerClasses () {
+				return [
+					`${prefixCls}-options-sizer`
+				];
+			},
+			ElevatorClasses () {
+				return [
+					`${prefixCls}-options-elevator`
+				];
+			},
+			isSmall () {
+				return !!this.size;
+			},
+			allPages () {
+				const allPage = Math.ceil(this.total / this.currentPageSize);
+				return (allPage === 0) ? 1 : allPage;
+			},
+			currentPageBegin () {
+				return this.currentPageSize * (this.currentPage - 1) + 1;
+			},
+			currentPageEnd () {
+				let value = this.currentPageSize * (this.currentPage);
+				if (value > this.total) {
+					value = this.total;
+				}
+				return value;
+			},
+			simpleWrapClasses () {
+				return [
+					`${prefixCls}`,
+					`${prefixCls}-simple`,
+					{
+						[`${this.className}`]: !!this.className
+					}
+				];
+			},
+			simplePagerClasses () {
+				return `${prefixCls}-simple-pager`;
+			},
+			wrapClasses () {
+				return [
+					`${prefixCls}`,
+					{
+						[`${this.className}`]: !!this.className,
+						'mini': !!this.size
+					}
+				];
+			},
+			prevClasses () {
+				return [
+					`${prefixCls}-prev`,
+					{
+						[`${prefixCls}-disabled`]: this.currentPage === 1
+					}
+				];
+			},
+			nextClasses () {
+				return [
+					`${prefixCls}-next`,
+					{
+						[`${prefixCls}-disabled`]: this.currentPage === this.allPages
+					}
+				];
+			},
+			firstPageClasses () {
+				return [
+					`${prefixCls}-item`,
+					{
+						[`${prefixCls}-item-active`]: this.currentPage === 1
+					}
+				];
+			},
+			lastPageClasses () {
+				return [
+					`${prefixCls}-item`,
+					{
+						[`${prefixCls}-item-active`]: this.currentPage === this.allPages
+					}
+				];
+			}
+		},
+		methods: {
+			changePages (event) {
+				let val = event.target.value.trim();
+				let page = 0;
 
-                if (isValueNumber(val)) {
-                    val = Number(val);
-                    if (val != this.current) {
-                        const allPages = this.allPages;
+				if (isValueNumber(val)) {
+					val = Number(val);
+					if (val != this.current) {
+						const allPages = this.allPages;
 
-                        if (val > allPages) {
-                            page = allPages;
-                        } else {
-                            page = val;
-                        }
-                    }
-                } else {
-                    page = 1;
-                }
+						if (val > allPages) {
+							page = allPages;
+						} else {
+							page = val;
+						}
+					}
+				} else {
+					page = 1;
+				}
 
-                if (page) {
-                    this.currentPage = page;
+				if (page) {
+					this.currentPage = page;
 //                    this.$emit('on-page', page);
-                    event.target.value = page;
-                }
-            },
-            changePage (page) {
-                if (this.currentPage != page) {
-                    this.currentPage = page;
-                    this.$emit('on-change', page);
-                }
-            },
-            prev () {
-                const current = this.currentPage;
-                if (current <= 1) {
-                    return false;
-                }
-                this.changePage(current - 1);
-            },
-            next () {
-                const current = this.currentPage;
-                if (current >= this.allPages) {
-                    return false;
-                }
-                this.changePage(current + 1);
-            },
-            fastPrev () {
-                const page = this.currentPage - 5;
-                if (page > 0) {
-                    this.changePage(page);
-                } else {
-                    this.changePage(1);
-                }
-            },
-            fastNext () {
-                const page = this.currentPage + 5;
-                if (page > this.allPages) {
-                    this.changePage(this.allPages);
-                } else {
-                    this.changePage(page);
-                }
-            },
-            changeSize () {
-                this.$emit('on-page-size-change', this.currentPageSize);
-                this.changePage(1);
-            },
-            onPage (page) {
-                this.changePage(page);
-            },
-            keyDown (e) {
-                const key = e.keyCode;
-                const condition = (key >= 48 && key <= 57) || key == 8 || key == 37 || key == 39;
+					event.target.value = page;
+				}
+			},
+			changePage (page) {
+				if (this.currentPage != page) {
+					this.currentPage = page;
+					this.$emit('on-change', page);
+				}
+			},
+			prev () {
+				const current = this.currentPage;
+				if (current <= 1) {
+					return false;
+				}
+				this.changePage(current - 1);
+			},
+			next () {
+				const current = this.currentPage;
+				if (current >= this.allPages) {
+					return false;
+				}
+				this.changePage(current + 1);
+			},
+			fastPrev () {
+				const page = this.currentPage - 5;
+				if (page > 0) {
+					this.changePage(page);
+				} else {
+					this.changePage(1);
+				}
+			},
+			fastNext () {
+				const page = this.currentPage + 5;
+				if (page > this.allPages) {
+					this.changePage(this.allPages);
+				} else {
+					this.changePage(page);
+				}
+			},
+			changeSize () {
+				this.$emit('on-page-size-change', this.currentPageSize);
+				this.changePage(1);
+			},
+			onPage (page) {
+				this.changePage(page);
+			},
+			keyDown (e) {
+				const key = e.keyCode;
+				const condition = (key >= 48 && key <= 57) || key == 8 || key == 37 || key == 39;
 
-                if (!condition) {
-                    e.preventDefault();
-                }
-            },
-            keyUp (e) {
-                const key = e.keyCode;
-                const val = parseInt(e.target.value);
+				if (!condition) {
+					e.preventDefault();
+				}
+			},
+			keyUp (e) {
+				const key = e.keyCode;
+				const val = parseInt(e.target.value);
 
-                if (key === 38) {
-                    this.prev();
-                } else if (key === 40) {
-                    this.next();
-                } else if (key == 13) {
-                    let page = 1;
+				if (key === 38) {
+					this.prev();
+				} else if (key === 40) {
+					this.next();
+				} else if (key == 13) {
+					let page = 1;
 
-                    if (val > this.allPages) {
-                        page = this.allPages;
-                    } else if (val <= 0) {
-                        page = 1;
-                    } else {
-                        page = val;
-                    }
+					if (val > this.allPages) {
+						page = this.allPages;
+					} else if (val <= 0) {
+						page = 1;
+					} else {
+						page = val;
+					}
 
-                    e.target.value = page;
-                    this.changePage(page);
-                }
-            }
-        }
-    };
+					e.target.value = page;
+					this.changePage(page);
+				}
+			}
+		}
+	};
 </script>
