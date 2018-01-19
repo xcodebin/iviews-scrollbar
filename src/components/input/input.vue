@@ -27,7 +27,8 @@
                 @focus="handleFocus"
                 @blur="handleBlur"
                 @input="handleInput"
-                @change="handleChange">
+                @change="handleChange"
+                @click="onClick">
             <div :class="[prefixCls + '-group-append']" v-if="append" v-show="slotReady"><slot name="append"></slot></div>
         </template>
         <textarea
@@ -203,6 +204,9 @@
             },
             handleChange (event) {
                 this.$emit('on-input-change', event);
+            },
+            onClick(event) {
+                this.$emit('on-click', event);
             },
             setCurrentValue (value) {
                 if (value === this.currentValue) return;
