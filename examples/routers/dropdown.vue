@@ -1,5 +1,5 @@
 <template>
-    <Dropdown transfer>
+    <Dropdown transfer trigger="click">
         <a href="javascript:void(0)">
             北京小吃
             <Icon type="arrow-down-b"></Icon>
