@@ -77,10 +77,10 @@
         data () {
             return {
                 ready: false,
-                state:false,
+                state: false,
                 top: 0,
                 left: 0,
-                end:0,
+                end: 0,
                 scrollAreaHeight: null,
                 scrollAreaWidth: null,
                 scrollWrapperHeight: null,
@@ -89,18 +89,18 @@
                 hMovement: 0,
                 dragging: false,
                 start: {y: 0, x: 0},
-                sWidth:3,
-                sHeight:0,
-                watchareaWidth:'100%'
+                sWidth: 3,
+                sHeight: 0,
+                watchareaWidth: '100%'
             };
         },
         methods: {
             scroll(e){
                 let elementSize = this.getSize();
 
-                elementSize.scrollAreaHeight - elementSize.scrollWrapperHeight <= 0 ? this.state=false:this.state=true;
+                elementSize.scrollAreaHeight - elementSize.scrollWrapperHeight <= 0 ? this.state = false : this.state = true;
 
-                if(this.state){
+                if (this.state) {
                     e.preventDefault();
                     e.stopPropagation();//注销这里可以冒泡
                 }
@@ -131,10 +131,10 @@
                     // Horizontal Scrolling
                     if (!shifted && canScrollX) this.normalizeHorizontal(nextX);
                 });
-                if(this.top >= this.end){
-                    this.$emit('scrollToEnd',this.end);
+                if (this.top >= this.end) {
+                    this.$emit('scrollToEnd', this.end);
                 }
-                this.$emit('scroll',this.top);
+                this.$emit('scroll', this.top);
 
             },
 
@@ -189,8 +189,12 @@
                 this.normalizeHorizontal(x);
             },
 
-            scrollToEnd() {
-                this.normalizeVertical(this.end);
+            scrollToEnd(y) {
+                if (y) {
+                    this.normalizeVertical(this.end + y);
+                } else {
+                    this.normalizeVertical(this.end);
+                }
             },
 
             normalizeVertical(next){
@@ -309,18 +313,18 @@
         },
 
         mounted () {
-            this.$nextTick(()=>{
-                if(document.getElementsByClassName('vue-scrollbar__scrollbar-vertical') && document.getElementsByClassName('vue-scrollbar__scrollbar-vertical').length>0){
-                    this.sWidth=document.getElementsByClassName('vue-scrollbar__scrollbar-vertical')[0].offsetWidth;//动态获取滚动条宽度
+            this.$nextTick(() => {
+                if (document.getElementsByClassName('vue-scrollbar__scrollbar-vertical') && document.getElementsByClassName('vue-scrollbar__scrollbar-vertical').length > 0) {
+                    this.sWidth = document.getElementsByClassName('vue-scrollbar__scrollbar-vertical')[0].offsetWidth;//动态获取滚动条宽度
                 }
             });
             let ele = new Clay(this.$refs.watchArea);
-            ele.on('resize', ()=> {
+            ele.on('resize', () => {
                 this.calculateSize();
             });
             this.calculateSize();
 
-                // Attach The Event for Responsive View~
+            // Attach The Event for Responsive View~
             window.addEventListener('resize', this.calculateSize);
         },
         beforeDestroy (){
