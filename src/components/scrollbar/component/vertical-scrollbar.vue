@@ -37,7 +37,7 @@
 
         data () {
             return {
-                height: 0,
+                height: this.calculateSize(this.wrapper),
                 dragging: false,
                 start: 0
             };

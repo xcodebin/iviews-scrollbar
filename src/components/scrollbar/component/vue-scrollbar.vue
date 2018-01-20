@@ -15,7 +15,6 @@
         marginTop: this.top * -1 +'px',
         marginLeft: this.left * -1 +'px'
       }">
-            <!--<div ref="watchArea" :style="this.styles" :id="id">-->
             <div ref="watchArea" :style="this.styles">
                 <slot></slot>
             </div>
@@ -52,7 +51,6 @@
     import VerticalScrollbar from './vertical-scrollbar.vue';
     import HorizontalScrollbar from './horizontal-scrollbar.vue';
     import Clay from '../../../utils/clay';
-//    import {getStyle} from '../../../utils/assist';
 
     export default {
 
@@ -78,7 +76,6 @@
         },
         data () {
             return {
-//                id:'sc' + new Date().getTime(),
                 ready: false,
                 state:false,
                 top: 0,
@@ -98,19 +95,7 @@
             };
         },
         methods: {
-//	        @click="handleClick"
-//	        v-clickoutside="handleOut"
-//	        @mouseout="handleOut"
-//          import clickoutside from '../../../directives/clickoutside';
-//	        directives: { clickoutside },
-//            handleClick(){
-////                this.state=true;
-//            },
-//            handleOut(){
-////                this.state=false;
-//            },
             scroll(e){
-//	            this.state=true;
                 let elementSize = this.getSize();
 
                 elementSize.scrollAreaHeight - elementSize.scrollWrapperHeight <= 0 ? this.state=false:this.state=true;
@@ -144,7 +129,7 @@
                     if (canScrollY && !shifted) this.normalizeVertical(nextY);
 
                     // Horizontal Scrolling
-                    if (shifted && canScrollX) this.normalizeHorizontal(nextX);
+                    if (!shifted && canScrollX) this.normalizeHorizontal(nextX);
                 });
                 if(this.top >= this.end){
                     this.$emit('scrollToEnd',this.end);
@@ -205,7 +190,7 @@
             },
 
             scrollToEnd() {
-                this.top = this.end;
+                this.normalizeVertical(this.end);
             },
 
             normalizeVertical(next){
@@ -320,20 +305,7 @@
                 this.left = 0;
                 this.vMovement = 0;
                 this.hMovement = 0;
-            },
-
-//            handledom(){
-//                console.log(getStyle(this.$slots.default[0].elm, 'width'))
-//                this.watchareaWidth=getStyle(this.$slots.default[0].elm, 'width')
-//                this.$nextTick(() => {
-//                    if (this.$slots.default[0].elm.style['min-width']) {
-//                        this.watchareaWidth = this.$slots.default[0].elm.style['min-width'];
-//                    } else {
-//                        this.watchareaWidth = document.querySelector('#' + this.id).childNodes[0].style.width;
-//                    }
-////                    console.log(document.querySelector('#' + this.id).childNodes[0].style)
-//                });
-//            }
+            }
         },
 
         mounted () {
@@ -341,25 +313,19 @@
                 if(document.getElementsByClassName('vue-scrollbar__scrollbar-vertical') && document.getElementsByClassName('vue-scrollbar__scrollbar-vertical').length>0){
                     this.sWidth=document.getElementsByClassName('vue-scrollbar__scrollbar-vertical')[0].offsetWidth;//动态获取滚动条宽度
                 }
-//                this.handledom();
             });
             let ele = new Clay(this.$refs.watchArea);
             ele.on('resize', ()=> {
-//                this.handledom();
                 this.calculateSize();
             });
             this.calculateSize();
 
                 // Attach The Event for Responsive View~
-//            window.addEventListener('resize', this.handledom);
             window.addEventListener('resize', this.calculateSize);
-//            this.scrollToX(0)
         },
         beforeDestroy (){
             // Remove Event
-//            window.removeEventListener('resize', this.handledom);
             window.removeEventListener('resize', this.calculateSize);
-//            window.removeEventListener('wheel', this.scroll);
         }
 
     };
