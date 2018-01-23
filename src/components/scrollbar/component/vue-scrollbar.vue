@@ -189,6 +189,14 @@
                 this.normalizeHorizontal(x);
             },
 
+            scrollAddY(y) {
+                this.normalizeVertical(this.top + y);
+            },
+
+            scrollAddX(x) {
+                this.normalizeHorizontal(this.left + x);
+            },
+
             scrollToEnd(y) {
                 if (y) {
                     this.normalizeVertical(this.end + y);
