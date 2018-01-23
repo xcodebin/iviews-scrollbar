@@ -468,7 +468,7 @@
 
 				if (page) {
 					this.currentPage = page;
-//                    this.$emit('on-page', page);
+                    this.$emit('on-page', page);
 					event.target.value = page;
 				}
 			},
