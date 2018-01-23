@@ -206,7 +206,7 @@
                 this.$emit('on-input-change', event);
             },
             onClick(event) {
-                this.$emit('on-click', event);
+                this.$emit('on-click2', event);
             },
             setCurrentValue (value) {
                 if (value === this.currentValue) return;
