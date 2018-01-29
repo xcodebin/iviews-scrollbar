@@ -35,6 +35,7 @@
                         title: '姓名',
                         key: 'name',
                         width: 100,
+                        sortable: true,
                         render: (h, params) => {
                             return h('div', [
                                 h('Icon', {
@@ -48,22 +49,26 @@
                     },
                     {
                         title: '年龄',
-                        key: 'col1',
+                        key: 'age',
+                        sortable: true,
                         width: 100
                     },
                     {
                         title: '省份',
                         key: 'province',
+                        sortable: true,
                         width: 100
                     },
                     {
                         title: '市区',
                         key: 'city',
+                        sortable: true,
                         width: 100
                     },
                     {
                         title: '地址',
                         key: 'address',
+                        sortable: true,
                         width: 200
                     },
                     {

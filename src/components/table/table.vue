@@ -573,6 +573,13 @@
                     if (this.cloneColumns[index].sortMethod) {
                         return this.cloneColumns[index].sortMethod(a[key], b[key], type);
                     } else {
+                        if (typeof a[key] == 'string' && typeof b[key] == 'string'){
+                            if (type === 'asc') {
+                                return a[key].localeCompare(b[key], 'zh');
+                            } else if (type === 'desc') {
+                                return b[key].localeCompare(a[key], 'zh');
+                            }
+                        }
                         if (type === 'asc') {
                             return a[key] > b[key] ? 1 : -1;
                         } else if (type === 'desc') {
