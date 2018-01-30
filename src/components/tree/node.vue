@@ -130,12 +130,12 @@
                     this.dispatch('Tree', 'selected', this.data);
                 }
                 this.dispatch('Tree', 'on-selected');
-                if (this.showCheckbox) { //多选的时候npm publish
-                    this.handleCheck(e);
-                }
+//                if (this.showCheckbox) { //多选的时候 后期需要不联动效果时可开启
+                this.handleCheck(e);
+//                }
             },
             handleCheck (e) {
-                if(e) e.stopPropagation();
+                if (e) e.stopPropagation();
                 if (this.disabled) return;
                 const checked = !this.data.checked;
                 if (!checked || this.indeterminate) {
