@@ -130,7 +130,9 @@
                     this.dispatch('Tree', 'selected', this.data);
                 }
                 this.dispatch('Tree', 'on-selected');
-                this.handleCheck(e);
+                if (this.showCheckbox) { //多选的时候npm publish
+                    this.handleCheck(e);
+                }
             },
             handleCheck (e) {
                 if(e) e.stopPropagation();
