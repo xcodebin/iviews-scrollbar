@@ -240,26 +240,37 @@
                 } else {
                     tab.$destroy();
                 }
-
+                this.$emit('before-tab-remove', tab.currentName);
+                const newTabs = this.getTabs();
+                let activeKey = -1;
                 if (tab.currentName === this.activeKey) {
-                    const newTabs = this.getTabs();
-                    let activeKey = -1;
+                    if (this.loop) {
+                        if (newTabs.length) {
+                            activeKey = newTabs[0].currentName;
+                        }
+                    } else {
+                        if (newTabs.length) {
+                            const leftNoDisabledTabs = tabs.filter((item, itemIndex) => !item.disabled && itemIndex < index);
+                            const rightNoDisabledTabs = tabs.filter((item, itemIndex) => !item.disabled && itemIndex > index);
 
-                    if (newTabs.length) {
-                        const leftNoDisabledTabs = tabs.filter((item, itemIndex) => !item.disabled && itemIndex < index);
-                        const rightNoDisabledTabs = tabs.filter((item, itemIndex) => !item.disabled && itemIndex > index);
-
-                        if (rightNoDisabledTabs.length) {
-                            activeKey = rightNoDisabledTabs[0].currentName;
-                        } else if (leftNoDisabledTabs.length) {
-                            activeKey = leftNoDisabledTabs[leftNoDisabledTabs.length - 1].currentName;
-                        } else {
+                            if (rightNoDisabledTabs.length) {
+                                activeKey = rightNoDisabledTabs[0].currentName;
+                            } else if (leftNoDisabledTabs.length) {
+                                activeKey = leftNoDisabledTabs[leftNoDisabledTabs.length - 1].currentName;
+                            } else {
+                                activeKey = newTabs[0].currentName;
+                            }
+                        }
+                    }
+                } else {
+                    if (this.loop) {
+                        if (newTabs.length) {
                             activeKey = newTabs[0].currentName;
                         }
                     }
-                    this.activeKey = activeKey;
-                    this.$emit('input', activeKey);
                 }
+                this.activeKey = activeKey;
+                this.$emit('input', activeKey);
                 this.$emit('on-tab-remove', tab.currentName);
                 this.updateNav();
             },

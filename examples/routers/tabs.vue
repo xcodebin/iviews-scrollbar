@@ -1,5 +1,5 @@
 <template>
-    <Tabs loop value="name1" :animated="false">
+    <Tabs loop value="name1" closable type="card" @on-tab-remove="ccc">
         <!--<Tab-pane :label="label1" name="name1">-->
         <!--<Table :columns="columns1" :data="data1"></Table>-->
         <!--</Tab-pane>-->
@@ -9,7 +9,8 @@
         <!--<Tab-pane label="标签三" name="name3">-->
         <!--<Table :columns="columns1" :data="data1"></Table>-->
         <!--</Tab-pane>-->
-        <ab v-for="(item,i) in test.a" :key="i" :index="i" :test="test" @childrenclick="childrenClick"></ab>
+        <ab v-for="(item,i) in test.a" :key="item.a" :index="i" :test="test" @childrenclick="childrenClick"
+        ></ab>
         父组件值现在的状态
         <div style="background-color: #19be6b">{{test}}</div>
         <Button @click.native="father">父组件按钮</Button>
@@ -66,7 +67,7 @@
                     }
                 ],
                 test: {
-                    a: [{disabled: true}, {disabled: true}, {disabled: true}],
+                    a: [{disabled: 3}, {disabled: 2}, {disabled: 3}, {disabled: 4}, {disabled: 5}, {disabled: 6}],
                     b: {
                         s: 'parent',
                         d: 'parent'
@@ -89,6 +90,14 @@
 //                this.$set(this.test.a, val, !this.test.a[val].disabled); //这种操作会触发test.a的监听
 //                this.test.a = JSON.parse(JSON.stringify(this.test.a)); //这种操作会触发test.a的监听
                 this.test.b.s = val + '子组件修改';
+            },
+            ccc(name){
+                debugger;
+                let closeIndex = name.split('name')[1];
+                console.log(closeIndex);
+                this.test.a.splice(closeIndex, 1)
+                console.log(this.test.a);
+                debugger;
             }
         }
     };

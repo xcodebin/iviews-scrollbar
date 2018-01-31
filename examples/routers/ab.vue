@@ -1,5 +1,5 @@
 <template>
-    <TabPane loop :label="'标签二'" :name="'name'+index">
+    <TabPane loop :label="some+'标签'+index" :name="'name'+index">
         <Table :columns="columns1" :data="data1"></Table>
         子组件显示父组件的值：
         <div style="background-color: #a344be">{{test}}</div>
@@ -17,6 +17,7 @@
         },
         data() {
             return {
+                some: null,
                 columns1: [
                     {
                         title: '姓名',
@@ -57,6 +58,7 @@
         },
         methods: {
             children(){
+                this.some += this.index;
                 this.$emit('childrenclick', this.index);
             },
             childrenUnnormal(){
