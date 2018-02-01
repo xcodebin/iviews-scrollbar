@@ -13,8 +13,7 @@
                     <div ref="navScroll" :class="[prefixCls + '-nav-scroll']">
                         <div ref="nav" :class="[prefixCls + '-nav']" class="nav-text" :style="navStyle">
                             <div :class="barClasses" :style="barStyle"></div>
-                            <div :class="tabCls(item)" v-for="(item, index) in navList" :key="item.trackKey"
-                                 @click="handleChange(index)">
+                            <div :class="tabCls(item)" v-for="(item, index) in navList" @click="handleChange(index)">
                                 <Icon v-if="item.icon !== ''" :type="item.icon"></Icon>
                                 <Render v-if="item.labelType === 'function'" :render="item.label"></Render>
                                 <template v-else>{{ item.label }}</template>
@@ -45,7 +44,6 @@
     import {oneOf, MutationObserver} from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import elementResizeDetectorMaker from 'element-resize-detector';
-
     const prefixCls = 'ivu-tabs';
 
     export default {
@@ -57,13 +55,13 @@
                 type: [String, Number]
             },
             type: {
-                validator(value) {
+                validator (value) {
                     return oneOf(value, ['line', 'card']);
                 },
                 default: 'line'
             },
             size: {
-                validator(value) {
+                validator (value) {
                     return oneOf(value, ['small', 'default']);
                 },
                 default: 'default'
@@ -89,7 +87,7 @@
                 default: ''
             }
         },
-        data() {
+        data () {
             return {
                 prefixCls: prefixCls,
                 navList: [],
@@ -104,7 +102,7 @@
             };
         },
         computed: {
-            classes() {
+            classes () {
                 return [
                     `${prefixCls}`,
                     {
@@ -114,7 +112,7 @@
                     }
                 ];
             },
-            contentClasses() {
+            contentClasses () {
                 return [
                     `${prefixCls}-content`,
                     {
@@ -122,7 +120,7 @@
                     }
                 ];
             },
-            barClasses() {
+            barClasses () {
                 return [
                     `${prefixCls}-ink-bar`,
                     {
@@ -130,7 +128,7 @@
                     }
                 ];
             },
-            contentStyle() {
+            contentStyle () {
                 const x = this.navList.findIndex((nav) => nav.name === this.activeKey);
                 const p = x === 0 ? '0%' : `-${x}00%`;
 
@@ -142,7 +140,7 @@
                 }
                 return style;
             },
-            barStyle() {
+            barStyle () {
                 let style = {
                     display: 'none',
                     width: `${this.barWidth}px`
@@ -158,7 +156,7 @@
             }
         },
         methods: {
-            getTabs() {
+            getTabs () {
                 if (this.loop) {
                     let res = [];
                     this.$children.forEach(item => {
@@ -170,7 +168,7 @@
                 }
                 return this.$children.filter(item => item.$options.name === 'TabPane');
             },
-            updateNav() {
+            updateNav () {
                 this.navList = [];
                 this.getTabs().forEach((pane, index) => {
                     this.navList.push({
@@ -178,7 +176,6 @@
                         label: pane.label,
                         icon: pane.icon || '',
                         name: pane.currentName || index,
-                        trackKey: pane.trackKey || index,
                         disabled: pane.disabled,
                         closable: pane.closable
                     });
@@ -190,7 +187,7 @@
                 this.updateStatus();
                 this.updateBar();
             },
-            updateBar() {
+            updateBar () {
                 this.$nextTick(() => {
                     const index = this.navList.findIndex((nav) => nav.name === this.activeKey);
                     if (!this.$refs.nav) return;  // 页面销毁时，这里会报错，为了解决 #2100
@@ -212,11 +209,11 @@
                     this.updateNavScroll();
                 });
             },
-            updateStatus() {
+            updateStatus () {
                 const tabs = this.getTabs();
                 tabs.forEach(tab => tab.show = (tab.currentName === this.activeKey) || this.animated);
             },
-            tabCls(item) {
+            tabCls (item) {
                 return [
                     `${prefixCls}-tab`,
                     {
@@ -225,17 +222,17 @@
                     }
                 ];
             },
-            handleChange(index) {
+            handleChange (index) {
                 const nav = this.navList[index];
                 if (nav.disabled) return;
                 this.activeKey = nav.name;
                 this.$emit('input', nav.name);
                 this.$emit('on-click', nav.name);
             },
-            confirmDelete(index) {
+            confirmDelete(index){
                 this.handleRemove(index);
             },
-            handleRemove(index) {
+            handleRemove (index) {
                 const tabs = this.getTabs();
                 const tab = tabs[index];
                 if (this.loop) {
@@ -277,7 +274,7 @@
                 this.$emit('on-tab-remove', tab.currentName);
                 this.updateNav();
             },
-            showClose(item) {
+            showClose (item) {
                 if (this.type === 'card') {
                     if (item.closable !== null) {
                         return item.closable;
@@ -348,7 +345,7 @@
                     this.setOffset(Math.max(newOffset, 0));
                 }
             },
-            updateNavScroll() {
+            updateNavScroll(){
                 const navWidth = this.$refs.nav.offsetWidth;
                 const containerWidth = this.$refs.navScroll.offsetWidth;
                 const currentOffset = this.getCurrentScrollOffset();
@@ -364,10 +361,10 @@
                     }
                 }
             },
-            handleResize() {
+            handleResize(){
                 this.updateNavScroll();
             },
-            isInsideHiddenElement() {
+            isInsideHiddenElement () {
                 let parentNode = this.$el.parentNode;
                 while (parentNode && parentNode !== document.body) {
                     if (parentNode.style.display === 'none') {
@@ -379,10 +376,10 @@
             }
         },
         watch: {
-            value(val) {
+            value (val) {
                 this.activeKey = val;
             },
-            activeKey() {
+            activeKey () {
                 this.updateBar();
                 this.updateStatus();
                 this.broadcast('Table', 'on-visible-change', true);
@@ -391,7 +388,7 @@
                 });
             }
         },
-        mounted() {
+        mounted () {
             this.showSlot = this.$slots.extra !== undefined;
             this.observer = elementResizeDetectorMaker();
             this.observer.listenTo(this.$refs.navWrap, this.handleResize);

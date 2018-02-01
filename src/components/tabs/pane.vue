@@ -19,9 +19,6 @@
             icon: {
                 type: String
             },
-            trackKey: {
-                type: String
-            },
             disabled: {
                 type: Boolean,
                 default: false
