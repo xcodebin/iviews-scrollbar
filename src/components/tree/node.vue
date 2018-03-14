@@ -139,7 +139,9 @@
                 if (this.disabled) return;
                 const checked = !this.data.checked;
                 if (!checked || this.indeterminate) {
-                    findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = false);
+                    if (this.fTocs) {
+                        findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = false);
+                    }
                 } else {
                     if (this.fTocs) {
                         findComponentsDownward(this, 'TreeNode').forEach(node => node.data.checked = true);
@@ -168,6 +170,9 @@
             },
             setIndeterminate () {
                 this.indeterminate = this.data.checked ? false : findComponentsDownward(this, 'TreeNode').some(node => node.data.checked);
+                if(!this.fTocs && !this.cTofs) {
+                    this.indeterminate = false;
+                }
             }
         },
         created () {
