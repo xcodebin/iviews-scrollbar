@@ -1,7 +1,7 @@
 <template>
     <collapse-transition>
         <ul :class="classes" v-show="visible">
-            <li>
+            <li @click="liStopPropagation">
                 <span :class="arrowClasses" @click="handleExpand">
                     <Icon type="arrow-right-b"></Icon>
                 </span>
@@ -114,7 +114,11 @@
             }
         },
         methods: {
-            handleExpand () {
+            liStopPropagation (e) {
+                e.stopPropagation();
+            },
+            handleExpand (e) {
+                e.stopPropagation();
                 if (this.data.disabled) return;
                 this.$set(this.data, 'expand', !this.data.expand);
                 this.dispatch('Tree', 'toggle-expand', this.data);
