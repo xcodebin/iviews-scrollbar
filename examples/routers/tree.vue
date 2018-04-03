@@ -1,14 +1,14 @@
 <template>
     <Scrollbar :style="treeStyle" ref="scrollbar">
-    <Tree :data="baseData" multiple @on-check-change="handleChange" @on-toggle-expand="showExpand"
-          showCheckbox
-          :cTof="false"
-          :fToc="false"
-          :style="{'min-width':'200px'}"
-        @on-select-node="onSelectNode"
-        @on-cancel-node="onCancelNode"
-        @on-select-change="onSelectChange"
-    ></Tree>
+        <Tree :data="baseData" multiple @on-check-change="handleChange" @on-toggle-expand="showExpand"
+              showCheckbox
+              :cTof="false"
+              :fToc="false"
+              :style="{'min-width':'1200px',height:'900px'}"
+              @on-select-node="onSelectNode"
+              @on-cancel-node="onCancelNode"
+              @on-select-change="onSelectChange"
+        ></Tree>
     </Scrollbar>
 </template>
 <script>
@@ -34,12 +34,12 @@
                                     {
                                         title: 'child1-1-1',
                                         id: '1-1-1',
-	                                    checked: true,
+                                        checked: true,
                                     },
                                     {
                                         title: 'child1-1-2',
                                         id: '1-1-2',
-	                                    checked: true,
+                                        checked: true,
                                     }
                                 ]
                             },
@@ -52,11 +52,11 @@
                 ]
             }
         },
-        props:{
+        props: {
             treeStyle: {
                 type: Object,
                 default() {
-                    return {height: '50px'};
+                    return {height: '100px', 'background-color': 'green'};
                 }
             },
         },
