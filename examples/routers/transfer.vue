@@ -3,7 +3,7 @@
             :data="data1"
             :target-keys="targetKeys1"
             @on-change="handleChange1">
-        <template slot="render" scope="props">
+        <template slot="render" slot-scope="props">
             <span>{{props.item.label}}90-</span>
         </template>
     </Transfer>

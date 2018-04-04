@@ -32,7 +32,7 @@ module.exports = merge(webpackBaseConfig, {
         }
     },
     plugins: [
-        new webpack.optimize.CommonsChunkPlugin({name: 'vendors', filename: 'vendor.bundle.js'}),
+        new webpack.optimize.CommonsChunkPlugin({ name: 'vendors', filename: 'vendor.bundle.js' }),
         new HtmlWebpackPlugin({
             inject: true,
             filename: path.join(__dirname, '../examples/dist/index.html'),
@@ -42,5 +42,22 @@ module.exports = merge(webpackBaseConfig, {
     ],
     devServer: {
         disableHostCheck: true,
+        hot: true,
+        contentBase: false, // since we use CopyWebpackPlugin.
+        compress: true,
+        host: 'localhost',
+        port: 8089,
+        proxy: {
+            '/itas': {                                                  //代理服务器
+                target: 'http://58.247.0.18:18004/',
+                // target: 'http://127.0.0.1:8079/',
+                // target: 'http://144.131.252.220:18003/',
+                changeOrigin: true,
+                filter: function (pathname, req) {
+                    return pathname.match('^/itas') && req.method === 'POST'
+                    // return !pathname.match('^.*/itas/.*\\.(html|js|css|png|gif|jpg|tpl|woff|woff2|tff|map|eot|coffee|exe|pkg|ico)$')
+                }
+            }
+        },
     },
 });
