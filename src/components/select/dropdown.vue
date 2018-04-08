@@ -32,7 +32,8 @@
         data () {
             return {
                 popper: null,
-                width: ''
+                width: '',
+                popperStatus: false
             };
         },
         computed: {
@@ -48,18 +49,24 @@
                 if (this.popper) {
                     this.$nextTick(() => {
                         this.popper.update();
+                        this.popperStatus = true;
                     });
                 } else {
                     this.$nextTick(() => {
                         this.popper = new Popper(this.$parent.$refs.reference, this.$el, {
-                            gpuAcceleration: false,
                             placement: this.placement,
-                            boundariesPadding: 0,
-                            forceAbsolute: true,
-                            boundariesElement: 'body'
-                        });
-                        this.popper.onCreate(popper => {
-                            this.resetTransformOrigin(popper);
+                            modifiers: {
+                                computeStyle:{
+                                    gpuAcceleration: false,
+                                }
+                            },
+                            onCreate:()=>{
+                                this.resetTransformOrigin();
+                                this.$nextTick(this.popper.update());
+                            },
+                            onUpdate:()=>{
+                                this.resetTransformOrigin();
+                            }
                         });
                     });
                 }
@@ -70,18 +77,18 @@
             },
             destroy () {
                 if (this.popper) {
-                    this.resetTransformOrigin(this.popper);
                     setTimeout(() => {
-                        this.popper.destroy();
-                        this.popper = null;
+                        if (this.popper && !this.popperStatus) {
+                            this.popper.destroy();
+                            this.popper = null;
+                        }
+                        this.popperStatus = false;
                     }, 300);
                 }
             },
-            resetTransformOrigin(popper) {
-                let placementMap = {top: 'bottom', bottom: 'top'};
-                let placement = popper._popper.getAttribute('x-placement').split('-')[0];
-                let origin = placementMap[placement];
-                popper._popper.style.transformOrigin = `center ${ origin }`;
+            resetTransformOrigin() {
+                let placement = this.popper.popper.getAttribute('x-placement').split('-')[0];
+                this.popper.popper.style.transformOrigin = placement==='bottom'?'center top':'center bottom';
             }
         },
         created () {

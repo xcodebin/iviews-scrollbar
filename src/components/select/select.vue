@@ -1,5 +1,9 @@
 <template>
-    <div :class="classes" v-clickoutside="handleClose">
+    <div
+        tabindex="0"
+        @keydown.down="handleFocus"
+        :class="classes"
+        v-clickoutside="handleClose">
         <div
             :class="selectionCls"
             ref="reference"
@@ -21,6 +25,8 @@
                     :class="[prefixCls + '-input']"
                     :placeholder="showPlaceholder ? localePlaceholder : ''"
                     :style="inputStyle"
+                    autocomplete="off"
+                    spellcheck="false"
                     @blur="handleBlur"
                     @keydown="resetInputState"
                     @keydown.delete="handleInputDelete"
@@ -29,7 +35,7 @@
                 <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!remote"></Icon>
             </slot>
         </div>
-        <transition :name="transitionName">
+        <transition name="transition-drop">
             <Drop
                 :class="dropdownCls"
                 v-show="dropVisible"
@@ -53,7 +59,7 @@
     import { oneOf, findComponentDownward } from '../../utils/assist';
     import Emitter from '../../mixins/emitter';
     import Locale from '../../mixins/locale';
-    import {debounce} from './utils';
+    import { debounce } from './utils';
 
     const prefixCls = 'ivu-select';
 
@@ -263,6 +269,10 @@
             }
         },
         methods: {
+            // open when focus on Select and press `down` key
+            handleFocus () {
+                if (!this.visible) this.toggleMenu();
+            },
             toggleMenu () {
                 if (this.disabled || this.autoComplete) {
                     return false;
@@ -374,6 +384,7 @@
 
                     const selectedArray = [];
                     const selectedObject = {};
+
                     selected.forEach(item => {
                         if (!selectedObject[item.value]) {
                             selectedArray.push(item);
@@ -558,6 +569,7 @@
             },
             resetScrollTop () {
                 const index = this.focusIndex - 1;
+                if (!this.optionInstances.length) return;
                 let bottomOverflowDistance = this.optionInstances[index].$el.getBoundingClientRect().bottom - this.$refs.dropdown.$el.getBoundingClientRect().bottom;
                 let topOverflowDistance = this.optionInstances[index].$el.getBoundingClientRect().top - this.$refs.dropdown.$el.getBoundingClientRect().top;
 
@@ -726,7 +738,8 @@
         watch: {
             value (val) {
                 this.model = val;
-                if (val === '') this.query = '';
+                // #982
+                if (val === '' || val === null) this.query = '';
             },
             label (val) {
                 this.currentLabel = val;

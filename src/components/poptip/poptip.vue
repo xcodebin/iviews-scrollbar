@@ -129,6 +129,9 @@
             transfer: {
                 type: Boolean,
                 default: false
+            },
+            popperClass: {
+                type: String
             }
         },
         data () {
@@ -152,7 +155,8 @@
                 return [
                     `${prefixCls}-popper`,
                     {
-                        [`${prefixCls}-confirm`]: this.transfer && this.confirm
+                        [`${prefixCls}-confirm`]: this.transfer && this.confirm,
+                        [`${this.popperClass}`]: !!this.popperClass
                     }
                 ];
             },
