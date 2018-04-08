@@ -7,40 +7,25 @@
         </div>
         <div :class="bodyClasses">
             <div :class="prefixCls + '-body-search-wrapper'" v-if="filterable">
-                <Search :prefix-cls="prefixCls + '-search'"
-                        :query="query"
-                        @on-query-clear="handleQueryClear"
-                        @on-query-change="handleQueryChange"
-                        :placeholder="filterPlaceholder"></Search>
+                <Search
+                    :prefix-cls="prefixCls + '-search'"
+                    :query="query"
+                    @on-query-clear="handleQueryClear"
+                    @on-query-change="handleQueryChange"
+                    :placeholder="filterPlaceholder"></Search>
             </div>
-            <template v-if="scrollbar">
-                <Scrollbar :class="prefixCls + '-content'">
-                    <ul>
-                        <li v-for="item in filterData"
-                            :class="itemClasses(item)"
-                            @click.prevent="select(item)">
-                            <Checkbox :value="isCheck(item)" :disabled="item.disabled"></Checkbox>
-                            <span v-html="showLabel(item)"></span>
-                        </li>
-                        <li :class="prefixCls + '-content-not-found'">{{ notFoundText }}</li>
-                    </ul>
-                </Scrollbar>
-            </template>
-            <template v-if="!scrollbar">
-                <ul :class="prefixCls + '-content'">
-                    <li v-for="item in filterData"
-                        :class="itemClasses(item)"
-                        @click.prevent="select(item)">
-                        <Checkbox :value="isCheck(item)" :disabled="item.disabled"></Checkbox>
-                        <span v-html="showLabel(item)"></span>
-                    </li>
-                    <li :class="prefixCls + '-content-not-found'">{{ notFoundText }}</li>
-                </ul>
-            </template>
+            <ul :class="prefixCls + '-content'">
+                <li
+                    v-for="item in filterData"
+                    :class="itemClasses(item)"
+                    @click.prevent="select(item)">
+                    <Checkbox :value="isCheck(item)" :disabled="item.disabled"></Checkbox>
+                    <span v-html="showLabel(item)"></span>
+                </li>
+                <li :class="prefixCls + '-content-not-found'">{{ notFoundText }}</li>
+            </ul>
         </div>
-        <div :class="prefixCls + '-footer'" v-if="showFooter">
-            <slot></slot>
-        </div>
+        <div :class="prefixCls + '-footer'" v-if="showFooter"><slot></slot></div>
     </div>
 </template>
 <script>
@@ -49,7 +34,7 @@
 
     export default {
         name: 'TransferList',
-        components: {Search, Checkbox},
+        components: { Search, Checkbox },
         props: {
             prefixCls: String,
             data: Array,
@@ -61,11 +46,7 @@
             filterPlaceholder: String,
             filterMethod: Function,
             notFoundText: String,
-            validKeysCount: Number,
-            scrollbar: {
-                type: Boolean,
-                default: true
-            }
+            validKeysCount: Number
         },
         data () {
             return {
@@ -130,14 +111,15 @@
                 if (item.disabled) return;
                 const index = this.checkedKeys.indexOf(item.key);
                 index > -1 ? this.checkedKeys.splice(index, 1) : this.checkedKeys.push(item.key);
+                this.$parent.handleCheckedKeys();
             },
             updateFilteredData () {
                 this.showItems = this.data;
             },
             toggleSelectAll (status) {
                 const keys = status ?
-                    this.data.filter(data => !data.disabled || this.checkedKeys.indexOf(data.key) > -1).map(data => data.key) :
-                    this.data.filter(data => data.disabled && this.checkedKeys.indexOf(data.key) > -1).map(data => data.key);
+                        this.data.filter(data => !data.disabled || this.checkedKeys.indexOf(data.key) > -1).map(data => data.key) :
+                        this.data.filter(data => data.disabled && this.checkedKeys.indexOf(data.key) > -1).map(data => data.key);
                 this.$emit('on-checked-keys-change', keys);
             },
             handleQueryClear () {

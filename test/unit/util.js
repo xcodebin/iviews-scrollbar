@@ -14,6 +14,8 @@ const createElm = function() {
   return elm;
 };
 
+const pad = (nr) => nr < 10 ? '0' + nr : nr;
+
 /**
  * 回收 vm
  * @param  {Object} vm
@@ -68,6 +70,24 @@ exports.stringToDate = function(str) {
 };
 
 /**
+ * Transform Date to yyyy-mm-dd string
+ * @param {Date}
+ */
+exports.dateToString = function(d) {
+  return [d.getFullYear(), d.getMonth() + 1, d.getDate()].map(pad).join('-');
+};
+
+/**
+ * Transform Date to HH:MM:SS string
+ * @param {Date}
+ */
+exports.dateToTimeString = function(d){
+  const date = new Date(d);
+  return [date.getHours(), date.getMinutes(), date.getSeconds()].map(pad).join(':');
+
+}
+
+/**
  * 触发一个事件
  * mouseenter, mouseleave, mouseover, keyup, change, click 等
  * @param  {Element} elm
@@ -102,4 +122,14 @@ exports.triggerEvent = function(elm, name, ...opts) {
 exports.waitForIt = function waitForIt(condition, callback) {
   if (condition()) callback();
   else setTimeout(() => waitForIt(condition, callback), 50);
+};
+
+/**
+* Call a components .$nextTick in a promissified way
+* @param {Vue Component} the component to work with
+*/
+exports.promissedTick = component => {
+  return new Promise((resolve, reject) => {
+    component.$nextTick(resolve);
+  });
 };

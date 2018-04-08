@@ -2,13 +2,15 @@
     <div :class="wrapClasses">
         <template v-if="type !== 'textarea'">
             <div :class="[prefixCls + '-group-prepend']" v-if="prepend" v-show="slotReady"><slot name="prepend"></slot></div>
-            <i class="ivu-icon" :class="['ivu-icon-' + icon, prefixCls + '-icon', prefixCls + '-icon-normal']" v-if="icon" @click="handleIconClick"></i>
+            <i class="ivu-icon" :class="['ivu-icon-ios-close', prefixCls + '-icon', prefixCls + '-icon-clear' , prefixCls + '-icon-normal']" v-if="clearable && currentValue" @click="handleClear"></i>
+            <i class="ivu-icon" :class="['ivu-icon-' + icon, prefixCls + '-icon', prefixCls + '-icon-normal']" v-else-if="icon" @click="handleIconClick"></i>
             <transition name="fade">
                 <i class="ivu-icon ivu-icon-load-c ivu-load-loop" :class="[prefixCls + '-icon', prefixCls + '-icon-validate']" v-if="!icon"></i>
             </transition>
             <input
                 :id="elementId"
                 :autocomplete="autocomplete"
+                :spellcheck="spellcheck"
                 ref="input"
                 :type="type"
                 :class="inputClasses"
@@ -27,14 +29,15 @@
                 @focus="handleFocus"
                 @blur="handleBlur"
                 @input="handleInput"
-                @change="handleChange"
-                @click="onClick">
+                @change="handleChange">
             <div :class="[prefixCls + '-group-append']" v-if="append" v-show="slotReady"><slot name="append"></slot></div>
         </template>
         <textarea
             v-else
             :id="elementId"
+            :wrap="wrap"
             :autocomplete="autocomplete"
+            :spellcheck="spellcheck"
             ref="textarea"
             :class="textareaClasses"
             :style="textareaStyles"
@@ -69,7 +72,7 @@
         props: {
             type: {
                 validator (value) {
-                    return oneOf(value, ['text', 'textarea', 'password']);
+                    return oneOf(value, ['text', 'textarea', 'password', 'url', 'email', 'date']);
                 },
                 default: 'text'
             },
@@ -117,14 +120,28 @@
                 type: Boolean,
                 default: false
             },
+            spellcheck: {
+                type: Boolean,
+                default: false
+            },
             autocomplete: {
                 validator (value) {
                     return oneOf(value, ['on', 'off']);
                 },
                 default: 'off'
             },
+            clearable: {
+                type: Boolean,
+                default: false
+            },
             elementId: {
                 type: String
+            },
+            wrap: {
+                validator (value) {
+                    return oneOf(value, ['hard', 'soft']);
+                },
+                default: 'soft'
             }
         },
         data () {
@@ -205,9 +222,6 @@
             handleChange (event) {
                 this.$emit('on-input-change', event);
             },
-            onClick(event) {
-                this.$emit('on-click2', event);
-            },
             setCurrentValue (value) {
                 if (value === this.currentValue) return;
                 this.$nextTick(() => {
@@ -242,6 +256,12 @@
                 } else {
                     this.$refs.input.blur();
                 }
+            },
+            handleClear () {
+                const e = { target: { value: '' } };
+                this.$emit('input', '');
+                this.setCurrentValue('');
+                this.$emit('on-change', e);
             }
         },
         watch: {
