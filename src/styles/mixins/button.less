@@ -135,7 +135,7 @@
     .button-size(@btn-padding-base; @btn-font-size; @btn-border-radius);
     //transform: translate3d(0, 0, 0);
     //transition: all @transition-time linear;
-    transition: color @transition-time linear, background-color @transition-time linear, border @transition-time linear, box-shadow @transition-time linear;
+    transition: color @transition-time linear, background-color @transition-time linear, border @transition-time linear;
 
     > .@{css-prefix-iconfont} {
         line-height: 1;
@@ -153,7 +153,7 @@
 
     &:not([disabled]):active {
         outline: 0;
-        // transition: none;  // 如果不注释此行，那么active会和focus同时触发，此时focus的开始动画transition会无效
+        transition: none;
     }
 
     &.disabled,
@@ -186,7 +186,6 @@
     &.active {
         .button-color(shade(@primary-color, 5%); white; shade(@primary-color, 5%));
     }
-    .active-btn-color(@primary-color);
 }
 
 // Primary
@@ -199,7 +198,6 @@
     &.active {
         color: @btn-primary-color;
     }
-    .active-btn-color(@primary-color);
 }
 
 // Ghost
@@ -215,7 +213,6 @@
     &.active {
         .button-color(shade(@primary-color, 5%); @btn-ghost-bg; shade(@primary-color, 5%));
     }
-    .active-btn-color(@primary-color);
 }
 
 // Dashed
@@ -232,7 +229,6 @@
     &.active {
         .button-color(shade(@primary-color, 5%); @btn-ghost-bg; shade(@primary-color, 5%));
     }
-    .active-btn-color(@primary-color);
 }
 
 // Text
@@ -261,16 +257,9 @@
     &.active {
         .button-color(shade(@primary-color, 5%); @btn-ghost-bg; transparent);
     }
-    .active-btn-color(@primary-color);
 }
 
 // Color
-// for tabindex
-.active-btn-color(@color) {
-    &:focus {
-        box-shadow: 0 0 0 2px fade(@color, 20%);
-    }
-}
 .btn-color(@color) {
     .button-variant(@btn-primary-color; @color; @color);
 
@@ -280,8 +269,6 @@
     &.active {
         color: @btn-primary-color;
     }
-
-    .active-btn-color(@color);
 }
 
 // Circle for Icon

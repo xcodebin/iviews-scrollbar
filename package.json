@@ -1,6 +1,6 @@
 {
   "name": "iviews",
-  "version": "2.0.0-rc.1",
+  "version": "2.0.0-rc.2",
   "title": "iView",
   "description": "A high quality  UI components Library with Vue.js",
   "main": "dist/iview.js",
@@ -40,7 +40,7 @@
     "exportable": "^0.1.2",
     "js-calendar": "^1.2.3",
     "lodash.throttle": "^4.1.1",
-    "popper.js": "^1.14.1",
+    "popper.js": "^0.6.4",
     "tinycolor2": "^1.4.1"
   },
   "peerDependencies": {
