@@ -8,10 +8,10 @@
 
     export default {
         name: 'Transfer',
-        mixins: [ Emitter, Locale ],
+        mixins: [Emitter, Locale],
         render (h) {
 
-            function cloneVNode (vnode) {
+            function cloneVNode(vnode) {
                 const clonedChildren = vnode.children && vnode.children.map(vnode => cloneVNode(vnode));
                 const cloned = h(vnode.tag, vnode.data, clonedChildren);
                 cloned.text = vnode.text;
@@ -28,6 +28,8 @@
 
             const vNodes = this.$slots.default === undefined ? [] : this.$slots.default;
             const clonedVNodes = this.$slots.default === undefined ? [] : vNodes.map(vnode => cloneVNode(vnode));
+            const countNode = this.$slots.count === undefined ? [] : this.$slots.count;
+            const clonedcountNodes = this.$slots.count === undefined ? [] : vNodes.map(vnode => cloneVNode(vnode));
 
             return h('div', {
                 'class': this.classes
@@ -50,7 +52,9 @@
                     on: {
                         'on-checked-keys-change': this.handleLeftCheckedKeysChange
                     }
-                }, vNodes),
+                }, [h('template', {
+                    slot: 'count'
+                }, countNode), vNodes]),
 
                 h(Operation, {
                     props: {
@@ -79,7 +83,9 @@
                     on: {
                         'on-checked-keys-change': this.handleRightCheckedKeysChange
                     }
-                }, clonedVNodes)
+                }, [h('template', {
+                    slot: 'count'
+                }, countNode), clonedVNodes])
             ]);
         },
         props: {
@@ -210,11 +216,11 @@
                 const selectedKeys = this.selectedKeys;
                 if (selectedKeys.length > 0) {
                     this.leftCheckedKeys = this.leftData
-                            .filter(data => selectedKeys.indexOf(data.key) > -1)
-                            .map(data => data.key);
+                    .filter(data => selectedKeys.indexOf(data.key) > -1)
+                    .map(data => data.key);
                     this.rightCheckedKeys = this.rightData
-                            .filter(data => selectedKeys.indexOf(data.key) > -1)
-                            .map(data => data.key);
+                    .filter(data => selectedKeys.indexOf(data.key) > -1)
+                    .map(data => data.key);
                 }
             },
             moveTo (direction) {
@@ -222,8 +228,8 @@
                 const opposite = direction === 'left' ? 'right' : 'left';
                 const moveKeys = this.getValidKeys(opposite);
                 const newTargetKeys = direction === 'right' ?
-                        moveKeys.concat(targetKeys) :
-                        targetKeys.filter(targetKey => !moveKeys.some(checkedKey => targetKey === checkedKey));
+                    moveKeys.concat(targetKeys) :
+                    targetKeys.filter(targetKey => !moveKeys.some(checkedKey => targetKey === checkedKey));
 
                 this.$refs[opposite].toggleSelectAll(false);
                 this.$emit('on-change', newTargetKeys, direction, moveKeys);
