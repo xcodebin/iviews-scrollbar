@@ -29,9 +29,9 @@
             const vNodes = this.$slots.default === undefined ? [] : this.$slots.default;
             const clonedVNodes = this.$slots.default === undefined ? [] : vNodes.map(vnode => cloneVNode(vnode));
             const countNode = this.$slots.count === undefined ? [] : this.$slots.count;
-            const clonedcountNodes = this.$slots.count === undefined ? [] : vNodes.map(vnode => cloneVNode(vnode));
-            const titleNode = this.$slots.count === undefined ? [] : this.$slots.title;
-            const clonedtitleNodes = this.$slots.count === undefined ? [] : vNodes.map(vnode => cloneVNode(vnode));
+            const clonedcountNodes = this.$slots.counted === undefined ? [] :this.$slots.counted;
+            const titleNode = this.$slots.title === undefined ? [] : this.$slots.title;
+            const clonedtitleNodes = this.$slots.titled === undefined ? [] : this.$slots.titled;
 
             return h('div', {
                 'class': this.classes
