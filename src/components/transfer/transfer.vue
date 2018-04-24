@@ -30,6 +30,8 @@
             const clonedVNodes = this.$slots.default === undefined ? [] : vNodes.map(vnode => cloneVNode(vnode));
             const countNode = this.$slots.count === undefined ? [] : this.$slots.count;
             const clonedcountNodes = this.$slots.count === undefined ? [] : vNodes.map(vnode => cloneVNode(vnode));
+            const titleNode = this.$slots.count === undefined ? [] : this.$slots.title;
+            const clonedtitleNodes = this.$slots.count === undefined ? [] : vNodes.map(vnode => cloneVNode(vnode));
 
             return h('div', {
                 'class': this.classes
@@ -53,6 +55,8 @@
                         'on-checked-keys-change': this.handleLeftCheckedKeysChange
                     }
                 }, [h('template', {
+                    slot: 'title'
+                }, titleNode), h('template', {
                     slot: 'count'
                 }, countNode), vNodes]),
 
@@ -84,8 +88,10 @@
                         'on-checked-keys-change': this.handleRightCheckedKeysChange
                     }
                 }, [h('template', {
+                    slot: 'title'
+                }, clonedtitleNodes), h('template', {
                     slot: 'count'
-                }, countNode), clonedVNodes])
+                }, clonedcountNodes), clonedVNodes])
             ]);
         },
         props: {

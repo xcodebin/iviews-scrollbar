@@ -2,7 +2,7 @@
     <div :class="classes" :style="listStyle">
         <div :class="prefixCls + '-header'">
             <Checkbox :value="checkedAll" :disabled="checkedAllDisabled" @on-change="toggleSelectAll"></Checkbox>
-            <span :class="prefixCls + '-header-title'" @click="toggleSelectAll(!checkedAll)">{{ title }}</span>
+            <span :class="prefixCls + '-header-title'" @click="toggleSelectAll(!checkedAll)"><slot name="title">{{ title }}</slot></span>
             <span :class="prefixCls + '-header-count'"><slot name="count">{{ count }}</slot></span>
         </div>
         <div :class="bodyClasses">
