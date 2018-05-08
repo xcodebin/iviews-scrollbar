@@ -1,14 +1,25 @@
 <template>
     <Scrollbar :style="treeStyle" ref="scrollbar">
-        <Tree :data="baseData" multiple @on-check-change="handleChange" @on-toggle-expand="showExpand"
-              showCheckbox
-              :cTof="false"
-              :fToc="false"
-              :style="{'min-width':'1200px',height:'900px'}"
-              @on-select-node="onSelectNode"
-              @on-cancel-node="onCancelNode"
-              @on-select-change="onSelectChange"
-        ></Tree>
+        <div>
+            <Tree :data="baseData" multiple @on-check-change="handleChange" @on-toggle-expand="showExpand"
+                  showCheckbox
+                  :cTof="false"
+                  :fToc="false"
+                  :style="{'min-width':'1200px',height:'900px'}"
+                  @on-select-node="onSelectNode"
+                  @on-cancel-node="onCancelNode"
+                  @on-select-change="onSelectChange"
+            ></Tree>
+            <div  @click="aa">
+                <div>3333333333333333333333</div>
+                <div>3333333333333333333333</div>
+                <div>3333333333333333333333</div>
+                <div>3333333333333333333333</div>
+                <div>3333333333333333333333</div>
+                <div>3333333333333333333333</div>
+                <div>3333333333333333333333</div>
+            </div>
+        </div>
     </Scrollbar>
 </template>
 <script>
@@ -61,6 +72,9 @@
             },
         },
         methods: {
+            aa(){
+                console.log('监测移动端滚动条startDrag preventDefault');
+            },
             handleSelectChange (data) {
                 console.log('啊啊啊', data);
             },
