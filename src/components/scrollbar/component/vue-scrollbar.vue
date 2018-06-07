@@ -5,13 +5,13 @@
             @wheel="scroll"
             :style="this.styles">
 
-        <div
-                :class="'vue-scrollbar__area' + ( this.dragging ? ' ' : ' vue-scrollbar-transition')"
-                ref="scrollArea"
-                @touchstart="startDrag"
-                @touchmove="onDrag"
-                @touchend="stopDrag"
-                :style="{
+        <div v-if="!disable"
+             :class="'vue-scrollbar__area' + ( this.dragging ? ' ' : ' vue-scrollbar-transition')"
+             ref="scrollArea"
+             @touchstart="startDrag"
+             @touchmove="onDrag"
+             @touchend="stopDrag"
+             :style="{
         marginTop: this.top * -1 +'px',
         marginLeft: this.left * -1 +'px'
       }">
@@ -40,9 +40,10 @@
                     :on-stop-drag="handleScrollbarStopDrag">
             </horizontal-scrollbar>
         </div>
-
+        <template v-if="disable">
+            <slot></slot>
+        </template>
     </div>
-
 </template>
 
 
@@ -60,6 +61,10 @@
             speed: {
                 type: Number,
                 default: 53
+            },
+            disable: {
+                type: Boolean,
+                default: false
             },
             nover: {
                 type: Boolean,
@@ -91,48 +96,51 @@
                 start: {y: 0, x: 0},
                 sWidth: 3,
                 sHeight: 0,
-                watchareaWidth: '100%'
+                watchareaWidth: '100%',
+                ele: null
             };
         },
         methods: {
             scroll(e){
-                let elementSize = this.getSize();
+                if (!this.disable) {
+                    let elementSize = this.getSize();
 
-                elementSize.scrollAreaHeight - elementSize.scrollWrapperHeight <= 0 ? this.state = false : this.state = true;
+                    elementSize.scrollAreaHeight - elementSize.scrollWrapperHeight <= 0 ? this.state = false : this.state = true;
 
-                if (this.state) {
-                    e.preventDefault();
-                    e.stopPropagation();//注销这里可以冒泡
-                }
+                    if (this.state) {
+                        e.preventDefault();
+                        e.stopPropagation();//注销这里可以冒泡
+                    }
 
-                // Make sure the content height is not changed
-                this.calculateSize(() => {
-                    // Set the wheel step
-                    let num = this.speed;
+                    // Make sure the content height is not changed
+                    this.calculateSize(() => {
+                        // Set the wheel step
+                        let num = this.speed;
 
-                    // DOM events
-                    let shifted = e.shiftKey;
-                    let scrollY = e.deltaY > 0 ? num : -(num);
-                    let scrollX = e.deltaX > 0 ? num : -(num);
-                    // Fix Mozilla Shifted Wheel~
-                    if (shifted && e.deltaX == 0) scrollX = e.deltaY > 0 ? num : -(num);
+                        // DOM events
+                        let shifted = e.shiftKey;
+                        let scrollY = e.deltaY > 0 ? num : -(num);
+                        let scrollX = e.deltaX > 0 ? num : -(num);
+                        // Fix Mozilla Shifted Wheel~
+                        if (shifted && e.deltaX == 0) scrollX = e.deltaY > 0 ? num : -(num);
 
-                    // Next Value
-                    let nextY = this.top + scrollY;
-                    let nextX = this.left + scrollX;
+                        // Next Value
+                        let nextY = this.top + scrollY;
+                        let nextX = this.left + scrollX;
 
-                    // Is it Scrollable?
-                    let canScrollY = this.scrollAreaHeight > this.scrollWrapperHeight;
-                    let canScrollX = this.scrollAreaWidth > this.scrollWrapperWidth;
+                        // Is it Scrollable?
+                        let canScrollY = this.scrollAreaHeight > this.scrollWrapperHeight;
+                        let canScrollX = this.scrollAreaWidth > this.scrollWrapperWidth;
 
-                    // Vertical Scrolling
-                    if (canScrollY && !shifted) this.normalizeVertical(nextY);
+                        // Vertical Scrolling
+                        if (canScrollY && !shifted) this.normalizeVertical(nextY);
 
-                    // Horizontal Scrolling
-                    if (!shifted && canScrollX) this.normalizeHorizontal(nextX);
-                });
-                if (this.top >= this.end) {
-                    this.$emit('scrollToEnd', this.end);
+                        // Horizontal Scrolling
+                        if (!shifted && canScrollX) this.normalizeHorizontal(nextX);
+                    });
+                    if (this.top >= this.end) {
+                        this.$emit('scrollToEnd', this.end);
+                    }
                 }
                 this.$emit('scroll', this.top);
 
@@ -317,27 +325,48 @@
                 this.left = 0;
                 this.vMovement = 0;
                 this.hMovement = 0;
+            },
+            init(){
+                this.$nextTick(() => {
+                    if (document.getElementsByClassName('vue-scrollbar__scrollbar-vertical') && document.getElementsByClassName('vue-scrollbar__scrollbar-vertical').length > 0) {
+                        this.sWidth = document.getElementsByClassName('vue-scrollbar__scrollbar-vertical')[0].offsetWidth;//动态获取滚动条宽度
+                    }
+                });
+                if (!this.ele) {
+                    this.ele = new Clay(this.$refs.watchArea);
+                    this.ele.on('resize', () => {
+                        this.calculateSize();
+                    });
+                    this.calculateSize();
+                }
+
+                // Attach The Event for Responsive View~
+                window.addEventListener('resize', this.calculateSize);
+            },
+            destory(){
+                window.removeEventListener('resize', this.calculateSize);
             }
         },
-
-        mounted () {
-            this.$nextTick(() => {
-                if (document.getElementsByClassName('vue-scrollbar__scrollbar-vertical') && document.getElementsByClassName('vue-scrollbar__scrollbar-vertical').length > 0) {
-                    this.sWidth = document.getElementsByClassName('vue-scrollbar__scrollbar-vertical')[0].offsetWidth;//动态获取滚动条宽度
+        watch: {
+            disable: function (val) {
+                if (val) {
+                    this.destory();
+                } else {
+                    this.init();
                 }
-            });
-            let ele = new Clay(this.$refs.watchArea);
-            ele.on('resize', () => {
-                this.calculateSize();
-            });
-            this.calculateSize();
-
-            // Attach The Event for Responsive View~
-            window.addEventListener('resize', this.calculateSize);
+            }
+        },
+        mounted () {
+            if (!this.disable) {
+                this.init();
+            }
         },
         beforeDestroy (){
             // Remove Event
-            window.removeEventListener('resize', this.calculateSize);
+            this.ele = null;
+            if (!this.disable) {
+                this.destory();
+            }
         }
 
     };

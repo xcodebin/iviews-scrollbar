@@ -1,6 +1,7 @@
 <template>
-    <Scrollbar :style="treeStyle" ref="scrollbar">
+    <Scrollbar :style="treeStyle" ref="scrollbar" :disable="as">
         <div>
+            <Button @click.native="as=!as">wsdfsd</Button>
             <Tree :data="baseData" multiple @on-check-change="handleChange" @on-toggle-expand="showExpand"
                   showCheckbox
                   :cTof="false"
@@ -10,7 +11,7 @@
                   @on-cancel-node="onCancelNode"
                   @on-select-change="onSelectChange"
             ></Tree>
-            <div  @click="aa">
+            <div @click="aa">
                 <div>3333333333333333333333</div>
                 <div>3333333333333333333333</div>
                 <div>3333333333333333333333</div>
@@ -26,6 +27,7 @@
     export default {
         data () {
             return {
+                as: false,
                 bd: [],
                 baseData: [
                     {
