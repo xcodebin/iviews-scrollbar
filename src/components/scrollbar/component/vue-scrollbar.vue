@@ -1,6 +1,6 @@
 <template>
     <div
-            :class="'vue-scrollbar__wrapper' + ( this.classes ? ' ' + this.classes : '' )"
+            :class="disable?'':'vue-scrollbar__wrapper' + ( this.classes ? ' ' + this.classes : '' )"
             ref="scrollWrapper"
             @wheel="scroll"
             :style="this.styles">
