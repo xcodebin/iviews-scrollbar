@@ -205,7 +205,9 @@
                 wrapShow: false,
                 showHead: true,
                 buttonLoading: false,
-                visible: this.value
+                visible: this.value,
+                timer1: null,
+                timer2: null
             };
         },
         computed: {
@@ -381,6 +383,8 @@
         beforeDestroy() {
             document.removeEventListener('keydown', this.EscClose);
             this.removeScrollEffect();
+            if (this.timer1) clearTimeout(this.timer1);
+            if (this.timer2) clearTimeout(this.timer2);
         },
         created() {
 //            this.spinShow = true;
@@ -393,25 +397,25 @@
                 this.visible = val;
             },
             visible(val) {
-                let a = null;
+                this.timer2 = null;
                 if (this.spinShow) {
                     this.isSpin = true;
-                    a = setTimeout(() => {
+                    this.timer2 = setTimeout(() => {
                         this.isSpin = false;
                         this.$emit('on-after-load');
                     }, this.spinTimeout);
                 } else {
-                    clearTimeout(a);
+                    clearTimeout(this.timer2);
                 }
                 if (val === false) {
                     this.buttonLoading = false;
-                    this.timer = setTimeout(() => {
+                    this.timer1 = setTimeout(() => {
                         this.wrapShow = false;
                         this.removeScrollEffect();
                     }, 300);
                 } else {
                     this.$emit('on-before-show');
-                    if (this.timer) clearTimeout(this.timer);
+                    if (this.timer1) clearTimeout(this.timer1);
                     this.wrapShow = true;
                     if (!this.scrollable) {
                         this.addScrollEffect();
