@@ -148,8 +148,8 @@
             this.$on('checked', () => {
                 this.updateData(false);
             });
-            this.$on('on-checked', () => {
-                this.$emit('on-check-change', this.getCheckedNodes());
+            this.$on('on-checked', (e) => {
+                this.$emit('on-check-change', this.getCheckedNodes(), e);
             });
             this.$on('toggle-expand', (payload) => {
                 this.$emit('on-toggle-expand', payload);

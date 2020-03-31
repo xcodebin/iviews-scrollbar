@@ -39,6 +39,20 @@
         border: 0;
         border-radius: @border-radius-base;
         background-clip: padding-box;
+        &-no-mask{
+            pointer-events: auto;
+        }
+        &-drag{
+            position: absolute;
+            .@{modal-prefix-cls}-header{
+                cursor: move;
+            }
+        }
+        &-dragging{
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
     }
 
     &-header {

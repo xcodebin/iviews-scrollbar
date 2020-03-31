@@ -153,7 +153,7 @@
                 }
                 this.data.checked = checked;
                 this.dispatch('Tree', 'checked');
-                this.dispatch('Tree', 'on-checked');
+                this.dispatch('Tree', 'on-checked', this.data);
                 if (this.showCheckbox == false) { //单选的时候
                     if (this.data.selected == false) {
                         //选中数据

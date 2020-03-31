@@ -145,7 +145,7 @@
                 let elementSize = {
                     // Scroll Area Height and Width
                     scrollAreaHeight: $scrollArea.children[0].clientHeight,
-                    scrollAreaWidth: $scrollArea.children[0].clientWidth,
+                    scrollAreaWidth: $scrollArea.children[0].scrollWidth,
 
                     // Scroll Wrapper Height and Width
                     scrollWrapperHeight: $scrollWrapper.clientHeight,
